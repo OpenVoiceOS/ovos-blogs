@@ -67,21 +67,16 @@ export default async function Post(props: Params) {
                   <div className={`w-16 h-16 ${stripeColor} rounded-md flex items-center justify-center text-white text-opacity-90`}>
                     <div className="text-xs font-bold text-center transform -rotate-6">
                       <div>OVOS</div>
-                      <div>PUBLICATION</div>
                       <div className="text-[10px] mt-1">{new Date(post.date).getFullYear()}</div>
                     </div>
                   </div>
                 </div>
 
                 {/* Postmark and date */}
-                <div className="flex justify-between items-center mb-3 border-b border-dashed border-mono-300 dark:border-mono-600 pb-4 mt-3">
+                <div className="flex justify-between items-center mb-3 relative pb-4 mt-3">
+                  <div className="absolute bottom-0 left-0 w-1/2 border-b border-dashed border-mono-300 dark:border-mono-600"></div>
                   <div className="text-sm font-mono text-mono-500 dark:text-mono-400">
                     <DateFormatter dateString={post.date} />
-                  </div>
-                  
-                  {/* Post ID in postmark style */}
-                  <div className="text-sm font-mono italic text-mono-500 dark:text-mono-400 rotate-[-2deg]">
-                    Ref: #{post.slug.substring(0, 8)}
                   </div>
                 </div>
 

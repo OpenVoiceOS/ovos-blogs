@@ -17,7 +17,6 @@ export default function PostCard({
   author,
   slug,
 }: Props) {
-  // Generate a random stripe color from a set of vibrant colors
   const stripeColors = [
     'bg-red-500',
     'bg-blue-500',
@@ -25,7 +24,6 @@ export default function PostCard({
     'bg-yellow-500',
     'bg-purple-500',
     'bg-pink-500',
-    'bg-cyan-500',
     'bg-amber-500',
     'bg-lime-500',
     'bg-emerald-500',
@@ -101,9 +99,10 @@ export default function PostCard({
               style={{ fontFamily: 'cursive, sans-serif' }}>
             <Link
               href={`/posts/${slug}`}
-              className="hover:text-accent transition-colors duration-200"
             >
+              <span className={`${stripeColors[Math.floor(Math.random() * stripeColors.length)]} bg-clip-text text-transparent`}>
               {title}
+              </span>
             </Link>
           </h3>
 
