@@ -17,9 +17,10 @@ export default function Index() {
         <Intro />
 
         {/* Featured post */}
+
         <section className="mb-16">
-            <div className="bg-white dark:bg-mono-800 rounded-2xl p-6 md:p-8 shadow-lg border-2 border-accent/20 relative">              
-              <div className="flex flex-col md:flex-row gap-8">
+        <div className="bg-white dark:bg-mono-800 rounded-2xl p-1 md:p-2 relative bg-[repeating-linear-gradient(45deg,red_0_12px,white_12px_24px,blue_24px_36px)]">
+        <div className="flex flex-col md:flex-row gap-8 bg-white dark:bg-mono-800 rounded-2xl p-6 md:p-8">
                 <div className="md:w-1/2">
                   <div className="relative aspect-video rounded-lg overflow-hidden shadow-md border-2 border-mono-300 dark:border-mono-700">
                     <img 
@@ -27,15 +28,6 @@ export default function Index() {
                       alt={featuredPost.title}
                       className="object-cover w-full h-full"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-mono-900/60 to-transparent"></div>
-                    <div className="absolute bottom-4 left-4">
-                      <span className="bg-accent text-white px-3 py-1 text-sm rounded-full font-medium flex items-center gap-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                        </svg>
-                        Just Delivered
-                      </span>
-                    </div>
                   </div>
                 </div>
                 <div className="md:w-1/2 flex flex-col justify-center">

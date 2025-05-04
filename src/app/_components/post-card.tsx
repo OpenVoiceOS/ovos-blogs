@@ -29,6 +29,18 @@ export default function PostCard({
     'bg-emerald-500',
     'bg-orange-500'
   ];
+
+  const headingColors = [
+    'text-red-700',
+    'text-blue-700',
+    'text-green-700',
+    'text-purple-700',
+    'text-pink-700',
+    'text-amber-700',
+    'text-lime-800',
+    'text-emerald-700',
+    'text-orange-700'
+  ];
   
   // Create hash from slug to ensure consistent color for each post
   const hashCode = slug.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
@@ -100,7 +112,7 @@ export default function PostCard({
             <Link
               href={`/posts/${slug}`}
             >
-              <span className={`${stripeColors[Math.floor(Math.random() * stripeColors.length)]} bg-clip-text text-transparent`}>
+              <span className={`${headingColors[Math.floor(Math.random() * headingColors.length)]} bg-clip-text text-transparent`}>
               {title}
               </span>
             </Link>
