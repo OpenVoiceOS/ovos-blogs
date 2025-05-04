@@ -1,21 +1,16 @@
 ---
 title: "OpenVoiceOS now available on containers"
-description: "Learn how you can support OpenVoiceOS in establishing a nonprofit association to ensure the future of their open-source voice assistant projects."
-image: "../public/blogs/dockerovos.png"
-publishedAt: "2023-05-02"
-updatedAt: "2023-05-02"
-author: "Strongthany"
-isPublished: true
-tags:
-  - association
-  - fundraising
-  - non-profit
-  - Open-source
-  - OpenVoiceOS
-  - Privacy-focused
+excerpt: "Learn how OpenVoiceOS is now available as containerized services for easier installation and management."
+coverImage: "/assets/blog/hello-world/cover.jpg"
+date: "2023-05-02T00:00:00.000Z"
+author:
+  name: Strongthany
+  picture: "/assets/blog/authors/tim.jpeg"
+ogImage:
+  url: "/assets/blog/hello-world/cover.jpg"
 ---
 
-Given that OpenVoice OS is a complex suite of software, running the micro-services via containers makes sense for better simplicity. A container provides an efficient way to run the platform’s various services with isolation and a microservice approach. By making use of a container system, it is much easier to manage, update and overall work with the various services that make up OpenVoice OS.
+Given that OpenVoice OS is a complex suite of software, running the micro-services via containers makes sense for better simplicity. A container provides an efficient way to run the platform's various services with isolation and a microservice approach. By making use of a container system, it is much easier to manage, update and overall work with the various services that make up OpenVoice OS.
 
 These services have been divided into containers to provide isolation and follow a microservice approach. These containers include:
 
@@ -35,7 +30,7 @@ To allow data persistence, Docker/Podman volumes are required which avoid downlo
 - ovos_models: Models downloaded by precise-lite.
 - ovos_vosk: Data downloaded by VOSK during the initial boot.
 
-Our community member [Goldyfruit][1] has stated &#8220;we are bringing a new way to install skills, each skill will have its own container which provides better flexibility and isolation.&#8221; A community member of Mycroft before moving over to OVOS, Goldy had contributed greatly to porting Mycroft to a container based system. When asked how they want the project to impact OVOS, Goldyfruit said &#8220;I think containers is an easy way to help new people to join OVOS. It&#8217;s not disruptive, not that much to do on the host. Just run `docker compose` and that’s it (in a wonderful world :p)”
+Our community member [Goldyfruit][1] has stated &#8220;we are bringing a new way to install skills, each skill will have its own container which provides better flexibility and isolation.&#8221; A community member of Mycroft before moving over to OVOS, Goldy had contributed greatly to porting Mycroft to a container based system. When asked how they want the project to impact OVOS, Goldyfruit said &#8220;I think containers is an easy way to help new people to join OVOS. It&#8217;s not disruptive, not that much to do on the host. Just run `docker compose` and that's it (in a wonderful world :p)"
 
 For more information on how to get started, check out our [GitHub repository][2]. We encourage anyone who is interested to participate and make use of our software, and with the container based approach we hope to make it easier for people to set up and use OVOS. You can connect with us in our [Matrix rooms][3]. Come say hi! Best of luck and see you soon!
 

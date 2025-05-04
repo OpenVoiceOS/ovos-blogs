@@ -1,42 +1,14 @@
 ---
 title: "Revolutionize Your Voice-Controlled Experience with OpenVoiceOS: The Future of Personal Assistance is Here"
-description: "Discover OpenVoiceOS, the open-source voice assistant platform offering unparalleled privacy, customization, and functionality."
-image: "../public/blogs/blogheader-01.png"
-publishedAt: "2023-01-31"
-updatedAt: "2023-01-31"
-author: "Admin"
-isPublished: true
-tags:
-  - Customizable
-  - Cutting-edge technology
-  - Intuitive UI
-  - Modular Architecture
-  - Multi-device compatibility
-  - Offline operation
-  - Open-source
-  - OpenVoiceOS
-  - Personal assistant
-  - Privacy-focused
-  - Robust APIs
-  - Smart speaker
-  - Voice-controlled virtual assistant
+excerpt: "Discover OpenVoiceOS, the open-source voice assistant platform offering unparalleled privacy, customization, and functionality."
+coverImage: "/assets/blog/hello-world/cover.jpg"
+date: "2023-01-31T00:00:00.000Z"
+author:
+  name: Admin
+  picture: "/assets/blog/authors/tim.jpeg"
+ogImage:
+  url: "/assets/blog/hello-world/cover.jpg"
 ---
-
-<div class="wp-block-image">
-  <figure class="alignleft size-full is-resized">
-    <img
-      decoding="async"
-      loading="lazy"
-      src="https://openvoiceos.org/wp-content/uploads/2021/04/ovos-egg.png"
-      alt=""
-      class="wp-image-243"
-      width="221"
-      height="171"
-      srcset="https://openvoiceos.org/wp-content/uploads/2021/04/ovos-egg.png 660w, https://openvoiceos.org/wp-content/uploads/2021/04/ovos-egg-300x233.png 300w"
-      sizes="(max-width: 221px) 85vw, 221px"
-    />
-  </figure>
-</div>
 
 OpenVoiceOS is a free and open-source personal assistant and smart speaker that offers a powerful and flexible alternative to proprietary solutions like Amazon Echo and Google Home. At the same time, it is also an open-source virtual assistant platform that enables developers and organizations to create custom voice-controlled applications. With its cutting-edge technology and user-friendly design, OpenVoiceOS is revolutionizing the way we interact with technology.
 

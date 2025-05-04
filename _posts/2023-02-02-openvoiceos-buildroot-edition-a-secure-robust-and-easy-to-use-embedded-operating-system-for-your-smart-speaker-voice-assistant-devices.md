@@ -1,27 +1,22 @@
 ---
 title: "OpenVoiceOS – Buildroot Edition: A Secure, Robust, and Easy-to-Use Embedded Operating System for Your Smart Speaker & Voice Assistant Devices"
-description: "Explore the Buildroot edition of OpenVoiceOS, designed to provide a high-performance, small-footprint embedded OS for smart speakers and voice assistants."
-image: "../public/blogs/Screenshot-Buildroot-bootsplash.png"
-publishedAt: "2023-02-02"
-updatedAt: "2023-02-02"
-author: "Peter Steenbergen"
-isPublished: true
-tags:
-  - buildroot
-  - OpenVoiceOS
-  - Personal assistant
-  - Privacy-focused
-  - Smart speaker
-  - Voice-controlled virtual assistant
+excerpt: "Explore the Buildroot edition of OpenVoiceOS, designed to provide a high-performance, small-footprint embedded OS for smart speakers and voice assistants."
+coverImage: "/assets/blog/hello-world/cover.jpg"
+date: "2023-02-02T00:00:00.000Z"
+author:
+  name: Peter Steenbergen
+  picture: "/assets/blog/authors/tim.jpeg"
+ogImage:
+  url: "/assets/blog/hello-world/cover.jpg"
 ---
 
 The Buildroot edition of OpenVoiceOS is a custom embedded operating system created using [Buildroot](https://buildroot.org/), a popular and efficient tool for generating embedded Linux systems. This means that OpenVoiceOS comes with all the benefits Buildroot brings, such as a small footprint, optimized performance, and up-to-date security fixes.
 
-What really sets the Buildroot edition apart is its focus on providing a ready-to-use firmware for voice-enabled embedded devices. With the increasing popularity of voice assistants and smart speakers, there’s a growing demand for reliable and secure embedded systems that can integrate with voice technology.
+What really sets the Buildroot edition apart is its focus on providing a ready-to-use firmware for voice-enabled embedded devices. With the increasing popularity of voice assistants and smart speakers, there's a growing demand for reliable and secure embedded systems that can integrate with voice technology.
 
 OpenVoiceOS, and specifically the Buildroot edition, addresses this need by offering a stable firmware optimized for low-power embedded devices. This allows you to create your own privacy-respecting Smart Speaker & Voice Assistant. Smart speakers are becoming increasingly popular and feature-rich, and there are several features that are considered most important and widely used by users:
 
-**Voice Assistance:** The most important feature of a smart speaker is the ability to use voice commands and questions such as voice-activated music playback, setting reminders, and answering questions. The Buildroot edition of OpenVoiceOS comes pre-installed with all the skills you need to ask common questions such as “what will the [weather](https://github.com/OpenVoiceOS/skill-ovos-weather) be like today?”, “Set an [alarm](https://github.com/NeonGeckoCom/skill-alerts) for 8 am tomorrow morning” or “Who is Elon Musk?”. With the possible integration of [ChatGPT](https://chat.openai.com/) as a [fallback skill](https://github.com/OpenVoiceOS/skill-ovos-fallback-chatgpt), your OpenVoiceOS will always respond with something interesting to say.
+**Voice Assistance:** The most important feature of a smart speaker is the ability to use voice commands and questions such as voice-activated music playback, setting reminders, and answering questions. The Buildroot edition of OpenVoiceOS comes pre-installed with all the skills you need to ask common questions such as "what will the [weather](https://github.com/OpenVoiceOS/skill-ovos-weather) be like today?", "Set an [alarm](https://github.com/NeonGeckoCom/skill-alerts) for 8 am tomorrow morning" or "Who is Elon Musk?". With the possible integration of [ChatGPT](https://chat.openai.com/) as a [fallback skill](https://github.com/OpenVoiceOS/skill-ovos-fallback-chatgpt), your OpenVoiceOS will always respond with something interesting to say.
 
 **Home Automation:** Smart speakers are often used as a hub for controlling other smart devices, such as lights, locks, and thermostats. [Home Assistant](https://www.home-assistant.io/) is a very popular and also FOSS system to control your IOT devices and is already [supported](https://github.com/OpenVoiceOS/ovos-PHAL-plugin-homeassistant). More IOT platforms will be supported in the future by our [Common IOT](https://github.com/OpenVoiceOS/ovos-PHAL-plugin-commonIOT) integration framework.
 

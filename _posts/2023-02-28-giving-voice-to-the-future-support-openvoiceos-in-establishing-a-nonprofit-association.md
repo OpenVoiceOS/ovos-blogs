@@ -1,18 +1,13 @@
 ---
 title: "Giving Voice to the Future: Support OpenVoiceOS in Establishing a Nonprofit Association"
-description: "Learn how you can support OpenVoiceOS in establishing a nonprofit association to ensure the future of their open-source voice assistant projects."
-image: "../public/blogs/ovos.png"
-publishedAt: "2023-02-28"
-updatedAt: "2023-02-28"
-author: "Peter Steenbergen"
-isPublished: true
-tags:
-  - association
-  - fundraising
-  - non-profit
-  - Open-source
-  - OpenVoiceOS
-  - Privacy-focused
+excerpt: "Learn how you can support OpenVoiceOS in establishing a nonprofit association to ensure the future of their open-source voice assistant projects."
+coverImage: "/assets/blog/hello-world/cover.jpg"
+date: "2023-02-28T00:00:00.000Z"
+author:
+  name: Peter Steenbergen
+  picture: "/assets/blog/authors/tim.jpeg"
+ogImage:
+  url: "/assets/blog/hello-world/cover.jpg"
 ---
 
 OpenVoiceOS (OVOS) is a collective of programmers and hardware enthusiasts dedicated to producing an open-source voice assistant. Originating in 2019-2020 as part of the Mycroft community, OVOS has grown to incorporate several third-party projects, evolving into an independent entity over time.

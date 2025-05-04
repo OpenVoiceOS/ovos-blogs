@@ -1,18 +1,13 @@
 ---
 title: "Why OpenVoiceOS Uses Permissive Licenses"
-description: "Explaining the license chosen for OVOS and what that entails for developers and users alike."
-image: "../public/blogs/ovos-blog-featured.png"
-publishedAt: "2023-02-28"
-updatedAt: "2023-02-28"
-author: "Strongthany"
-isPublished: true
-tags:
-  - licensing
-  - open-source
-  - Apache License 2.0
-  - MIT License
-  - OpenVoiceOS
-  - Privacy-focused
+excerpt: "Explaining the license chosen for OVOS and what that entails for developers and users alike."
+coverImage: "/assets/blog/hello-world/cover.jpg"
+date: "2023-02-28T00:00:00.000Z"
+author:
+  name: Strongthany
+  picture: "/assets/blog/authors/tim.jpeg"
+ogImage:
+  url: "/assets/blog/hello-world/cover.jpg"
 ---
 
 OpenVoiceOS (OVOS) embraces openness not only in its code but also in its licensing choices. Choosing the right license is crucial for any open-source project as it defines how the software can be used, modified, and distributed. In this blog post, we explore why OpenVoiceOS has opted for permissive licenses and what this decision means for developers and users alike.
