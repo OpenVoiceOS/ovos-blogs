@@ -32,16 +32,18 @@ export default async function Post(props: Params) {
 
   // Generate a random stripe color from a set of vibrant colors for the postmark effect
   const stripeColors = [
-    'bg-red-500',
-    'bg-blue-500',
-    'bg-green-500',
-    'bg-purple-500',
-    'bg-pink-500',
-    'bg-teal-500',
+    "bg-red-500",
+    "bg-blue-500",
+    "bg-green-500",
+    "bg-purple-500",
+    "bg-pink-500",
+    "bg-teal-500",
   ];
-  
+
   // Create hash from slug to ensure consistent color for each post
-  const hashCode = post.slug.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const hashCode = post.slug
+    .split("")
+    .reduce((acc, char) => acc + char.charCodeAt(0), 0);
   const colorIndex = hashCode % stripeColors.length;
   const stripeColor = stripeColors[colorIndex];
 
@@ -57,17 +59,27 @@ export default async function Post(props: Params) {
               <div className="relative bg-white dark:bg-mono-800 border-2 border-mono-200 dark:border-mono-700 rounded-xl p-6 md:p-8 shadow-lg overflow-hidden">
                 {/* Colorful stripes at top */}
                 <div className="absolute top-0 left-0 right-0 flex h-2 overflow-hidden">
-                  <div className={`w-1/3 ${stripeColors[(colorIndex) % stripeColors.length]}`}></div>
-                  <div className={`w-1/3 ${stripeColors[(colorIndex + 2) % stripeColors.length]}`}></div>
-                  <div className={`w-1/3 ${stripeColors[(colorIndex + 4) % stripeColors.length]}`}></div>
+                  <div
+                    className={`w-1/3 ${stripeColors[colorIndex % stripeColors.length]}`}
+                  ></div>
+                  <div
+                    className={`w-1/3 ${stripeColors[(colorIndex + 2) % stripeColors.length]}`}
+                  ></div>
+                  <div
+                    className={`w-1/3 ${stripeColors[(colorIndex + 4) % stripeColors.length]}`}
+                  ></div>
                 </div>
-                
+
                 {/* Stamp in top-right corner */}
                 <div className="absolute top-6 right-8 w-20 h-20 border-2 border-dashed border-mono-300 dark:border-mono-600 rotate-6 flex items-center justify-center">
-                  <div className={`w-16 h-16 ${stripeColor} rounded-md flex items-center justify-center text-white text-opacity-90`}>
+                  <div
+                    className={`w-16 h-16 ${stripeColor} rounded-md flex items-center justify-center text-white text-opacity-90`}
+                  >
                     <div className="text-xs font-bold text-center transform -rotate-6">
                       <div>OVOS</div>
-                      <div className="text-[10px] mt-1">{new Date(post.date).getFullYear()}</div>
+                      <div className="text-[10px] mt-1">
+                        {new Date(post.date).getFullYear()}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -108,8 +120,8 @@ export default async function Post(props: Params) {
                   {/* Cover image if available */}
                   {post.coverImage && (
                     <div className="relative aspect-video rounded-lg overflow-hidden shadow-md mb-8">
-                      <img 
-                        src={post.coverImage} 
+                      <img
+                        src={post.coverImage}
                         alt={post.title}
                         className="object-cover w-full h-full"
                       />
@@ -121,15 +133,17 @@ export default async function Post(props: Params) {
 
             {/* Post body with postage style */}
             <div className="bg-white dark:bg-mono-800 border border-mono-200 dark:border-mono-700 rounded-lg p-6 md:p-8 shadow-md">
-              <div className="prose dark:prose-invert 
+              <div
+                className="prose dark:prose-invert 
                 prose-headings:text-mono-800 dark:prose-headings:text-mono-100
                 prose-p:text-mono-700 dark:prose-p:text-mono-300
                 prose-a:text-accent hover:prose-a:text-accent-light
                 prose-img:rounded-md prose-img:shadow-sm
-                max-w-none">
+                max-w-none"
+              >
                 <PostBody content={content} />
               </div>
-              
+
               <div className="mt-10 pt-8 border-t border-mono-200 dark:border-mono-700">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
                   <div className="flex items-center space-x-4">
@@ -195,11 +209,22 @@ export default async function Post(props: Params) {
                 >
                   {/* Small colored stripe */}
                   <div className="absolute top-0 left-0 w-full h-1 bg-red-400 group-hover:bg-accent transition-colors"></div>
-                  
+
                   <div className="flex items-start">
                     <div className="bg-mono-100 dark:bg-mono-700 p-2 rounded-full mr-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 text-mono-600 dark:text-mono-300">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2}
+                        stroke="currentColor"
+                        className="w-5 h-5 text-mono-600 dark:text-mono-300"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
+                        />
                       </svg>
                     </div>
                     <div>
@@ -224,7 +249,7 @@ export default async function Post(props: Params) {
                 >
                   {/* Small colored stripe */}
                   <div className="absolute top-0 left-0 w-full h-1 bg-blue-400 group-hover:bg-accent transition-colors"></div>
-                  
+
                   <div className="flex items-start justify-between">
                     <div>
                       <span className="text-sm text-mono-500 dark:text-mono-400 block mb-1 font-medium">
@@ -238,8 +263,19 @@ export default async function Post(props: Params) {
                       </span>
                     </div>
                     <div className="bg-mono-100 dark:bg-mono-700 p-2 rounded-full ml-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 text-mono-600 dark:text-mono-300">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2}
+                        stroke="currentColor"
+                        className="w-5 h-5 text-mono-600 dark:text-mono-300"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
+                        />
                       </svg>
                     </div>
                   </div>
@@ -286,34 +322,47 @@ export default async function Post(props: Params) {
                 .slice(0, 3)
                 .map((relatedPost, idx) => {
                   // Create a different rotation for each card
-                  const rotations = ['rotate-[0.5deg]', 'rotate-[-0.75deg]', 'rotate-[1deg]'];
-                  
+                  const rotations = [
+                    "rotate-[0.5deg]",
+                    "rotate-[-0.75deg]",
+                    "rotate-[1deg]",
+                  ];
+
                   return (
-                    <div key={relatedPost.slug} className={`group ${rotations[idx % rotations.length]}`}>
+                    <div
+                      key={relatedPost.slug}
+                      className={`group ${rotations[idx % rotations.length]}`}
+                    >
                       <Link
                         href={`/posts/${relatedPost.slug}`}
                         className="block rounded-lg overflow-hidden shadow-sm group-hover:shadow-md transition-all duration-200 bg-white dark:bg-mono-800 border border-mono-200 dark:border-mono-700"
                       >
                         {/* Colorful stripes at top */}
                         <div className="flex w-full h-2 overflow-hidden">
-                          <div className={`w-1/3 ${stripeColors[(idx) % stripeColors.length]}`}></div>
-                          <div className={`w-1/3 ${stripeColors[(idx + 2) % stripeColors.length]}`}></div>
-                          <div className={`w-1/3 ${stripeColors[(idx + 4) % stripeColors.length]}`}></div>
+                          <div
+                            className={`w-1/3 ${stripeColors[idx % stripeColors.length]}`}
+                          ></div>
+                          <div
+                            className={`w-1/3 ${stripeColors[(idx + 2) % stripeColors.length]}`}
+                          ></div>
+                          <div
+                            className={`w-1/3 ${stripeColors[(idx + 4) % stripeColors.length]}`}
+                          ></div>
                         </div>
-                        
+
                         <div className="p-5">
                           <div className="text-xs font-mono text-mono-500 dark:text-mono-400 bg-mono-100 dark:bg-mono-700 px-2 py-1 rounded w-fit mb-3">
                             <DateFormatter dateString={relatedPost.date} />
                           </div>
-                          
+
                           <h3 className="font-bold text-lg mb-3 text-mono-900 dark:text-mono-100 group-hover:text-accent transition-colors duration-200">
                             {relatedPost.title}
                           </h3>
-                          
+
                           <p className="text-mono-700 dark:text-mono-300 text-sm line-clamp-2 mb-4">
                             {relatedPost.excerpt}
                           </p>
-                          
+
                           <div className="flex items-center justify-between">
                             <div className="flex items-center space-x-3">
                               <div className="w-8 h-8 rounded-full overflow-hidden ring-2 ring-mono-200 dark:ring-mono-700">

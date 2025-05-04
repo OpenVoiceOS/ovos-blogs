@@ -8,8 +8,9 @@ export function Intro() {
           Welcome to the <span className="text-accent">OpenVoiceOS</span> Blog
         </h1>
         <p className="text-base md:text-lg text-mono-600 dark:text-mono-400 max-w-3xl">
-          Discover the latest updates, guides, and insights from the open-source voice assistant 
-          ecosystem. Join our journey of innovation and collaboration.
+          Discover the latest updates, guides, and insights from the open-source
+          voice assistant ecosystem. Join our journey of innovation and
+          collaboration.
         </p>
       </div>
     </section>
