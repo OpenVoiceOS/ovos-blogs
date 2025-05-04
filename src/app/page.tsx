@@ -2,22 +2,115 @@ import Container from "@/app/_components/container";
 import { Intro } from "@/app/_components/intro";
 import { getAllPosts } from "@/lib/api";
 import PostCard from "@/app/_components/post-card";
+import Link from "next/link";
 
 export default function Index() {
   const allPosts = getAllPosts();
+  
+  // Feature the most recent post
+  const featuredPost = allPosts[0];
+  const regularPosts = allPosts.slice(1);
 
   return (
     <Container>
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <Intro />
+
+        {/* Featured post */}
+        <section className="mb-16">
+            <div className="bg-white dark:bg-mono-800 rounded-2xl p-6 md:p-8 shadow-lg">
+            <div className="flex flex-col md:flex-row gap-8">
+              <div className="md:w-1/2">
+                <div className="relative aspect-video rounded-lg overflow-hidden shadow-md">
+                  <img 
+                    src={featuredPost.coverImage || "/assets/blog/default-cover.jpg"} 
+                    alt={featuredPost.title}
+                    className="object-cover w-full h-full"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-mono-900/60 to-transparent"></div>
+                  <div className="absolute bottom-4 left-4">
+                    <span className="bg-accent text-white px-3 py-1 text-sm rounded-full font-medium">
+                      Latest Post
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="md:w-1/2 flex flex-col justify-center">
+                <h2 className="text-2xl md:text-3xl font-bold mb-3 text-mono-900 dark:text-mono-100">
+                  <Link href={`/posts/${featuredPost.slug}`} className="hover:text-accent transition-colors">
+                    {featuredPost.title}
+                  </Link>
+                </h2>
+                <p className="text-mono-600 dark:text-mono-400 mb-4 line-clamp-3">
+                  {featuredPost.excerpt}
+                </p>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-8 h-8 rounded-full overflow-hidden bg-mono-200 dark:bg-mono-700">
+                    <img
+                      src={featuredPost.author.picture}
+                      alt={featuredPost.author.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <span className="text-sm text-mono-700 dark:text-mono-300">
+                    {featuredPost.author.name}
+                  </span>
+                  <span className="text-mono-400 dark:text-mono-500">•</span>
+                  <span className="text-sm text-mono-500 dark:text-mono-400">
+                    {new Date(featuredPost.date).toLocaleDateString("en-US", {
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </span>
+                </div>
+                <Link
+                  href={`/posts/${featuredPost.slug}`}
+                  className="inline-flex items-center px-4 py-2 rounded-lg bg-accent hover:bg-accent-light text-white transition-colors w-fit"
+                >
+                  Read Article
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    className="w-4 h-4 ml-1"
+                  >
+                    <path 
+                      fillRule="evenodd" 
+                      d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" 
+                      clipRule="evenodd" 
+                    />
+                  </svg>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
 
         <div className="space-y-10 pb-10">
           <section>
-            <h2 className="text-lg font-medium mb-4 text-mono-600 dark:text-mono-400">
-              Latest Articles
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {allPosts.map((post) => (
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-mono-800 dark:text-mono-200">
+                Latest Articles
+              </h2>
+              <div className="flex items-center gap-2 text-accent hover:text-accent-light transition-colors cursor-pointer">
+                <span className="text-sm font-medium">View All</span>
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  className="w-4 h-4"
+                >
+                  <path 
+                    fillRule="evenodd" 
+                    d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" 
+                    clipRule="evenodd" 
+                  />
+                </svg>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {regularPosts.map((post) => (
                 <PostCard
                   key={post.slug}
                   title={post.title}
@@ -31,24 +124,26 @@ export default function Index() {
           </section>
 
           <div className="border-t border-mono-200 dark:border-mono-800 pt-8 mt-10">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="text-left">
-                <h2 className="text-lg font-medium mb-1 text-mono-800 dark:text-mono-200">
-                  Subscribe to Updates
-                </h2>
-                <p className="text-sm text-mono-600 dark:text-mono-400">
-                  Get the latest OpenVoiceOS news in your inbox.
-                </p>
-              </div>
-              <div className="flex w-full sm:w-auto">
-                <input
-                  type="email"
-                  placeholder="Email address"
-                  className="flex-grow px-3 py-1.5 text-xs rounded-l-md border border-mono-300 dark:border-mono-700 bg-mono-100 dark:bg-mono-800 focus:outline-none focus:ring-1 focus:ring-accent text-mono-800 dark:text-mono-200"
-                />
-                <button className="bg-accent hover:bg-accent-light text-white px-3 py-1.5 text-xs rounded-r-md transition-colors">
-                  Subscribe
-                </button>
+            <div className="bg-mono-100 dark:bg-mono-800 rounded-xl p-6 shadow-sm">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="text-center md:text-left">
+                  <h2 className="text-xl font-bold mb-2 text-mono-800 dark:text-mono-200">
+                    Stay Updated with OpenVoiceOS
+                  </h2>
+                  <p className="text-sm text-mono-600 dark:text-mono-400 max-w-md">
+                    Subscribe to our newsletter to receive the latest updates, tutorials, and announcements.
+                  </p>
+                </div>
+                <div className="flex w-full md:w-auto">
+                  <input
+                    type="email"
+                    placeholder="Email address"
+                    className="flex-grow px-4 py-2 text-sm rounded-l-md border border-mono-300 dark:border-mono-700 bg-white dark:bg-mono-900 focus:outline-none focus:ring-1 focus:ring-accent text-mono-800 dark:text-mono-200"
+                  />
+                  <button className="bg-accent hover:bg-accent-light text-white px-4 py-2 text-sm rounded-r-md transition-colors font-medium">
+                    Subscribe
+                  </button>
+                </div>
               </div>
             </div>
           </div>
