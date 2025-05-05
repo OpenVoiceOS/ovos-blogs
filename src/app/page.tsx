@@ -111,17 +111,19 @@ export default function Index() {
                 </h2>
               </div>
               <div className="flex items-center gap-2 text-accent hover:text-accent-light transition-colors cursor-pointer">
-                <span className="text-sm font-medium">Browse Archive</span>
+                <Link href="/archive" className="text-sm font-medium">Browse Archive</Link>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="w-4 h-4"
+                  className="w-4 h-4 ml-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
                 >
                   <path
-                    fillRule="evenodd"
-                    d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z"
-                    clipRule="evenodd"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
                   />
                 </svg>
               </div>
@@ -129,20 +131,6 @@ export default function Index() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {regularPosts.map((post) => (
                 <div key={post.slug} className="relative">
-                  <div className="absolute -top-2 right-4 transform rotate-3">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="w-8 h-8 text-accent/60"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 2h10v7h-2l-1 2H8l-1-2H5V5z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </div>
                   <PostCard
                     title={post.title}
                     date={post.date}

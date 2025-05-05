@@ -1,13 +1,13 @@
 ---
 title: "OpenVoiceOS – Buildroot Edition: A Secure, Robust, and Easy-to-Use Embedded Operating System for Your Smart Speaker & Voice Assistant Devices"
 excerpt: "Explore the Buildroot edition of OpenVoiceOS, designed to provide a high-performance, small-footprint embedded OS for smart speakers and voice assistants."
-coverImage: "/assets/blog/hello-world/cover.jpg"
+coverImage: "/assets/blog/common/cover.png"
 date: "2023-02-02T00:00:00.000Z"
 author:
   name: Peter Steenbergen
-  picture: "/assets/blog/authors/tim.jpeg"
+  picture: "https://avatars.githubusercontent.com/u/641281"
 ogImage:
-  url: "/assets/blog/hello-world/cover.jpg"
+  url: "/assets/blog/common/cover.png"
 ---
 
 The Buildroot edition of OpenVoiceOS is a custom embedded operating system created using [Buildroot](https://buildroot.org/), a popular and efficient tool for generating embedded Linux systems. This means that OpenVoiceOS comes with all the benefits Buildroot brings, such as a small footprint, optimized performance, and up-to-date security fixes.

@@ -1,13 +1,13 @@
 ---
 title: "A Brief History of Open Voice OS"
 excerpt: "Explore the history of Open Voice OS, from its roots in MycroftAI to becoming a leading open-source voice assistant system."
-coverImage: "/assets/blog/hello-world/cover.jpg"
+coverImage: "/assets/blog/common/cover.png"
 date: "2023-02-15T00:00:00.000Z"
 author:
   name: Strongthany
-  picture: "/assets/blog/authors/tim.jpeg"
+  picture: "https://avatars.githubusercontent.com/u/65565784"
 ogImage:
-  url: "/assets/blog/hello-world/cover.jpg"
+  url: "/assets/blog/common/cover.png"
 ---
 
 OpenVoiceOS has become one of the leading open-source voice assistant systems, though it hasn't always been in that position. Through this post, we'll explore the history of OVOS and get some insight into how it grew into what it is today.

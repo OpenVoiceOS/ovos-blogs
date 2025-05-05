@@ -1,13 +1,13 @@
 ---
 title: "OpenVoiceOS now available on containers"
 excerpt: "Learn how OpenVoiceOS is now available as containerized services for easier installation and management."
-coverImage: "/assets/blog/hello-world/cover.jpg"
+coverImage: "/assets/blog/common/cover.png"
 date: "2023-05-02T00:00:00.000Z"
 author:
   name: Strongthany
-  picture: "/assets/blog/authors/tim.jpeg"
+  picture: "https://avatars.githubusercontent.com/u/65565784"
 ogImage:
-  url: "/assets/blog/hello-world/cover.jpg"
+  url: "/assets/blog/common/cover.png"
 ---
 
 Given that OpenVoice OS is a complex suite of software, running the micro-services via containers makes sense for better simplicity. A container provides an efficient way to run the platform's various services with isolation and a microservice approach. By making use of a container system, it is much easier to manage, update and overall work with the various services that make up OpenVoice OS.

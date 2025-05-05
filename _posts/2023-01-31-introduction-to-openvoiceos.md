@@ -1,13 +1,13 @@
 ---
 title: "Revolutionize Your Voice-Controlled Experience with OpenVoiceOS: The Future of Personal Assistance is Here"
 excerpt: "Discover OpenVoiceOS, the open-source voice assistant platform offering unparalleled privacy, customization, and functionality."
-coverImage: "/assets/blog/hello-world/cover.jpg"
+coverImage: "/assets/blog/common/cover.png"
 date: "2023-01-31T00:00:00.000Z"
 author:
-  name: Admin
-  picture: "/assets/blog/authors/tim.jpeg"
+  name: Peter Steenbergen
+  picture: "https://avatars.githubusercontent.com/u/641281"
 ogImage:
-  url: "/assets/blog/hello-world/cover.jpg"
+  url: "/assets/blog/common/cover.png"
 ---
 
 OpenVoiceOS is a free and open-source personal assistant and smart speaker that offers a powerful and flexible alternative to proprietary solutions like Amazon Echo and Google Home. At the same time, it is also an open-source virtual assistant platform that enables developers and organizations to create custom voice-controlled applications. With its cutting-edge technology and user-friendly design, OpenVoiceOS is revolutionizing the way we interact with technology.

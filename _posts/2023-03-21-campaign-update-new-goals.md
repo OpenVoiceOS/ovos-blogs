@@ -1,13 +1,13 @@
 ---
 title: "Campaign Update: New Goals"
 excerpt: "We are excited to announce our goal of €4,000 has been achieved! We are thrilled to have reached our goal, as it will help enable us to become a fully realized non-profit."
-coverImage: "/assets/blog/hello-world/cover.jpg"
+coverImage: "/assets/blog/common/cover.png"
 date: "2023-03-21T00:00:00.000Z"
 author:
   name: Strongthany
-  picture: "/assets/blog/authors/tim.jpeg"
+  picture: "https://avatars.githubusercontent.com/u/65565784"
 ogImage:
-  url: "/assets/blog/hello-world/cover.jpg"
+  url: "/assets/blog/common/cover.png"
 ---
 
 ## Campaign Update: New Goals

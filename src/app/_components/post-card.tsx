@@ -138,7 +138,7 @@ export default function PostCard({
             <Link
               href={`/posts/${slug}`}
               className={`px-3 py-1 ${stripeColor} text-white rounded-full text-xs 
-                transform hover:scale-105 transition-all duration-300 font-medium flex items-center gap-1`}
+                transform hover:scale-105 hover:text-white transition-all duration-300 font-medium flex items-center gap-1`}
             >
               Open Card
               <svg
