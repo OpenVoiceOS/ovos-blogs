@@ -15,11 +15,11 @@ type Props = {
 export function PostHeader({ title, coverImage, date, author }: Props) {
   return (
     <>
-      <div className="relative bg-gradient-to-b from-mono-200 to-transparent dark:from-mono-800/30 pt-16 pb-20">
+      <div className="relative bg-mono-100 dark:bg-mono-800/50 pt-16 pb-10">
         <Container>
           <div className="max-w-3xl mx-auto">
             <div className="flex items-center gap-2 mb-6">
-              <span className="px-2 py-1 text-xs font-medium rounded-full bg-accent/10 text-accent">
+              <span className="px-2 py-1 text-xs font-medium rounded bg-accent/10 text-accent">
                 Article
               </span>
               <span className="text-sm text-mono-600 dark:text-mono-400">
@@ -30,14 +30,8 @@ export function PostHeader({ title, coverImage, date, author }: Props) {
             <PostTitle>{title}</PostTitle>
 
             <div className="mt-6 flex items-center">
-              <div className="w-10 h-10 rounded-full overflow-hidden mr-3 border-2 border-mono-100 dark:border-mono-800">
-                <img
-                  src={author.picture}
-                  alt={author.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div>
+              <Avatar name={author.name} picture={author.picture} />
+              <div className="ml-3">
                 <p className="font-medium text-mono-900 dark:text-mono-100">
                   {author.name}
                 </p>

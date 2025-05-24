@@ -13,16 +13,16 @@ export default function Index() {
 
   return (
     <Container>
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-5xl mx-auto pt-12">
         <Intro />
 
         {/* Featured post */}
 
         <section className="mb-16">
-          <div className="bg-white dark:bg-mono-800 rounded-2xl p-1 md:p-2 relative bg-[repeating-linear-gradient(45deg,red_0_12px,white_12px_24px,blue_24px_36px)]">
-            <div className="flex flex-col md:flex-row gap-8 bg-white dark:bg-mono-800 rounded-2xl p-6 md:p-8">
+          <div className="bg-white dark:bg-mono-800 rounded-lg shadow-md">
+            <div className="flex flex-col md:flex-row gap-8 p-6 md:p-8">
               <div className="md:w-1/2">
-                <div className="relative aspect-video rounded-lg overflow-hidden shadow-md border-2 border-mono-300 dark:border-mono-700">
+                <div className="relative aspect-video rounded-lg overflow-hidden shadow-sm border border-mono-200 dark:border-mono-700">
                   <img
                     src={
                       featuredPost.coverImage ||
@@ -35,22 +35,8 @@ export default function Index() {
               </div>
               <div className="md:w-1/2 flex flex-col justify-center">
                 <div className="flex items-center gap-2 mb-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-5 h-5 text-accent"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    />
-                  </svg>
                   <span className="text-sm font-medium text-accent">
-                    Special Delivery
+                    Featured Article
                   </span>
                 </div>
                 <h2 className="text-2xl md:text-3xl font-bold mb-3 text-mono-900 dark:text-mono-100">
@@ -83,7 +69,7 @@ export default function Index() {
                   href={`/posts/${featuredPost.slug}`}
                   className="inline-flex items-center px-4 py-2 rounded-lg bg-accent hover:bg-accent-light text-white transition-colors w-fit"
                 >
-                  Open Envelope
+                  Read Article
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
@@ -107,7 +93,7 @@ export default function Index() {
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">
                 <h2 className="text-xl font-bold text-mono-900 dark:text-mono-100">
-                  Latest Mails
+                  Latest Articles
                 </h2>
               </div>
               <div className="flex items-center gap-2 text-accent hover:text-accent-light transition-colors cursor-pointer">

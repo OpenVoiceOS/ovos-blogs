@@ -4,20 +4,20 @@
 
 :root {
   --foreground: #222;
-  --background: #f5f5f5;
+  --background: #ffffff;
   --accent: #ff3a3a;
 }
 
 .dark {
-  --foreground: #f5f5f5;
+  --foreground: #ffffff;
   --background: #111;
   --accent: #ff6b6b;
 }
 
 @layer base {
-  body {
+  /* body {
     @apply text-mono-800 bg-mono-100 dark:text-mono-100 dark:bg-mono-900;
-  }
+  } */
 
   h1,
   h2,
@@ -52,4 +52,18 @@
   .container {
     @apply px-4;
   }
+}
+
+/* Buttons */
+.btn,
+.btn-sm {
+  @apply font-medium inline-flex items-center justify-center border border-transparent rounded leading-snug transition duration-150 ease-in-out;
+}
+
+.btn {
+  @apply px-8 py-3 shadow-lg;
+}
+
+.btn-sm {
+  @apply px-4 py-2 shadow;
 }

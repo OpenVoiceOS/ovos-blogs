@@ -74,7 +74,7 @@ export default function RootLayout({
       </head>
       <body
         className={cn(
-          "min-h-screen font-sans antialiased text-mono-800 bg-mono-100 dark:text-mono-100 dark:bg-mono-900",
+          "min-h-screen font-sans antialiased",
         )}
       >
         <div className="fixed bottom-4 right-4 z-50 md:bottom-6 md:right-6">

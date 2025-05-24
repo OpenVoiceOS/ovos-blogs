@@ -1,127 +1,83 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
-import Container from "./container";
-import { useState } from "react";
+import Logo from "./logo";
+import MobileMenu from "./mobile-menu";
 
-const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+export default function Header() {
+  const [top, setTop] = useState<boolean>(true);
+  const pathname = usePathname();
+
+  const scrollHandler = () => {
+    window.pageYOffset > 10 ? setTop(false) : setTop(true);
+  };
+
+  useEffect(() => {
+    scrollHandler();
+    window.addEventListener("scroll", scrollHandler);
+    return () => window.removeEventListener("scroll", scrollHandler);
+  }, [top]);
+
+  const NavLink = ({ href, label }: { href: string; label: string }) => {
+    const isExternal = href.startsWith("http");
+    const isActive = pathname === href;
+
+    const linkStyles = `font-medium ${
+      isActive ? "font-extrabold text-black dark:text-white" : "text-gray-600"
+    } hover:text-gray-900 dark:hover:text-white px-5 py-3 flex items-center transition duration-150 ease-in-out`;
+
+    return (
+      <li>
+        <Link href={href} className={linkStyles}>
+          {label}
+        </Link>
+      </li>
+    );
+  };
+
+  const navLinks = [
+    { href: "https://www.openvoiceos.org/downloads", label: "Downloads" },
+    { href: "https://www.openvoiceos.org/about", label: "About" },
+    {
+      href: "https://github.com/OpenVoiceOS/OpenVoiceOS/discussions",
+      label: "Discussion",
+    },
+    {
+      href: "https://openvoiceos.github.io/ovos-technical-manual",
+      label: "Documentation",
+    },
+    { href: "https://www.openvoiceos.org/team", label: "Team" },
+    { href: "#", label: "Blogs" },
+    { href: "https://www.openvoiceos.org/contribution", label: "Contribution" },
+  ];
 
   return (
-    <header className="py-4 border-b border-mono-200 dark:border-mono-800 sticky top-0 bg-mono-100 dark:bg-mono-900 z-10">
-      <Container>
-        <div className="flex justify-between items-center">
-          <Link href="/" className="flex items-center">
-            <span className="text-2xl font-bold bg-gradient-to-r from-accent-dark to-accent bg-clip-text text-transparent">
-              OpenVoiceOS
-            </span>
-          </Link>
-
-          <nav className="hidden md:flex space-x-8">
-            <Link
-              href="/"
-              className="font-medium text-mono-800 hover:text-accent dark:text-mono-200 dark:hover:text-accent transition-colors duration-200"
-            >
-              Home
-            </Link>
-            <Link
-              href="/about"
-              className="font-medium text-mono-800 hover:text-accent dark:text-mono-200 dark:hover:text-accent transition-colors duration-200"
-            >
-              About
-            </Link>
-            <Link
-              href="/community"
-              className="font-medium text-mono-800 hover:text-accent dark:text-mono-200 dark:hover:text-accent transition-colors duration-200"
-            >
-              Community
-            </Link>
-            <Link
-              href="https://github.com/OpenVoiceOS"
-              className="font-medium text-mono-800 hover:text-accent dark:text-mono-200 dark:hover:text-accent transition-colors duration-200"
-            >
-              GitHub
-            </Link>
+    <header
+      className={`fixed w-full z-30 md:bg-opacity-90 transition duration-300 ease-in-out ${!top ? "bg-white dark:bg-stone-900 backdrop-blur-sm shadow-lg" : ""}`}
+    >
+      <div className="mx-auto px-5 sm:px-6">
+        <div className="flex items-center justify-between h-16 md:h-20">
+          <div className="shrink-0 mr-4">
+            <Logo />
+          </div>
+          <nav className="hidden md:flex md:grow">
+            <ul className="flex grow justify-end flex-wrap items-center">
+              {navLinks.map((link) => (
+                <NavLink key={link.href} href={link.href} label={link.label} />
+              ))}
+              <li className="ml-3">
+                <Link href="/" className="btn-sm bg-black text-white dark:text-black dark:bg-white rounded-xl h-[40px] flex items-center">
+                  <span>Home</span>
+                </Link>
+              </li>
+            </ul>
           </nav>
 
-          <div className="flex items-center space-x-4">
-            <button
-              className="md:hidden text-mono-800 dark:text-mono-200 hover:text-accent dark:hover:text-accent transition-colors duration-200"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Toggle menu"
-            >
-              {isMenuOpen ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                  />
-                </svg>
-              )}
-            </button>
-          </div>
+          <MobileMenu />
         </div>
-
-        {isMenuOpen && (
-          <div className="md:hidden mt-4 py-3 border-t border-mono-200 dark:border-mono-800">
-            <nav className="flex flex-col space-y-4">
-              <Link
-                href="/"
-                className="font-medium text-mono-800 hover:text-accent dark:text-mono-200 dark:hover:text-accent transition-colors duration-200"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Home
-              </Link>
-              <Link
-                href="/about"
-                className="font-medium text-mono-800 hover:text-accent dark:text-mono-200 dark:hover:text-accent transition-colors duration-200"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                About
-              </Link>
-              <Link
-                href="/community"
-                className="font-medium text-mono-800 hover:text-accent dark:text-mono-200 dark:hover:text-accent transition-colors duration-200"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Community
-              </Link>
-              <Link
-                href="https://github.com/OpenVoiceOS"
-                className="font-medium text-mono-800 hover:text-accent dark:text-mono-200 dark:hover:text-accent transition-colors duration-200"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                GitHub
-              </Link>
-            </nav>
-          </div>
-        )}
-      </Container>
+      </div>
     </header>
   );
-};
-
-export default Header;
+}
