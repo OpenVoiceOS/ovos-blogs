@@ -18,7 +18,7 @@ export default function PostCard({
   slug,
 }: Props) {
   // Define a consistent accent color for UI elements
-  const accentColor = "bg-accent hover:bg-accent-dark";
+  const accentColor = "bg-accent hover:bg-accent-dark dark:bg-accent-light dark:hover:bg-accent";
 
   return (
     <div className="flex flex-col h-full">

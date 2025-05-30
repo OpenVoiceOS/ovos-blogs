@@ -71,18 +71,21 @@ export default function RootLayout({
           content="width=device-width, initial-scale=1.0, viewport-fit=cover"
         />
         <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
+        <link rel="stylesheet" href="/assets/css/highlight.css" />
       </head>
       <body
         className={cn(
-          "min-h-screen font-sans antialiased",
+          "min-h-screen font-sans antialiased bg-white dark:bg-mono-900 text-mono-800 dark:text-mono-100",
         )}
       >
         <div className="fixed bottom-4 right-4 z-50 md:bottom-6 md:right-6">
           <ThemeSwitcher />
         </div>
         <Header />
-        <div className="container mx-auto px-4 md:px-6 lg:px-8 py-8 min-h-screen">
-          {children}
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 py-8 min-h-screen bg-white dark:bg-mono-900">
+          <div className="dark:text-mono-100">
+            {children}
+          </div>
         </div>
         <Footer />
       </body>

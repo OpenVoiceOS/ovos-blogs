@@ -67,7 +67,7 @@ export default function Index() {
                 </div>
                 <Link
                   href={`/posts/${featuredPost.slug}`}
-                  className="inline-flex items-center px-4 py-2 rounded-lg bg-accent hover:bg-accent-light text-white transition-colors w-fit"
+                  className="inline-flex items-center px-4 py-2 rounded-lg bg-accent hover:bg-accent-light dark:bg-accent-light dark:hover:bg-accent text-white transition-colors w-fit"
                 >
                   Read Article
                   <svg
@@ -96,7 +96,7 @@ export default function Index() {
                   Latest Articles
                 </h2>
               </div>
-              <div className="flex items-center gap-2 text-accent hover:text-accent-light transition-colors cursor-pointer">
+              <div className="flex items-center gap-2 text-accent hover:text-accent-light dark:text-accent-light dark:hover:text-accent transition-colors cursor-pointer">
                 <Link href="/archive" className="text-sm font-medium">Browse Archive</Link>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -115,17 +115,17 @@ export default function Index() {
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {regularPosts.map((post) => (
+                {regularPosts.slice(0, 6).map((post) => (
                 <div key={post.slug} className="relative">
                   <PostCard
-                    title={post.title}
-                    date={post.date}
-                    author={post.author}
-                    slug={post.slug}
-                    excerpt={post.excerpt}
+                  title={post.title}
+                  date={post.date}
+                  author={post.author}
+                  slug={post.slug}
+                  excerpt={post.excerpt}
                   />
                 </div>
-              ))}
+                ))}
             </div>
           </section>
         </div>

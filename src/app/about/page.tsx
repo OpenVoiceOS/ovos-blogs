@@ -19,7 +19,7 @@ export default function AboutPage() {
           </h1>
 
           <div className="prose prose-lg dark:prose-invert max-w-none mb-16">
-            <p className="lead text-xl text-gray-700 dark:text-gray-300">
+            <p className="lead text-xl text-stone-700 dark:text-stone-300">
               OpenVoiceOS is a community-driven open-source project dedicated to
               creating a secure, private, and customizable voice assistant
               operating system that respects user privacy and freedom.
@@ -94,7 +94,7 @@ export default function AboutPage() {
                   href="https://matrix.to/#/#OpenVoiceOS:matrix.org"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 px-4 py-2 rounded-lg text-gray-800 dark:text-gray-200 font-medium transition-colors"
+                  className="bg-stone-200 hover:bg-stone-300 dark:bg-stone-700 dark:hover:bg-stone-600 px-4 py-2 rounded-lg text-stone-800 dark:text-stone-200 font-medium transition-colors"
                 >
                   Join Chat
                 </a>
@@ -107,7 +107,7 @@ export default function AboutPage() {
             {teamMembers.map((member) => (
               <div key={member.name} className="card p-6">
                 <div className="flex items-center mb-4">
-                  <div className="w-16 h-16 rounded-full overflow-hidden mr-4 border-2 border-gray-200 dark:border-gray-700">
+                  <div className="w-16 h-16 rounded-full overflow-hidden mr-4 border-2 border-stone-200 dark:border-stone-700">
                     <Image
                       src={member.image}
                       alt={member.name}
@@ -118,12 +118,12 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <h3 className="font-bold text-lg">{member.name}</h3>
-                    <p className="text-gray-600 dark:text-gray-400">
+                    <p className="text-stone-600 dark:text-stone-400">
                       {member.role}
                     </p>
                   </div>
                 </div>
-                <p className="text-gray-700 dark:text-gray-300 text-sm">
+                <p className="text-stone-700 dark:text-stone-300 text-sm">
                   {member.bio}
                 </p>
                 <div className="flex space-x-3 mt-4">
@@ -132,7 +132,7 @@ export default function AboutPage() {
                       href={member.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-500 hover:text-gray-800 dark:hover:text-gray-300"
+                      className="text-stone-500 hover:text-stone-800 dark:hover:text-stone-300"
                     >
                       <svg
                         className="w-5 h-5"
@@ -153,9 +153,9 @@ export default function AboutPage() {
             ))}
           </div>
 
-          <div className="text-center py-8 border-t border-gray-200 dark:border-gray-700">
+          <div className="text-center py-8 border-t border-stone-200 dark:border-stone-700">
             <h2 className="text-2xl font-bold mb-4">Want to get involved?</h2>
-            <p className="max-w-2xl mx-auto mb-6 text-gray-700 dark:text-gray-300">
+            <p className="max-w-2xl mx-auto mb-6 text-stone-700 dark:text-stone-300">
               OpenVoiceOS is a community-driven project that thrives on
               contributions from people like you. Whether you're a developer,
               designer, writer, or just enthusiastic about voice technology,

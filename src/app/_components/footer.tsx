@@ -13,15 +13,15 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-white dark:bg-stone-900 border-t border-gray-200 dark:border-gray-800">
+    <footer className="bg-white dark:bg-stone-900 border-t border-stone-200 dark:border-stone-800">
       <div className="mx-auto max-w-screen-xl px-4 py-8 md:py-12 lg:py-16">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 text-left mb-8">
           {/* Quick Links */}
           <div>
-            <h3 className="text-gray-900 dark:text-white font-semibold mb-4 text-lg">
+            <h3 className="text-stone-900 dark:text-white font-semibold mb-4 text-lg">
               Navigation
             </h3>
-            <ul className="space-y-2 text-gray-600 dark:text-gray-400">
+            <ul className="space-y-2 text-stone-600 dark:text-stone-400">
               <li>
                 <Link
                   href="https://www.openvoiceos.org/"
@@ -67,10 +67,10 @@ export default function Footer() {
 
           {/* Resources */}
           <div>
-            <h3 className="text-gray-900 dark:text-white font-semibold mb-4 text-lg">
+            <h3 className="text-stone-900 dark:text-white font-semibold mb-4 text-lg">
               Resources
             </h3>
-            <ul className="space-y-2 text-gray-600 dark:text-gray-400">
+            <ul className="space-y-2 text-stone-600 dark:text-stone-400">
               <li>
                 <Link
                   href="https://openvoiceos.github.io/ovos-technical-manual"
@@ -108,10 +108,10 @@ export default function Footer() {
 
           {/* Get Involved */}
           <div>
-            <h3 className="text-gray-900 dark:text-white font-semibold mb-4 text-lg">
+            <h3 className="text-stone-900 dark:text-white font-semibold mb-4 text-lg">
               Get Involved
             </h3>
-            <ul className="space-y-2 text-gray-600 dark:text-gray-400">
+            <ul className="space-y-2 text-stone-600 dark:text-stone-400">
               <li>
                 <Link
                   href="https://www.openvoiceos.org/contribution"
@@ -141,41 +141,41 @@ export default function Footer() {
 
           {/* Social Links */}
           <div>
-            <h3 className="text-gray-900 dark:text-white font-semibold mb-4 text-lg">
+            <h3 className="text-stone-900 dark:text-white font-semibold mb-4 text-lg">
               Connect
             </h3>
             <div className="flex space-x-4">
               <a
                 href="https://github.com/OpenVoiceOS"
-                className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                className="text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-white"
                 aria-label="GitHub"
               >
                 <FontAwesomeIcon icon={faGithub} className="w-6 h-6" />
               </a>
               <a
                 href="https://matrix.to/#/#OpenVoiceOS:matrix.org"
-                className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                className="text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-white"
                 aria-label="Matrix"
               >
                 <FontAwesomeIcon icon={faCommentAlt} className="w-6 h-6" />
               </a>
               <a
                 href="https://fosstodon.org/@ovos"
-                className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                className="text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-white"
                 aria-label="Mastodon"
               >
                 <FontAwesomeIcon icon={faUserFriends} className="w-6 h-6" />
               </a>
               <a
                 href="mailto:info@openvoiceos.org"
-                className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                className="text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-white"
                 aria-label="Email"
               >
                 <FontAwesomeIcon icon={faAt} className="w-6 h-6" />
               </a>
               <a
                 href="https://openvoiceos.github.io/ovos-technical-manual"
-                className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                className="text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-white"
                 aria-label="Documentation"
               >
                 <FontAwesomeIcon icon={faBook} className="w-6 h-6" />
@@ -183,7 +183,7 @@ export default function Footer() {
             </div>
 
             <div className="mt-6">
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-stone-600 dark:text-stone-400">
                 Building the future of voice assistants with open source
                 technology.
               </p>
@@ -192,8 +192,8 @@ export default function Footer() {
         </div>
 
         {/* Trademark notice and copyright */}
-        <div className="border-t border-gray-200 dark:border-gray-800 pt-8">
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+        <div className="border-t border-stone-200 dark:border-stone-800 pt-8">
+          <p className="text-sm text-stone-500 dark:text-stone-400 mb-4">
             Mycroft® is a registered trademark of Mycroft AI, Inc. Raspberry
             Pi® is a trademark of the Raspberry Pi Foundation. All other
             product names, logos, and brands are property of their respective
@@ -201,7 +201,7 @@ export default function Footer() {
             endorsement. Any unauthorized use is strictly prohibited.
           </p>
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400 mb-4 md:mb-0">
+            <span className="text-sm text-stone-500 sm:text-center dark:text-stone-400 mb-4 md:mb-0">
               © {currentYear}{" "}
               <Link href="https://www.openvoiceos.org/" className="hover:underline">
                 Open Voice OS
@@ -211,7 +211,7 @@ export default function Footer() {
             <div className="flex items-center space-x-4">
               <Link
                 href="https://openvoiceos.github.io/status/"
-                className="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-black dark:text-white"
+                className="text-sm text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-300 text-black dark:text-white"
               >
                 <div className="flex items-center">
                   <div className="relative inline-flex">

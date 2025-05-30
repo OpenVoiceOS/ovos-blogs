@@ -25,8 +25,8 @@ export default function Header() {
     const isActive = pathname === href;
 
     const linkStyles = `font-medium ${
-      isActive ? "font-extrabold text-black dark:text-white" : "text-gray-600"
-    } hover:text-gray-900 dark:hover:text-white px-5 py-3 flex items-center transition duration-150 ease-in-out`;
+      isActive ? "font-extrabold text-black dark:text-white" : "text-stone-600"
+    } hover:text-stone-900 dark:hover:text-white px-5 py-3 flex items-center transition duration-150 ease-in-out`;
 
     return (
       <li>

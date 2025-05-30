@@ -15,9 +15,9 @@
 }
 
 @layer base {
-  /* body {
-    @apply text-mono-800 bg-mono-100 dark:text-mono-100 dark:bg-mono-900;
-  } */
+  body {
+    @apply text-mono-800 bg-white dark:text-mono-100 dark:bg-mono-900;
+  }
 
   h1,
   h2,

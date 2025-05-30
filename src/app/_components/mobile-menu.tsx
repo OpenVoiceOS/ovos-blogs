@@ -50,7 +50,7 @@ export default function MobileMenu() {
       >
         <span className="sr-only">Menu</span>
         <svg
-          className="w-6 h-6 fill-current text-gray-900 dark:text-gray-100"
+          className="w-6 h-6 fill-current text-stone-900 dark:text-stone-100"
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -60,13 +60,12 @@ export default function MobileMenu() {
         </svg>
       </button>
 
-      {/* Mobile navigation */}
       <div ref={mobileNav}>
         <Transition
           show={mobileNavOpen}
           as="nav"
           id="mobile-nav"
-          className="absolute top-full h-screen pb-16 z-20 left-0 w-full overflow-scroll bg-white dark:bg-stone-900"
+          className="absolute top-full h-screen pb-16 z-20 left-0 w-full overflow-scroll bg-white dark:bg-mono-900"
           enter="transition ease-out duration-200 transform"
           enterFrom="opacity-0 -translate-y-2"
           enterTo="opacity-100 translate-y-0"
@@ -77,8 +76,8 @@ export default function MobileMenu() {
           <ul className="px-5 py-2">
             <li>
               <Link
-                href="/downloads"
-                className="flex font-medium w-full text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white py-2 justify-center"
+                href="https://www.openvoiceos.org/downloads"
+                className="flex text-stone-800 dark:text-stone-200 hover:text-accent dark:hover:text-accent-light py-2"
                 onClick={() => setMobileNavOpen(false)}
               >
                 Downloads
@@ -86,8 +85,8 @@ export default function MobileMenu() {
             </li>
             <li>
               <Link
-                href="/about"
-                className="flex font-medium w-full text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white py-2 justify-center"
+                href="https://www.openvoiceos.org/about"
+                className="flex text-stone-800 dark:text-stone-200 hover:text-accent dark:hover:text-accent-light py-2"
                 onClick={() => setMobileNavOpen(false)}
               >
                 About
@@ -95,17 +94,8 @@ export default function MobileMenu() {
             </li>
             <li>
               <Link
-                href="https://openvoiceos.github.io/ovos-technical-manual"
-                className="flex font-medium w-full text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white py-2 justify-center"
-                onClick={() => setMobileNavOpen(false)}
-              >
-                Documentation
-              </Link>
-            </li>
-            <li>
-              <Link
                 href="https://github.com/OpenVoiceOS/OpenVoiceOS/discussions"
-                className="flex font-medium w-full text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white py-2 justify-center"
+                className="flex text-stone-800 dark:text-stone-200 hover:text-accent dark:hover:text-accent-light py-2"
                 onClick={() => setMobileNavOpen(false)}
               >
                 Discussion
@@ -113,8 +103,17 @@ export default function MobileMenu() {
             </li>
             <li>
               <Link
-                href="/team"
-                className="flex font-medium w-full text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white py-2 justify-center"
+                href="https://openvoiceos.github.io/ovos-technical-manual"
+                className="flex text-stone-800 dark:text-stone-200 hover:text-accent dark:hover:text-accent-light py-2"
+                onClick={() => setMobileNavOpen(false)}
+              >
+                Documentation
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="https://www.openvoiceos.org/team"
+                className="flex text-stone-800 dark:text-stone-200 hover:text-accent dark:hover:text-accent-light py-2"
                 onClick={() => setMobileNavOpen(false)}
               >
                 Team
@@ -122,29 +121,11 @@ export default function MobileMenu() {
             </li>
             <li>
               <Link
-                href="/contribution"
-                className="flex font-medium w-full text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white py-2 justify-center"
-                onClick={() => setMobileNavOpen(false)}
-              >
-                Contribution
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/blog"
-                className="flex font-medium w-full text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white py-2 justify-center"
-                onClick={() => setMobileNavOpen(false)}
-              >
-                Blogs
-              </Link>
-            </li>
-            <li>
-              <Link
                 href="/"
-                className="btn-sm text-gray-200 bg-gray-900 dark:text-gray-100 dark:bg-gray-800 hover:bg-gray-800 dark:hover:bg-gray-700 w-full my-2"
+                className="flex bg-stone-100 dark:bg-mono-800 text-stone-900 dark:text-white hover:text-accent dark:hover:text-accent-light px-3 py-2 rounded"
                 onClick={() => setMobileNavOpen(false)}
               >
-                <span>Home</span>
+                Blog
               </Link>
             </li>
           </ul>

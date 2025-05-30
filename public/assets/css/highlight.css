@@ -1,0 +1,177 @@
+/* Syntax highlighting styles for rehype-highlight */
+
+pre {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+code {
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+}
+
+/* Table styles */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 2rem 0;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 0.75rem;
+  text-align: left;
+}
+
+th {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Dark mode adjustments */
+.dark th {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark table, .dark th, .dark td {
+  border-color: #444;
+}
+
+/* Code highlighting */
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #333;
+  background: #f8f8f8;
+}
+
+.dark .hljs {
+  color: #e6e6e6;
+  background: #282c34;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #998;
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-subst {
+  color: #d73a49;
+}
+
+.dark .hljs-keyword,
+.dark .hljs-selector-tag,
+.dark .hljs-subst {
+  color: #f97583;
+}
+
+.hljs-number,
+.hljs-literal,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag .hljs-attr {
+  color: #005cc5;
+}
+
+.dark .hljs-number,
+.dark .hljs-literal,
+.dark .hljs-variable,
+.dark .hljs-template-variable,
+.dark .hljs-tag .hljs-attr {
+  color: #79b8ff;
+}
+
+.hljs-string,
+.hljs-doctag {
+  color: #032f62;
+}
+
+.dark .hljs-string,
+.dark .hljs-doctag {
+  color: #9ecbff;
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-selector-id {
+  color: #6f42c1;
+}
+
+.dark .hljs-title,
+.dark .hljs-section,
+.dark .hljs-selector-id {
+  color: #b392f0;
+}
+
+.hljs-tag,
+.hljs-name,
+.hljs-attribute {
+  color: #22863a;
+}
+
+.dark .hljs-tag,
+.dark .hljs-name,
+.dark .hljs-attribute {
+  color: #85e89d;
+}
+
+.hljs-regexp,
+.hljs-link {
+  color: #e36209;
+}
+
+.dark .hljs-regexp,
+.dark .hljs-link {
+  color: #ffab70;
+}
+
+.hljs-symbol,
+.hljs-bullet {
+  color: #0086b3;
+}
+
+.dark .hljs-symbol,
+.dark .hljs-bullet {
+  color: #56d4dd;
+}
+
+.hljs-built_in,
+.hljs-builtin-name {
+  color: #e36209;
+}
+
+.dark .hljs-built_in,
+.dark .hljs-builtin-name {
+  color: #ffab70;
+}
+
+.hljs-meta {
+  color: #999;
+  font-weight: bold;
+}
+
+.dark .hljs-meta {
+  color: #bbb;
+}
+
+.hljs-deletion {
+  background: #fdd;
+}
+
+.hljs-addition {
+  background: #dfd;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
