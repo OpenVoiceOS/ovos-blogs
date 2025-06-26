@@ -10,9 +10,10 @@ type Props = {
   coverImage: string;
   date: string;
   author: Author;
+  coauthors?: Author[];
 };
 
-export function PostHeader({ title, coverImage, date, author }: Props) {
+export function PostHeader({ title, coverImage, date, author, coauthors }: Props) {
   return (
     <>
       <div className="relative bg-mono-100 dark:bg-mono-800/50 pt-16 pb-10">
@@ -29,16 +30,33 @@ export function PostHeader({ title, coverImage, date, author }: Props) {
 
             <PostTitle>{title}</PostTitle>
 
-            <div className="mt-6 flex items-center">
-              <Avatar name={author.name} picture={author.picture} />
-              <div className="ml-3">
-                <p className="font-medium text-mono-900 dark:text-mono-100">
-                  {author.name}
-                </p>
-                <p className="text-sm text-mono-600 dark:text-mono-400">
-                  Published on <DateFormatter dateString={date} />
-                </p>
+            <div className="mt-6">
+              <div className="flex items-center">
+                <Avatar name={author.name} picture={author.picture} />
+                <div className="ml-3">
+                  <p className="font-medium text-mono-900 dark:text-mono-100">
+                    {author.name}{coauthors && coauthors.length > 0 ? " (Lead Author)" : ""}
+                  </p>
+                  <p className="text-sm text-mono-600 dark:text-mono-400">
+                    Published on <DateFormatter dateString={date} />
+                  </p>
+                </div>
               </div>
+              
+              {coauthors && coauthors.length > 0 && (
+                <div className="mt-4">
+                  <p className="text-sm font-medium text-mono-700 dark:text-mono-300 mb-2">
+                    Co-authors:
+                  </p>
+                  <div className="flex flex-wrap gap-4">
+                    {coauthors.map((coauthor, index) => (
+                      <div key={index} className="flex items-center">
+                        <Avatar name={coauthor.name} picture={coauthor.picture} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </Container>

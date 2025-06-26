@@ -1,5 +1,5 @@
 ---
-title: "A Reference Platform for Voice Assistant Development and a Plug-and-Play Entry Point for Users"
+title: "raspOVOS: A reference platform for voice assistant development"
 excerpt: "Introducing raspOVOS: a ready-to-use Raspberry Pi image that brings the power of OpenVoiceOS (OVOS) to your fingertips."
 date: "2025-06-18T00:00:00.000Z"
 author:
@@ -23,12 +23,14 @@ Built using [dtcooper/rpi-image-modifier](https://github.com/dtcooper/rpi-image-
 
 We’ve split raspOVOS into three distinct editions to better match the capabilities of each Raspberry Pi model and your preferred use case:
 
-- 🟢 **[Online Edition](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-bookworm-arm64-lite-2025-06-18)** _(RPi 3 optimized)_
-  Lightweight and cloud-reliant, perfect for older hardware. Uses online STT/TTS for minimal CPU usage and lower memory demands. m2v and common query intent pipelines are disabled
-- 🟡 **[Hybrid Edition](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-bookworm-arm64-hybrid-2025-06-18)** _(RPi 4 optimized)_
-  A balance of performance and flexibility. Offline TTS with online STT. The best compromise without maxing out memory or compute.
-- 🔴 **[Offline Edition](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-bookworm-arm64-offline-2025-06-18)** _(RPi 5 optimized)_
-  Fully self-contained voice assistant. Runs everything locally including STT and TTS. Perfect for privacy first setups or when internet is unreliable.
+- 🌐 **[Online Edition](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-bookworm-arm64-lite-2025-06-18)** _(RPi 3 optimized)_
+  Lightweight and cloud-reliant, perfect for older hardware. Uses online speech-to-text (STT) and text-to-speech (TTS) for minimal CPU usage and lower memory demands. Some advanced features like media-to-voice and common query intent pipelines are not available in this version.
+  
+- ⚡ **[Hybrid Edition](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-bookworm-arm64-hybrid-2025-06-18)** _(RPi 4 optimized)_
+  A balance of performance and flexibility. Offline text-to-speech (TTS) with online speech-to-text (STT). The best compromise without maxing out memory or computing resources.
+  
+- 📵 **[Offline Edition](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-bookworm-arm64-offline-2025-06-18)** _(RPi 5 optimized)_
+  Fully self-contained voice assistant. Runs everything locally including speech-to-text (STT) and text-to-speech (TTS). Perfect for privacy-focused setups or when internet connectivity is unreliable.
 
 Check out the [Getting Started Guide](https://openvoiceos.github.io/ovos-technical-manual/51-install_raspovos) for detailed instructions.
 

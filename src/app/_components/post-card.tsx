@@ -7,6 +7,7 @@ type Props = {
   date: string;
   excerpt: string;
   author: Author;
+  coauthors?: Author[];
   slug: string;
 };
 
@@ -15,6 +16,7 @@ export default function PostCard({
   date,
   excerpt,
   author,
+  coauthors,
   slug,
 }: Props) {
   // Define a consistent accent color for UI elements
@@ -35,6 +37,7 @@ export default function PostCard({
             </div>
             <div className="text-sm text-mono-600 dark:text-mono-400">
               By {author.name}
+              {coauthors && coauthors.length > 0 && ` +${coauthors.length}`}
             </div>
           </div>
 
