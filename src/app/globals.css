@@ -11,7 +11,7 @@
 .dark {
   --foreground: #ffffff;
   --background: #111;
-  --accent: #ff6b6b;
+  --accent: #ff2727;
 }
 
 @layer base {

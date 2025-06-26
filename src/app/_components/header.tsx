@@ -49,7 +49,7 @@ export default function Header() {
       label: "Documentation",
     },
     { href: "https://www.openvoiceos.org/team", label: "Team" },
-    { href: "#", label: "Blogs" },
+    { href: "/", label: "Blogs" },
     { href: "https://www.openvoiceos.org/contribution", label: "Contribution" },
   ];
 

@@ -15,9 +15,9 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        "accent-1": "#F5F5F5",
-        "accent-2": "#E0E0E0",
-        "accent-7": "#333333",
+        "accent-1": "#FF2727",
+        "accent-2": "#ff2727",
+        "accent-7": "#ff2727",
         success: "#0070f3",
         cyan: "#79FFE1",
         // Monochrome theme colors
@@ -34,9 +34,9 @@ const config: Config = {
         },
         // Red accent colors
         accent: {
-          light: "#FF6B6B",
-          DEFAULT: "#FF3A3A",
-          dark: "#D32F2F",
+          light: "#ff2727",
+          DEFAULT: "#ff2727",
+          dark: "#ff2727",
         },
       },
       spacing: {

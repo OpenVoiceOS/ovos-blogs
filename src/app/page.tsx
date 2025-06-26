@@ -129,6 +129,21 @@ export default function Index() {
                 </div>
                 ))}
             </div>
+
+            {/* Want to submit a blog section */}
+            <div className="mt-16 bg-mono-100 dark:bg-mono-800 rounded-lg p-8 text-center">
+              <h3 className="text-2xl font-bold mb-4 text-mono-900 dark:text-mono-100">Want to submit a blog?</h3>
+              <p className="text-mono-700 dark:text-mono-300 mb-6 max-w-2xl mx-auto">
+                Share your knowledge with the OpenVoiceOS community! We welcome contributions on topics related to OpenVoiceOS, 
+                voice assistants, open-source technology, and more.
+              </p>
+              <Link 
+                href="/newblog" 
+                className="inline-block bg-accent text-white font-semibold py-3 px-6 rounded-lg hover:text-white"
+              >
+                Learn How to Contribute
+              </Link>
+            </div>
           </section>
         </div>
       </div>
