@@ -5,9 +5,9 @@ date: "2025-06-26T00:00:00.000Z"
 author:
   name:  JarbasAl
   picture: "https://avatars.githubusercontent.com/u/33701864"
-coverImage: "https://github.com/OpenVoiceOS/ovos_assets/blob/master/tts.png?raw=true"
+coverImage: "https://github.com/OpenVoiceOS/ovos_assets/blob/master/ovos_tts.png?raw=true"
 ogImage:
-  url: "https://github.com/OpenVoiceOS/ovos_assets/blob/master/tts.png?raw=true"
+  url: "https://github.com/OpenVoiceOS/ovos_assets/blob/master/ovos_tts.png?raw=true"
 ---
 
 ## Making Synthetic Voices From Scratch
@@ -54,7 +54,7 @@ We applied this method to **European Portuguese**, a language that had no good o
 
 ---
 
-### 🧠 In short:
+### In short:
 
 > We’ve found a way to build natural-sounding, offline-ready synthetic voices, **without needing a real speaker**. It’s fast, ethical, and opens the door for more voices in more languages, for everyone.
 
