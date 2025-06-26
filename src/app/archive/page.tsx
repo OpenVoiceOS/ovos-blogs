@@ -51,6 +51,7 @@ export default function Archive() {
                 title={post.title}
                 date={post.date}
                 author={post.author}
+                coauthors={post.coauthors}
                 slug={post.slug}
                 excerpt={post.excerpt}
               />

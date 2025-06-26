@@ -70,23 +70,53 @@ export default async function Post(props: Params) {
                   </h1>
 
                   {/* Author info - simplified for mobile */}
-                  <div className="flex items-center mb-4 sm:mb-6">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden border-2 border-mono-200 dark:border-mono-700 mr-3 sm:mr-4">
-                      <img
-                        src={post.author.picture}
-                        alt={post.author.name}
-                        className="w-full h-full object-cover"
-                        loading="lazy"
-                      />
+                  <div className="mb-4 sm:mb-6">
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden border-2 border-mono-200 dark:border-mono-700 mr-3 sm:mr-4">
+                        <img
+                          src={post.author.picture}
+                          alt={post.author.name}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                      </div>
+                      <div>
+                        <p className="font-medium text-mono-900 dark:text-mono-100">
+                          {post.author.name}{post.coauthors && post.coauthors.length > 0 ? " (Lead Author)" : ""}
+                        </p>
+                        <p className="text-sm text-mono-600 dark:text-mono-400">
+                          OVOS Contributor
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-medium text-mono-900 dark:text-mono-100">
-                        {post.author.name}
-                      </p>
-                      <p className="text-sm text-mono-600 dark:text-mono-400">
-                        OVOS Contributor
-                      </p>
-                    </div>
+                    
+                    {/* Co-authors section */}
+                    {post.coauthors && post.coauthors.length > 0 && (
+                      <div className="mt-4">
+                        <p className="text-sm font-medium text-mono-700 dark:text-mono-300 mb-2">
+                          Co-authors:
+                        </p>
+                        <div className="flex flex-wrap gap-3">
+                          {post.coauthors.map((coauthor, index) => (
+                            <div key={index} className="flex items-center">
+                              <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-mono-200 dark:border-mono-700 mr-2">
+                                <img
+                                  src={coauthor.picture}
+                                  alt={coauthor.name}
+                                  className="w-full h-full object-cover"
+                                  loading="lazy"
+                                />
+                              </div>
+                              <div>
+                                <p className="text-sm font-medium text-mono-900 dark:text-mono-100">
+                                  {coauthor.name}
+                                </p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   {/* Cover image with lazy loading */}
@@ -95,7 +125,7 @@ export default async function Post(props: Params) {
                       <img
                         src={post.coverImage}
                         alt={post.title}
-                        className="object-cover w-full h-full"
+                        className="w-full h-full object-fill"
                         loading="lazy"
                       />
                     </div>

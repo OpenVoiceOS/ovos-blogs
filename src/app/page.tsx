@@ -50,11 +50,12 @@ export default function Index() {
                     <img
                       src={featuredPost.author.picture}
                       alt={featuredPost.author.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-fill"
                     />
                   </div>
                   <span className="text-sm text-mono-700 dark:text-mono-300">
                     {featuredPost.author.name}
+                    {featuredPost.coauthors && featuredPost.coauthors.length > 0 && ` +${featuredPost.coauthors.length}`}
                   </span>
                   <span className="text-mono-400 dark:text-mono-500">•</span>
                   <span className="text-sm text-mono-500 dark:text-mono-400">
@@ -121,6 +122,7 @@ export default function Index() {
                   title={post.title}
                   date={post.date}
                   author={post.author}
+                  coauthors={post.coauthors}
                   slug={post.slug}
                   excerpt={post.excerpt}
                   />

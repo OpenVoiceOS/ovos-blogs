@@ -10,6 +10,7 @@ type Props = {
   date: string;
   excerpt: string;
   author: Author;
+  coauthors?: Author[];
   slug: string;
 };
 
@@ -19,6 +20,7 @@ export default function PostPreview({
   date,
   excerpt,
   author,
+  coauthors,
   slug,
 }: Props) {
   // Define a consistent accent color for UI elements
