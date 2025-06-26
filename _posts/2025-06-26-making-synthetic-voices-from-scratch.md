@@ -5,9 +5,9 @@ date: "2025-06-26T00:00:00.000Z"
 author:
   name:  JarbasAl
   picture: "https://avatars.githubusercontent.com/u/33701864"
-coverImage: "https://raw.githubusercontent.com/OpenVoiceOS/ovos_assets/refs/heads/master/Logo/Raw/ovos-logo.svg"
+coverImage: "https://github.com/OpenVoiceOS/ovos_assets/blob/master/tts.png?raw=true"
 ogImage:
-  url: "https://raw.githubusercontent.com/OpenVoiceOS/ovos_assets/refs/heads/master/Logo/Raw/ovos-logo.svg"
+  url: "https://github.com/OpenVoiceOS/ovos_assets/blob/master/tts.png?raw=true"
 ---
 
 ## Making Synthetic Voices From Scratch
