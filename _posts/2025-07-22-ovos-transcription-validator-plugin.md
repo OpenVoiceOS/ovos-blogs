@@ -42,7 +42,7 @@ Here’s what actually happens:
 
 ### LLMs for This? Really?
 
-We hear you. It *is* a bit like using a sledgehammer to swat a fly. Validating a sentence isn’t rocket science—but it turns out rocket science is cheap and locally available now.
+We hear you. It *is* a bit like using a sledgehammer to swat a fly. Validating a sentence isn’t rocket science, but it turns out rocket science is cheap and locally available now.
 
 Yes, Large Language Models are arguably overkill for checking if "play music" is a coherent command. But the results are strong, and let’s face it: you’re probably already running an LLM somewhere just to decide which emoji to use.
 
