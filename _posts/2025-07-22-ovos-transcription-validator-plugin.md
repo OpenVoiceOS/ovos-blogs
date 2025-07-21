@@ -64,7 +64,7 @@ So, go forth and chat with your OpenVoiceOS assistant with renewed confidence! W
 
 ## Help Us Build Voice for Everyone
 
-OpenVoiceOS is more than software—it’s a mission. If you believe voice assistants should be open, inclusive, and user-controlled, here’s how you can help:
+OpenVoiceOS is more than software, it’s a mission. If you believe voice assistants should be open, inclusive, and user-controlled, here’s how you can help:
 
 - **💸 Donate**: Help us fund development, infrastructure, and legal protection.
 - **📣 Contribute Open Data**: Share voice samples and transcriptions under open licenses.
