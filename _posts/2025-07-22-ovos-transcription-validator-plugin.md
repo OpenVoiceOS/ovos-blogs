@@ -5,9 +5,9 @@ date: "2025-07-22T00:00:00.000Z"
 author:
   name:  JarbasAl
   picture: "https://avatars.githubusercontent.com/u/33701864"
-coverImage: "https://github.com/OpenVoiceOS/ovos_assets/blob/master/ovos_tts.png?raw=true"
+coverImage: "https://raw.githubusercontent.com/OpenVoiceOS/ovos_assets/refs/heads/master/OVOS_transcript_Validator.png"
 ogImage:
-  url: "https://github.com/OpenVoiceOS/ovos_assets/blob/master/ovos_tts.png?raw=true"
+  url: "https://raw.githubusercontent.com/OpenVoiceOS/ovos_assets/refs/heads/master/OVOS_transcript_Validator.png"
 ---
 
 
