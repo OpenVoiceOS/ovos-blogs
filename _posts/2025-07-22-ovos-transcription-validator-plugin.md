@@ -1,5 +1,5 @@
 ---
-title: "Making Synthetic Voices From Scratch"
+title: "No More Mumbo Jumbo: Meet the OVOS Transcription Validator Plugin"
 excerpt: "Ever had your beloved OpenVoiceOS assistant respond with a blank stare, or worse, utter something completely nonsensical, after you *thought* you said something perfectly clear? We've all been there."
 date: "2025-07-22T00:00:00.000Z"
 author:
