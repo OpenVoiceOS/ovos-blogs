@@ -56,7 +56,7 @@ If you’re looking for lighter-weight alternatives, we’ve considered adding t
 
 Want in? Getting started is easy. Visit the [GitHub repo](https://github.com/TigreGotico/ovos-transcription-validator-plugin) for installation instructions and configuration tips.
 
-With the OVOS Transcription Validator Plugin, your assistant will stop mistaking scrambled speech for commands—and you’ll stop yelling at your microwave because it thought you said “set timer for forty giraffes.”
+With the OVOS Transcription Validator Plugin, your assistant will stop mistaking scrambled speech for commands, and you’ll stop yelling at your microwave because it thought you said “set timer for forty giraffes.”
 
 So, go forth and chat with your OpenVoiceOS assistant with renewed confidence! With the OVOS Transcription Validator Plugin, your conversations will be clearer, your commands more precise, and those moments of "What on Earth did I just say?!" will become a distant, funny memory.
 
