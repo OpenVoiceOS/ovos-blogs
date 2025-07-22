@@ -25,7 +25,11 @@ With OVOS, I can fully customize and control intents for things like switching o
 
 I'm using an OVOS server with Hivemind satellites, which allows me to adapt the system to virtually any use case. These lightweight, low-cost satellites make it feasible to have a voice assistant in every room. What’s more, I can easily customize the enclosures to suit specific situations—like fitting them into a bathroom, or attaching one to a wheelchair. Thanks to their low power consumption, the satellites can even be powered directly from a wheelchair battery.
 
-Looking ahead, the next step is integrating a personal AI assistant directly into the voice assistant. This enables a private, fully offline solution—something that’s becoming increasingly important for privacy, reliability, and autonomy. 
+Looking ahead, the next step is integrating a personal AI assistant directly into the voice assistant. This enables a private, fully offline solution—something that’s becoming increasingly important for privacy, reliability, and autonomy. \
+
++ Controlling Curtains [video]: https://github.com/MenneBos/ovos-skill-HomeyFlowTrigger/blob/main/Media/Open_Curtain_SleepingRoom.mp4
++ Controlling Coffee machine [video]: https://github.com/MenneBos/ovos-skill-HomeyFlowTrigger/blob/main/Media/Coffee_automation.mp4
++ Talk with AI assistant [video]: https://github.com/MenneBos/ovos-skill-HomeyFlowTrigger/blob/main/Media/GenAI_assistant.mp4
 
 ### How did I built a Smarter Living with OVOS, Hivemind, and Raspberry Pi Satellites
 
@@ -44,11 +48,8 @@ OVOS has key features for controlling the house:
 - satellite architecture for use case flexibility
 - [future] Integrated with local or private GenAI
 
-### More links and showcase videos
+### More links
 
-+ Controlling Curtains [video]: https://github.com/MenneBos/ovos-skill-HomeyFlowTrigger/blob/main/Media/Open_Curtain_SleepingRoom.mp4
-+ Controlling Coffee machine [video]: https://github.com/MenneBos/ovos-skill-HomeyFlowTrigger/blob/main/Media/Coffee_automation.mp4
-+ Talk with AI assistant [video]: https://github.com/MenneBos/ovos-skill-HomeyFlowTrigger/blob/main/Media/GenAI_assistant.mp4
 + 3D Drawings: https://github.com/MenneBos/ovos-skill-HomeyFlowTrigger/tree/main/Mechanics
 + PCB drawings: https://github.com/MenneBos/ovos-skill-HomeyFlowTrigger/tree/main/Hardware/KiCad_OVOS_sat
 + OVOS: https://openvoiceos.github.io/ovos-technical-manual/
