@@ -16,7 +16,6 @@ Over the past five years, I’ve visited many people with disabilities in their 
 
 Such a system typically consists of two core components: a home automation gateway and a voice assistant. OVOS (Open Voice OS) is a voice-first assistant that integrates seamlessly with home automation systems. Its full focus on voice means that every part of the system—from wakeword to intent—is designed with spoken interaction in mind.
 
-
 ![The satellite in a 3D-printed case](/public/assets/blog/A-real-use-case-with-OVOS-and-Hivemind/Sat_kitchen_smallest.jpg) 
 
 With OVOS, I can fully customize and control intents for things like switching on lights, playing music, or interacting with an AI assistant. That level of control is often missing in commercial systems. Sometimes, when you ask them to close the curtains, they might suggest where to buy new ones instead.
@@ -50,10 +49,10 @@ OVOS has key features for controlling the house:
 
 ### More links
 
-+ 3D Drawings: https://github.com/MenneBos/ovos-skill-HomeyFlowTrigger/tree/main/Mechanics
-+ PCB drawings: https://github.com/MenneBos/ovos-skill-HomeyFlowTrigger/tree/main/Hardware/KiCad_OVOS_sat
-+ OVOS: https://openvoiceos.github.io/ovos-technical-manual/
-+ Hivemind: https://jarbashivemind.github.io/HiveMind-community-docs/
++- [3D drawings](https://github.com/MenneBos/ovos-skill-HomeyFlowTrigger/tree/main/Mechanics)  
++- [PCB drawings](https://github.com/MenneBos/ovos-skill-HomeyFlowTrigger/tree/main/Hardware/KiCad_OVOS_sat)  
++- [OVOS technical manual](https://openvoiceos.github.io/ovos-technical-manual/)  
++- [Hivemind documentation](https://jarbashivemind.github.io/HiveMind-community-docs/)  
 
 ## Help Us Build Voice for Everyone 
 
