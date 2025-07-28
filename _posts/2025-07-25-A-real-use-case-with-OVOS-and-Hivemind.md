@@ -25,13 +25,13 @@ With OVOS, I can fully customize and control intents for things like switching o
 
 I'm using an OVOS server with Hivemind satellites, which allows me to adapt the system to virtually any use case. These lightweight, low-cost satellites make it feasible to have a voice assistant in every room. What’s more, I can easily customize the enclosures to suit specific situations—like fitting them into a bathroom, or attaching one to a wheelchair. Thanks to their low power consumption, the satellites can even be powered directly from a wheelchair battery.
 
-Looking ahead, the next step is integrating a personal AI assistant directly into the voice assistant. This enables a private, fully offline solution—something that’s becoming increasingly important for privacy, reliability, and autonomy. \
+Looking ahead, the next step is integrating a personal AI assistant directly into the voice assistant. This enables a private, fully offline solution—something that’s becoming increasingly important for privacy, reliability, and autonomy.
 
-<video src="https://github.com/MenneBos/ovos-skill-HomeyFlowTrigger/blob/main/Media/Open_Curtain_SleepingRoom.mp4" controls title="Controlling Curtains"></video>
+<video src="/public/assets/blog/A-real-use-case-with-OVOS-and-Hivemind/Coffee_automation.mp4" controls title="Controlling the Coffee machine"></video>
 
-<video src="https://github.com/MenneBos/ovos-skill-HomeyFlowTrigger/blob/main/Media/Coffee_automation.mp4" controls title="Controlling Coffee machine"></video>
+<video src="/public/assets/blog/A-real-use-case-with-OVOS-and-Hivemind/GenAI_assistant.mp4" controls title="Talk with the GenAI assistant"></video>
 
-<video src="https://github.com/MenneBos/ovos-skill-HomeyFlowTrigger/blob/main/Media/GenAI_assistant.mp4" controls title="Talk with AI assistant"></video>
+<video src="/public/assets/blog/A-real-use-case-with-OVOS-and-Hivemind/Open_Curtain_SleepingRoom.mp4" controls title="Controlling the Curtains"></video>
 
 ### How did I built a Smarter Living with OVOS, Hivemind, and Raspberry Pi Satellites
 
