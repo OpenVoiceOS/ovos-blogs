@@ -26,7 +26,7 @@ I'm using an OVOS server with Hivemind satellites, which allows me to adapt the 
 
 Looking ahead, the next step is integrating a personal AI assistant directly into the voice assistant. This enables a private, fully offline solution—something that’s becoming increasingly important for privacy, reliability, and autonomy.
 
-<video src="https://github.com/MenneBos/ovos-skill-HomeyFlowTrigger/blob/main/Media/Coffee_automation.mp4" controls title="Controlling the Coffee machine"></video>
+<video src="/public/assets/blog/A-real-use-case-with-OVOS-and-Hivemind/Coffee_automation.mp4" controls title="Controlling the Coffee machine"></video>
 
 <video src="/public/assets/blog/A-real-use-case-with-OVOS-and-Hivemind/GenAI_assistant.mp4" controls title="Talk with the GenAI assistant"></video>
 
