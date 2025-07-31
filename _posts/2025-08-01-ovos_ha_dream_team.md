@@ -139,7 +139,7 @@ When you let OVOS do the talking and Home Assistant do the automating, you get t
 
 We're incredibly excited to share this integration with you! Please keep in mind that this is an early preview release and is still under active development. While it's functional and powerful, it hasn't undergone extensive testing and may have rough edges. We're actively working to refine it, and your feedback is invaluable! 
 
-If you encounter any pain points or have ideas for improvements, please consider opening an issue or, even better, a Pull Request on our GitHub repositories. Your contributions help us make this even better for everyone. Thanks for being an early adopter and helping us shape the future of open-source voice!# OVOS + Home Assistant: A Voice Automation Dream Team
+If you encounter any pain points or have ideas for improvements, please consider opening an issue or, even better, a Pull Request on our GitHub repositories. Your contributions help us make this even better for everyone. Thanks for being an early adopter and helping us shape the future of open-source voice!
 
 ---
 
