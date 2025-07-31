@@ -24,6 +24,8 @@ With OVOS, I can fully customize and control intents for things like switching o
 
 I'm using an OVOS server with Hivemind satellites, which allows me to adapt the system to virtually any use case. These lightweight, low-cost satellites make it feasible to have a voice assistant in every room. What’s more, I can easily customize the enclosures to suit specific situations—like fitting them into a bathroom, or attaching one to a wheelchair. Thanks to their low power consumption, the satellites can even be powered directly from a wheelchair battery.
 
+Looking ahead, the next step is integrating a personal AI assistant directly into the voice assistant. This enables a private, fully offline solution—something that’s becoming increasingly important for privacy, reliability, and autonomy.
+
 <video src="https://www.youtube.com/watch?v=PRzGxmTCFb0" controls title="Start coffee machine with voice"></video>
 
 <video src="https://www.youtube.com/shorts/C_xS87EbsiM" controls title="Talk with the GenAI assistant"></video>
