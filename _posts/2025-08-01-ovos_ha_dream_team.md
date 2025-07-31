@@ -64,9 +64,9 @@ Want to take it a step further? You can set up OVOS as a full-fledged conversati
 ![ollama setup in Home Assistant](/assets/blog/OpenVoiceOS-and-Home-Assistant-a-voice-automation-dream-team/ollama_setup.png)
 
 
-In this setup, Home Assistant passes the user's text to the ovos-persona-server. OVOS then figures out what you want and tells Home Assistant what to answer. It’s like hiring a brilliant conversationalist to augment your smart home interactions.
+In this setup, Home Assistant passes the user's text to the [ovos-persona-server](https://openvoiceos.github.io/ovos-technical-manual/150-personas/). OVOS then figures out what you want and tells Home Assistant what to answer. It’s like hiring a brilliant conversationalist to augment your smart home interactions.
 
-Here’s the cool part: because ovos-persona-server uses Ollama-compatible endpoints, you can connect it to any app that supports the Ollama or OpenAI APIs. The possibilities are huge!
+Here’s the cool part: because [ovos-persona-server](https://github.com/OpenVoiceOS/ovos-persona-server) uses Ollama-compatible endpoints, you can connect it to any app that supports the Ollama or OpenAI APIs. The possibilities are huge!
 
 ![chat with OVOS in Home Assistant](/assets/blog/OpenVoiceOS-and-Home-Assistant-a-voice-automation-dream-team/agent_chat.png)
 
