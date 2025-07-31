@@ -38,7 +38,7 @@ The [OVOS Wyoming Docker](https://github.com/TigreGotico/ovos-wyoming-docker) pr
 
 ### **Plugin Highlights: Multi-language TTS powered by ILENIA**
 
-For us, accessibility is key. That includes language accessibility. We're proud that this integration allows us to bring high-quality, publicly funded voices from projects like **ILENIA** to a wider audience. Now, Home Assistant users can easily access fantastic, natural-sounding voices for languages like Catalan and Galician.
+For us, accessibility is key. That includes language accessibility. We're proud that this integration allows us to bring high-quality, publicly funded voices from projects like [**ILENIA**](https://proyectoilenia.es/) to a wider audience. Now, Home Assistant users can easily access fantastic, natural-sounding voices for languages like Catalan and Galician.
 
 * **Matxa TTS for Catalan:** The [`ovos-tts-plugin-matxa-multispeaker-cat`](https://github.com/OpenVoiceOS/ovos-tts-plugin-matxa-multispeaker-cat) provides multi-speaker text-to-speech capabilities for the Catalan language.
 * **NosTTS for Galician:** The [`ovos-tts-plugin-nos`](https://github.com/OpenVoiceOS/ovos-tts-plugin-nos) offers robust text-to-speech in Galician.
