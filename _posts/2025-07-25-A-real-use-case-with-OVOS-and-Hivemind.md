@@ -1,13 +1,13 @@
 ---
 title: "A real use case with OVOS and Hivemind"
 excerpt: "A practical example of OVOS and Hivemind running locally on standard hardware, designed for home automation and basic AI assistant tasks — especially suited for supporting people with disabilities."
-coverImage: "/public/assets/blog/A-real-use-case-with-OVOS-and-Hivemind/Thumbnail_3D_case.jpg"
+coverImage: "/assets/blog/A-real-use-case-with-OVOS-and-Hivemind/Thumbnail_3D_case.jpg"
 date: "2025-07-28T00:00:00.000Z"
 author:
   name: "Menne Bos"
   picture: "https://github.com/MenneBos.png"
 ogImage:
-  url: "/public/assets/blog/A-real-use-case-with-OVOS-and-Hivemind/Thumbnail_3D_case.jpg"
+  url: "/assets/blog/A-real-use-case-with-OVOS-and-Hivemind/Thumbnail_3D_case.jpg"
 ---
 
 # Why Home Automation with OVOS matters
