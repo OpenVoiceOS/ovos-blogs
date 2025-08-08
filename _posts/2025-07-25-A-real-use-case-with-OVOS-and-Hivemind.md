@@ -16,7 +16,7 @@ Over the past five years, I’ve visited many people with disabilities in their 
 
 Such a system typically consists of two core components: a home automation gateway and a voice assistant. OVOS (Open Voice OS) is a voice-first assistant that integrates seamlessly with home automation systems. Its full focus on voice means that every part of the system—from wakeword to intent—is designed with spoken interaction in mind.
 
-![The satellite in a 3D-printed case](/public/assets/blog/A-real-use-case-with-OVOS-and-Hivemind/Sat_kitchen_smallest.jpg) 
+![The satellite in a 3D-printed case](/assets/blog/A-real-use-case-with-OVOS-and-Hivemind/Sat_kitchen_smallest.jpg) 
 
 With OVOS, I can fully customize and control intents for things like switching on lights, playing music, or interacting with an AI assistant. That level of control is often missing in commercial systems. Sometimes, when you ask them to close the curtains, they might suggest where to buy new ones instead.
 
@@ -26,9 +26,9 @@ I'm using an OVOS server with Hivemind satellites, which allows me to adapt the 
 
 Looking ahead, the next step is integrating a personal AI assistant directly into the voice assistant. This enables a private, fully offline solution—something that’s becoming increasingly important for privacy, reliability, and autonomy.
 
-<video src="https://www.youtube.com/watch?v=PRzGxmTCFb0" controls title="Start coffee machine with voice"></video>
+<video src="https://www.youtube.com/shorts/C_xS87EbsiM" controls title="Start coffee machine with voice"></video>
 
-<video src="https://www.youtube.com/shorts/C_xS87EbsiM" controls title="Talk with the GenAI assistant"></video>
+<video src="https://www.youtube.com/watch?v=PRzGxmTCFb0" controls title="Talk with the GenAI assistant"></video>
 
 ### How did I built a Smarter Living with OVOS, Hivemind, and Raspberry Pi Satellites
 
@@ -36,7 +36,7 @@ In this showcase, I’ve built a basic voice setup using Open Voice OS (OVOS) an
 
 To expand voice coverage throughout the house, I added Raspberry Pi Zero 2W units as satellites. These low-power devices use local voice activation (VAD) to detect the wakeword ("Hey Mycroft"). Once triggered, they record the spoken command and forward the audio to the Hivemind listener on the OVOS server. Hivemind then routes the audio to OVOS, which parses the utterance and executes the appropriate intent—whether it’s starting a radio stream, sending a message to the AI assistant, or toggling a device via the Homey API.
 
-![Only a few components are required](/public/assets/blog/A-real-use-case-with-OVOS-and-Hivemind/Sat_assembled_smallest.jpg) 
+![Only a few components are required](/assets/blog/A-real-use-case-with-OVOS-and-Hivemind/Sat_assembled_smallest.jpg) 
 
 While OVOS and Hivemind are still evolving, this setup already proves itself in real-world use. It’s stable enough for friendly testing and flexible enough to grow with future needs.
 
