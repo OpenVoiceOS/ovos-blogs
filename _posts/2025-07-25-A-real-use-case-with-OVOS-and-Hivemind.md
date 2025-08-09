@@ -1,13 +1,13 @@
 ---
 title: "A real use case with OVOS and Hivemind"
 excerpt: "A practical example of OVOS and Hivemind running locally on standard hardware, designed for home automation and basic AI assistant tasks — especially suited for supporting people with disabilities."
-coverImage: "/assets/blog/common/cover.png"
+coverImage: "/assets/blog/A-real-use-case-with-OVOS-and-Hivemind/Thumbnail_3D_case.jpg"
 date: "2025-07-28T00:00:00.000Z"
 author:
   name: "Menne Bos"
   picture: "https://github.com/MenneBos.png"
 ogImage:
-  url: "/assets/blog/A-real-use-case-with-OVOS-and-Hivemind/Sat_kitchen_smallest.jpg"
+  url: "/assets/blog/A-real-use-case-with-OVOS-and-Hivemind/Thumbnail_3D_case.jpg"
 ---
 
 # Why Home Automation with OVOS matters
@@ -26,9 +26,9 @@ I'm using an OVOS server with Hivemind satellites, which allows me to adapt the 
 
 Looking ahead, the next step is integrating a personal AI assistant directly into the voice assistant. This enables a private, fully offline solution—something that’s becoming increasingly important for privacy, reliability, and autonomy.
 
-<video src="https://github.com/MenneBos/ovos-skill-HomeyFlowTrigger/blob/main/Media/Coffee_automation.mp4" controls title="Controlling the Coffee machine"></video>
+<video src="https://www.youtube.com/shorts/C_xS87EbsiM" controls title="Start coffee machine with voice"></video>
 
-<video src="/assets/blog/A-real-use-case-with-OVOS-and-Hivemind/GenAI_assistant.mp4" controls title="Talk with the GenAI assistant"></video>
+<video src="https://www.youtube.com/watch?v=PRzGxmTCFb0" controls title="Talk with the GenAI assistant"></video>
 
 ### How did I built a Smarter Living with OVOS, Hivemind, and Raspberry Pi Satellites
 
