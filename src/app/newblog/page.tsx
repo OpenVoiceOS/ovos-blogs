@@ -124,6 +124,50 @@ export default function Contribute() {
               </div>
 
               <h2 className="text-2xl font-semibold mt-6 mb-3 flex items-center">
+                Adding Videos to Your Blog Post
+              </h2>
+              <div className="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-lg mb-6 border-l-4 border-blue-500 shadow-md">
+                <h3 className="text-xl font-medium mb-2 text-blue-700 dark:text-blue-300">Video Guidelines</h3>
+                <p className="mb-3">
+                  Videos can make your blog post more engaging and informative. You can embed videos in two ways:
+                </p>
+                <h4 className="text-lg font-medium mb-2">1. Embedding YouTube Videos</h4>
+                <p className="mb-3">
+                  To embed a YouTube video, use the following HTML in your markdown:
+                </p>
+                <pre className="bg-mono-100 p-4 rounded-md overflow-x-auto mb-4 dark:bg-mono-800 dark:text-mono-200 shadow-inner border border-mono-200 dark:border-mono-700">
+                  <code>
+                    {'<iframe width="560" height="315" \n    src="https://www.youtube.com/embed/VIDEO_ID" \n    frameborder="0" \n    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" \n    allowfullscreen>\n</iframe>'}
+                  </code>
+                </pre>
+                <p className="mb-3">
+                  Replace <code className="bg-mono-100 px-2 py-1 rounded dark:bg-mono-800 dark:text-mono-200">VIDEO_ID</code> with the ID of your YouTube video (found in the YouTube URL after "v=").
+                </p>
+                <h4 className="text-lg font-medium mb-2">2. Self-hosted Videos</h4>
+                <p className="mb-3">
+                  For self-hosted videos, host video file anywhere on the web (e.g., your own server, cloud storage) and use the following HTML: 
+                </p>
+                <pre className="bg-mono-100 p-4 rounded-md overflow-x-auto mb-4 dark:bg-mono-800 dark:text-mono-200 shadow-inner border border-mono-200 dark:border-mono-700">
+                  <code>
+                    {'<video width="100%" controls>\n    <source src="https://your-domain.com/path/to/your-video.mp4" type="video/mp4">\n    Your browser does not support the video tag.\n</video>'}
+                  </code>
+                </pre>
+                <h4 className="text-lg font-medium mb-2">Video Best Practices</h4>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li>Keep videos concise and relevant to your content</li>
+                  <li>For self-hosted videos, compress videos to reduce file size (aim for less than 10MB)</li>
+                  <li>Use MP4 format with H.264 encoding for maximum compatibility</li>
+                  <li>Add captions or transcripts when possible for accessibility</li>
+                  <li>Ensure videos have a 16:9 aspect ratio for proper display</li>
+                </ul>
+                <div className='mt-4 bg-yellow-100 dark:bg-yellow-900/40 p-3 rounded-md border-l-4 border-yellow-500'>
+                  <p className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
+                  <strong>IMPORTANT:</strong> DO NOT add video files directly to this repository as it will drastically increase its size. Always use external hosting services like YouTube or other video platforms and embed them using the methods described above.
+                  </p>
+                </div>
+              </div>
+
+              <h2 className="text-2xl font-semibold mt-6 mb-3 flex items-center">
                 <span className="inline-block bg-mono-100 dark:bg-mono-800 rounded-full w-8 h-8 flex items-center justify-center mr-2">6</span>
                 Co-authors (Optional)
               </h2>

@@ -26,9 +26,11 @@ I'm using an OVOS server with Hivemind satellites, which allows me to adapt the 
 
 Looking ahead, the next step is integrating a personal AI assistant directly into the voice assistant. This enables a private, fully offline solution—something that’s becoming increasingly important for privacy, reliability, and autonomy.
 
-<video src="https://www.youtube.com/shorts/C_xS87EbsiM" controls title="Start coffee machine with voice"></video>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/C_xS87EbsiM" title="Start coffee machine with voice" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-<video src="https://www.youtube.com/watch?v=PRzGxmTCFb0" controls title="Talk with the GenAI assistant"></video>
+<br/>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/PRzGxmTCFb0" title="Talk with the GenAI assistant" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ### How did I built a Smarter Living with OVOS, Hivemind, and Raspberry Pi Satellites
 
@@ -49,10 +51,10 @@ OVOS has key features for controlling the house:
 
 ### More links
 
-+- [3D drawings](https://github.com/MenneBos/ovos-skill-HomeyFlowTrigger/tree/main/Mechanics)  
-+- [PCB drawings](https://github.com/MenneBos/ovos-skill-HomeyFlowTrigger/tree/main/Hardware/KiCad_OVOS_sat)  
-+- [OVOS technical manual](https://openvoiceos.github.io/ovos-technical-manual/)  
-+- [Hivemind documentation](https://jarbashivemind.github.io/HiveMind-community-docs/)  
+- [3D drawings](https://github.com/MenneBos/ovos-skill-HomeyFlowTrigger/tree/main/Mechanics)  
+- [PCB drawings](https://github.com/MenneBos/ovos-skill-HomeyFlowTrigger/tree/main/Hardware/KiCad_OVOS_sat)  
+- [OVOS technical manual](https://openvoiceos.github.io/ovos-technical-manual/)  
+- [Hivemind documentation](https://jarbashivemind.github.io/HiveMind-community-docs/)  
 
 ## Help Us Build Voice for Everyone 
 
