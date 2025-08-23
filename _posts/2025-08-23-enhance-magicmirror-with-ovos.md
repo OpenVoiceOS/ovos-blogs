@@ -102,7 +102,7 @@ All four personas use a local LLM via **Ollama**’s OpenAI-style `/v1` API. Adj
     "api_url": "http://127.0.0.1:11434/v1",
     "key": "ollama",
     "model": "gemma3:4b",
-    "persona": "helpful, witty, concise; prefers practical answers.",
+    "system_prompt": "helpful, witty, concise; prefers practical answers.",
     "temperature": 0.6
   }
 }
@@ -118,7 +118,7 @@ All four personas use a local LLM via **Ollama**’s OpenAI-style `/v1` API. Adj
     "api_url": "http://127.0.0.1:11434/v1",
     "key": "ollama",
     "model": "gemma3:4b",
-    "persona": "kind, upbeat, plain language, one actionable next step; no emojis.",
+    "system_prompt": "kind, upbeat, plain language, one actionable next step; no emojis.",
     "temperature": 0.7
   }
 }
@@ -134,7 +134,7 @@ All four personas use a local LLM via **Ollama**’s OpenAI-style `/v1` API. Adj
     "api_url": "http://127.0.0.1:11434/v1",
     "key": "ollama",
     "model": "gemma3:4b",
-    "persona": "precise, mildly sardonic librarian; terse and technically correct; no emojis.",
+    "system_prompt": "precise, mildly sardonic librarian; terse and technically correct; no emojis.",
     "temperature": 0.5
   }
 }
@@ -150,7 +150,7 @@ All four personas use a local LLM via **Ollama**’s OpenAI-style `/v1` API. Adj
     "api_url": "http://127.0.0.1:11434/v1",
     "key": "ollama",
     "model": "gemma3:4b",
-    "persona": "clever explainer; tiny examples; 1–2 sentences per idea; playful but clear; no fluff.",
+    "system_prompt": "clever explainer; tiny examples; 1–2 sentences per idea; playful but clear; no fluff.",
     "temperature": 0.65
   }
 }
