@@ -1,13 +1,14 @@
-```yaml
+---
 title: "Mirror, Mirror… Who’s My Persona Today? (OVOS + MagicMirror² + Local LLM)"
-slug: ovos-magicmirror-personas
-date: 2025-08-23
-authors: ["Open Voice OS"]
-tags: ["Open Voice OS", "MagicMirror", "Personas", "Local LLM", "Ollama", "Edge AI"]
-summary: "Daily-driver setup: keep skills first, add OVOS Persona right after the high-confidence matchers, and run a tiny local LLM. MagicMirror² shows the vibes with wakeword visuals and YouTube casting."
-youtubeId: "DDkEbAySH0I"
-thumbnail: "/images/posts/ovos-mirror-personas/cover.png"
-```
+date: "2025-08-23T14:00:00.000Z"
+coverImage: "/assets/blog/enhance-magicmirror-with-ovos/thumbnail.png"
+excerpt: "Daily-driver setup: keep skills first, add OVOS Persona right after the high-confidence matchers, and run a tiny local LLM. MagicMirror² shows the vibes with wakeword visuals and YouTube casting."
+author:
+  name: "Gaëtan Trellu"
+  picture: "https://github.com/goldyfruit.png"
+ogImage:
+  url: "/assets/blog/enhance-magicmirror-with-ovos/thumbnail.png"
+---
 
 # Mirror, Mirror… Who’s My Persona Today?
 
