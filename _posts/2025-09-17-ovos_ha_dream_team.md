@@ -2,7 +2,7 @@
 title: "OpenVoiceOS and Home Assistant: A Voice Automation Dream Team"
 excerpt: "In the world of open-source smart homes, some things just click. When you let Home Assistant handle the automation and let OVOS (Open Voice OS) handle the voice, you get a powerful partnership where each project shines. It’s a perfect synergy"
 coverImage: "/assets/blog/OpenVoiceOS-and-Home-Assistant-a-voice-automation-dream-team/thumb.png"
-date: "2025-08-01T00:00:00.000Z"
+date: "2025-09-17T00:00:00.000Z"
 author:
   name:  JarbasAl
   picture: "https://avatars.githubusercontent.com/u/33701864"
