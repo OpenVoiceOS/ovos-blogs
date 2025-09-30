@@ -22,6 +22,14 @@ The impact of this work is already tangible. An **Arabic open-source voice** is 
 
 What began as a collaboration to create a voice has evolved into something larger: a **demonstration of what open technology can mean for inclusion**. For our community, this project is more than sound—it is **dignity, independence, and opportunity**. And for me personally, it stands as a reminder of the transformative power of working together across communities to ensure no voice, and no person, is left unheard.
 
+You can find the collected datasets and trained models on huggingface:
+
+- https://huggingface.co/OpenVoiceOS/phoonnx_ar-SA_miro_espeak
+- https://huggingface.co/OpenVoiceOS/phoonnx_ar-SA_dii_espeak
+- https://huggingface.co/datasets/TigreGotico/arabic_g2p
+- https://huggingface.co/datasets/TigreGotico/tts-train-synthetic-miro_ar-diacritics
+- https://huggingface.co/datasets/TigreGotico/tts-train-synthetic-dii_ar-diacritics
+
 ---
 
 ## Help Us Build Voice for Everyone
