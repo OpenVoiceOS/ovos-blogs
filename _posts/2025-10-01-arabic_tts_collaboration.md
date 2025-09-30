@@ -5,7 +5,7 @@ coverImage: "/assets/blog/arabic_tts_collaboration/thumb.png"
 date: "2025-10-01T00:00:00.000Z"
 author:
   name:  Shams Al-Din
-  picture: "https://github.com/yourusername.png"
+  picture: "https://yt3.googleusercontent.com/0tRngpJPVj_kWIEULAE9OS2nTP3r8W60W4yesooO39S-EYUxlmu1CCEdn_zI1ym04i729fCO6w=s160-c-k-c0x00ffffff-no-rj"
 ogImage:
   url: "/assets/blog/arabic_tts_collaboration/thumb.png"
 ---
