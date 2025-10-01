@@ -16,7 +16,7 @@ As the **External Collaborations Lead** at [**Planet Blind Tech**](https://www.y
 
 I first encountered their project while exploring the intersections between assistive technology and speech synthesis. It was clear that our missions aligned. Their dedication to creating open voice technologies resonated with our own pursuit of accessible tools for blind users. The chance to contribute to an Arabic TTS (Text-to-Speech) voice felt like the bridge we had long been waiting for.
 
-Our team’s role focused on two essential tasks: **gathering datasets and testing the resulting models**. The process was not without its hurdles. The initial dataset we worked with fell short of the desired quality. Yet, the **patience, openness, and technical guidance** from our partners encouraged us to refine our approach. Together, we introduced a more robust datase and trained a model with [Phoonnx](https://github.com/TigreGotico/phoonnx) and the eSpeak phonemizer, which produced results that genuinely reflected the richness of the Arabic language.
+Our team’s role focused on two essential tasks: **gathering datasets and testing the resulting models**. The process was not without its hurdles. The initial dataset we worked with fell short of the desired quality. Yet, the **patience, openness, and technical guidance** from our partners encouraged us to refine our approach. Together, we introduced a more robust dataset and trained a model with [Phoonnx](https://github.com/TigreGotico/phoonnx) and the eSpeak phonemizer, which produced results that genuinely reflected the richness of the Arabic language.
 
 **Hear the results**: Examples of the new Arabic Open-Source Voices.
 
