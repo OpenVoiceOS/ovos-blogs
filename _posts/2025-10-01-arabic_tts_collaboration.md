@@ -20,13 +20,19 @@ Our team’s role focused on two essential tasks: **gathering datasets and testi
 
 **Hear the results**: Examples of the new Arabic Open-Source Voices.
 
+
+<audio controls>
+  <source src="/assets/blog/arabic_tts_collaboration/dii_ar.wav" type="audio/wav">
+  Your browser does not support the audio element.
+</audio>
+
 <audio controls>
   <source src="/assets/blog/arabic_tts_collaboration/miro_ar.wav" type="audio/wav">
   Your browser does not support the audio element.
 </audio>
 
 <audio controls>
-  <source src="/assets/blog/arabic_tts_collaboration/dii_ar.wav" type="audio/wav">
+  <source src="/assets/blog/arabic_tts_collaboration/miro_ar_v2.wav" type="audio/wav">
   Your browser does not support the audio element.
 </audio>
 
