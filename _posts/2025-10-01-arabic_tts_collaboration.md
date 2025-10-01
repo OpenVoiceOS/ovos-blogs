@@ -36,8 +36,9 @@ What began as a collaboration to create a voice has evolved into something large
 
 You can find the collected datasets and trained models on huggingface:
 
-- [Arabic TTS Model - Miro (eSpeak)](https://huggingface.co/OpenVoiceOS/phoonnx_ar-SA_miro_espeak)
-- [Arabic TTS Model - Dii (eSpeak)](https://huggingface.co/OpenVoiceOS/phoonnx_ar-SA_dii_espeak)
+- [Arabic TTS Model - Dii](https://huggingface.co/OpenVoiceOS/phoonnx_ar-SA_dii_espeak)
+- [Arabic TTS Model - Miro](https://huggingface.co/OpenVoiceOS/phoonnx_ar-SA_miro_espeak)
+- [Arabic TTS Model - Miro (V2)](https://huggingface.co/OpenVoiceOS/phoonnx_ar-SA_miro_espeak_V2)
 - [Arabic G2P Dataset](https://huggingface.co/datasets/TigreGotico/arabic_g2p)
 - [Synthetic Arabic TTS Training Data - Miro with Diacritics](https://huggingface.co/datasets/TigreGotico/tts-train-synthetic-miro_ar-diacritics)
 - [Synthetic Arabic TTS Training Data - Dii with Diacritics](https://huggingface.co/datasets/TigreGotico/tts-train-synthetic-dii_ar-diacritics)
