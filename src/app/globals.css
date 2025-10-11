@@ -31,6 +31,12 @@
   a {
     @apply text-accent hover:text-accent-light transition-colors duration-200;
   }
+
+  /* Make all iframes responsive by default */
+  iframe {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 @layer components {

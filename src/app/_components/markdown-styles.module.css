@@ -69,3 +69,22 @@
   font-family: monospace;
   font-size: 0.875rem;
 }
+
+/* Responsive iframe styles for embedded videos */
+.markdown iframe {
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 0.5rem;
+}
+
+/* For mobile devices, ensure iframe doesn't overflow */
+@media (max-width: 640px) {
+  .markdown iframe {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+}

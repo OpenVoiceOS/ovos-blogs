@@ -141,7 +141,8 @@ export default function Contribute() {
                   </code>
                 </pre>
                 <p className="mb-3">
-                  Replace <code className="bg-mono-100 px-2 py-1 rounded dark:bg-mono-800 dark:text-mono-200">VIDEO_ID</code> with the ID of your YouTube video (found in the YouTube URL after "v=").
+                  Replace <code className="bg-mono-100 px-2 py-1 rounded dark:bg-mono-800 dark:text-mono-200">VIDEO_ID</code> with the ID of your YouTube video (found in the YouTube URL after "v="). 
+                  <strong className="text-green-600 dark:text-green-400"> Note: The video embeds are automatically responsive and will scale properly on mobile devices.</strong>
                 </p>
                 <h4 className="text-lg font-medium mb-2">2. Self-hosted Videos</h4>
                 <p className="mb-3">
