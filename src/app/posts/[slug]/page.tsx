@@ -51,12 +51,12 @@ export default async function Post(props: Params) {
     <>
       {post.preview && <Alert preview={post.preview} />}
 
-      <article className="mb-8 pt-16 sm:pt-24 sm:mb-16">
+      <article className="mb-6 pt-14 sm:pt-24 sm:mb-16">
         <Container>
           <div className="max-w-4xl mx-auto">
             {/* Simplified header card with reduced padding on mobile */}
-            <div className="mb-6 sm:mb-10">
-              <div className="relative bg-white dark:bg-mono-800 border border-mono-200 dark:border-mono-700 rounded-lg p-4 sm:p-6 md:p-8 shadow-sm sm:shadow-md overflow-hidden">
+            <div className="mb-4 sm:mb-10">
+              <div className="relative bg-white dark:bg-mono-800 border border-mono-200 dark:border-mono-700 rounded-lg p-3 sm:p-6 md:p-8 shadow-sm sm:shadow-md overflow-hidden">
                 <div className="flex justify-between items-center mb-4">
                   <div className="text-sm text-mono-500 dark:text-mono-400">
                     <DateFormatter dateString={post.date} />
@@ -65,14 +65,14 @@ export default async function Post(props: Params) {
 
                 <div className="md:px-2">
                   {/* Title with clean appearance */}
-                  <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 text-mono-800 dark:text-mono-200">
+                  <h1 className="text-xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-6 text-mono-800 dark:text-mono-200">
                     {post.title}
                   </h1>
 
                   {/* Author info - simplified for mobile */}
-                  <div className="mb-4 sm:mb-6">
+                  <div className="mb-3 sm:mb-6">
                     <div className="flex items-center">
-                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden border-2 border-mono-200 dark:border-mono-700 mr-3 sm:mr-4">
+                      <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-full overflow-hidden border-2 border-mono-200 dark:border-mono-700 mr-2 sm:mr-4">
                         <img
                           src={post.author.picture}
                           alt={post.author.name}
@@ -81,10 +81,10 @@ export default async function Post(props: Params) {
                         />
                       </div>
                       <div>
-                        <p className="font-medium text-mono-900 dark:text-mono-100">
+                        <p className="text-sm sm:text-base font-medium text-mono-900 dark:text-mono-100">
                           {post.author.name}{post.coauthors && post.coauthors.length > 0 ? " (Lead Author)" : ""}
                         </p>
-                        <p className="text-sm text-mono-600 dark:text-mono-400">
+                        <p className="text-xs sm:text-sm text-mono-600 dark:text-mono-400">
                           OVOS Contributor
                         </p>
                       </div>
@@ -121,7 +121,7 @@ export default async function Post(props: Params) {
 
                   {/* Cover image with lazy loading */}
                   {post.coverImage && (
-                    <div className="relative aspect-video rounded-lg overflow-hidden shadow-sm mb-4 sm:mb-8">
+                    <div className="relative aspect-video rounded-lg overflow-hidden shadow-sm mb-3 sm:mb-8">
                       <img
                         src={post.coverImage}
                         alt={post.title}
@@ -135,14 +135,16 @@ export default async function Post(props: Params) {
             </div>
 
             {/* Post body with reduced padding on mobile */}
-            <div className="bg-white dark:bg-mono-800 border border-mono-200 dark:border-mono-700 rounded-lg p-4 sm:p-6 md:p-8 shadow-sm sm:shadow-md">
+            <div className="bg-white dark:bg-mono-800 border border-mono-200 dark:border-mono-700 rounded-lg p-3 sm:p-6 md:p-8 shadow-sm sm:shadow-md">
               <div
                 className="prose dark:prose-invert 
                 prose-headings:text-mono-800 dark:prose-headings:text-mono-100
                 prose-p:text-mono-700 dark:prose-p:text-mono-300
                 prose-a:text-accent hover:prose-a:text-accent-light
                 prose-img:rounded-md prose-img:shadow-sm
-                max-w-none prose-sm sm:prose-base"
+                max-w-none prose-sm sm:prose-base lg:prose-lg
+                prose-headings:text-lg sm:prose-headings:text-xl lg:prose-headings:text-2xl
+                prose-p:text-sm sm:prose-p:text-base"
               >
                 <PostBody content={content} />
               </div>
