@@ -3,6 +3,8 @@
 import { useState, useRef, useEffect } from "react";
 import { Transition } from "@headlessui/react";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRss } from "@fortawesome/free-solid-svg-icons";
 
 export default function MobileMenu() {
   const [mobileNavOpen, setMobileNavOpen] = useState<boolean>(false);
@@ -126,6 +128,16 @@ export default function MobileMenu() {
                 onClick={() => setMobileNavOpen(false)}
               >
                 Blog
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/feed.xml"
+                className="flex text-stone-800 dark:text-stone-200 hover:text-accent dark:hover:text-accent-light py-2 items-center"
+                onClick={() => setMobileNavOpen(false)}
+              >
+                <FontAwesomeIcon icon={faRss} className="w-4 h-4 mr-2" />
+                RSS Feed
               </Link>
             </li>
           </ul>

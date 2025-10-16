@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Logo from "./logo";
 import MobileMenu from "./mobile-menu";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRss } from "@fortawesome/free-solid-svg-icons";
 
 export default function Header() {
   const [top, setTop] = useState<boolean>(true);
@@ -67,6 +69,15 @@ export default function Header() {
               {navLinks.map((link) => (
                 <NavLink key={link.href} href={link.href} label={link.label} />
               ))}
+              <li className="ml-3">
+                <Link 
+                  href="/feed.xml" 
+                  className="text-stone-600 hover:text-stone-900 dark:hover:text-white px-3 py-3 flex items-center transition duration-150 ease-in-out"
+                  title="RSS Feed"
+                >
+                  <FontAwesomeIcon icon={faRss} className="w-5 h-5" />
+                </Link>
+              </li>
               <li className="ml-3">
                 <Link href="/" className="btn-sm bg-black text-white dark:text-black dark:bg-white rounded-xl h-[40px] flex items-center">
                   <span>Home</span>
