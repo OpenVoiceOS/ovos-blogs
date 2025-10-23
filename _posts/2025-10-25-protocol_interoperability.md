@@ -47,11 +47,11 @@ These same personas will be the ones participating in MCP, UTCP, and A2A communi
 
 ### 🧠 Model Context Protocol (MCP) and  Universal Tool Calling Protocol (UTCP)
 
-The **Model Context Protocol (MCP)** defines how agents and tools can exchange structured context and reasoning requests. In the near future, OVOS plans to both **consume** MCP-compatible tools and **expose** its own services (like STT, TTS, translation, and skills) over MCP.
+The **[Model Context Protocol (MCP)](https://modelcontextprotocol.info)** defines how agents and tools can exchange structured context and reasoning requests. In the near future, OVOS plans to both **consume** MCP-compatible tools and **expose** its own services (like STT, TTS, translation, and skills) over MCP.
 
 This would allow external systems — including other assistants or orchestration layers — to treat OVOS capabilities as MCP tools.
 
-In parallel, we’re also experimenting with **UTCP** (Universal Tool Calling Protocol).
+In parallel, we’re also experimenting with **[Universal Tool Calling Protocol (UTCP)](https://www.utcp.io)**.
 While MCP and UTCP have overlapping goals, they serve slightly different audiences. OVOS intends to support **both**, ensuring maximum compatibility and easy integration across ecosystems.
 
 > “We like UTCP but we love interoperability.”
@@ -64,7 +64,7 @@ Our goal is to make OVOS a universal interface layer, capable of understanding a
 
 ### 🤝 Agent-to-Agent Protocol (A2A)
 
-Finally, we’re integrating the **Agent-to-Agent (A2A)** protocol to allow multiple agents to discover, communicate, and collaborate dynamically.
+Finally, we’re integrating the **[Agent-to-Agent (A2A)](https://a2a-protocol.org)** protocol to allow multiple agents to discover, communicate, and collaborate dynamically.
 
 This work is already underway in the **`ovos-persona-server`**, and will eventually power **multi-agent orchestration** where different personas or solver plugins can coordinate tasks collaboratively.
 
@@ -76,7 +76,7 @@ This work is already underway in the **`ovos-persona-server`**, and will eventua
 
 Under the hood, OVOS uses a **websocket-based JSON messagebus** to communicate internally. Historically, message formats were somewhat ad hoc, but that’s changing.
 
-An **index of Pydantic models** is now being developed to describe all known OVOS message types forming what we call the **OVOS Messagebus Protocol**.
+An [**index of Pydantic models**](https://github.com/OpenVoiceOS/ovos-pydantic-models) is now being developed to describe all known OVOS message types forming what we call the **OVOS Messagebus Protocol**.
 This documentation effort will make it easier for external tools, dashboards, or bridges (like HiveMind) to interact with OVOS safely and predictably.
 
 ![OpenVoiceOS messagebus](/assets/blog/protocol_interoperability/bus.png)
@@ -85,7 +85,7 @@ This documentation effort will make it easier for external tools, dashboards, or
 
 ## HiveMind: A Transport Protocol for Federated Voice Networks
 
-**HiveMind** is a **transport protocol**, defining clear rules for how messages are routed and how nodes communicate across a distributed network.
+[**HiveMind**](https://jarbashivemind.github.io/HiveMind-community-docs/) is a **hierarchical transport protocol**, defining clear rules for how messages are routed and how nodes communicate across a distributed network.
 
 This means OVOS can operate as just one participant within a much larger HiveMind network or power that network entirely.
 
