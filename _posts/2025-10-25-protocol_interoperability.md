@@ -133,7 +133,7 @@ Each plugin is effectively an **interoperability layer across technologies**: re
 
 ## The Big Picture: “Connect Anything to OVOS, and OVOS to Anything”
 
-All these efforts — MCP, UTCP, A2A, HiveMind, the Messagebus Protocol, the Plugin Manager, and even Wyoming adapters — share one goal:
+All these efforts — MCP, UTCP, A2A, HiveMind, the Messagebus Protocol, the Plugin Manager, and even [Wyoming adapters](https://blog.openvoiceos.org/posts/2025-09-17-ovos_ha_dream_team) — share one goal:
 to make OVOS a **universal connector** in the voice and AI ecosystem.
 
 Whether you’re using local models, cloud APIs, or other assistants, OVOS aims to act as the **interoperability layer** that ties them together.
