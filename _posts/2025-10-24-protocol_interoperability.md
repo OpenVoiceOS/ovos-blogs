@@ -26,7 +26,7 @@ Voice technology thrives when systems can communicate. Whether you're connecting
 
 Interoperability means:
 
- 🧩 **Plug-and-play** integration between tools, frameworks, and agents
+- 🧩 **Plug-and-play** integration between tools, frameworks, and agents
 - ⚙️ **Reuse** of existing infrastructure instead of reinventing the wheel
 - 🔄 **Resilience** - the freedom to swap out components without breaking everything else
 
@@ -45,7 +45,7 @@ These same personas will be the ones participating in MCP, UTCP, and A2A communi
 
 ---
 
-### 🧠 Model Context Protocol (MCP) and  Universal Tool Calling Protocol (UTCP)
+### Model Context Protocol (MCP) and  Universal Tool Calling Protocol (UTCP)
 
 The **[Model Context Protocol (MCP)](https://modelcontextprotocol.info)** defines how agents and tools can exchange structured context and reasoning requests. In the near future, OVOS plans to both **consume** MCP-compatible tools and **expose** its own services (like STT, TTS, translation, and skills) over MCP.
 
@@ -62,7 +62,7 @@ Our goal is to make OVOS a universal interface layer, capable of understanding a
 
 ---
 
-### 🤝 Agent-to-Agent Protocol (A2A)
+### Agent-to-Agent Protocol (A2A)
 
 Finally, we’re integrating the **[Agent-to-Agent (A2A)](https://a2a-protocol.org)** protocol to allow multiple agents to discover, communicate, and collaborate dynamically.
 
@@ -145,7 +145,7 @@ An assistant that doesn’t lock you in, it **opens you up** to an entire univer
 
 ---
 
-### 🚀 Work in Progress
+### Work in Progress
 
 These initiatives are all part of ongoing research and development. MCP, UTCP, and A2A are **planned but not yet implemented**, while HiveMind, the Messagebus documentation, and standalone OVOS microservices are active and evolving.
 
