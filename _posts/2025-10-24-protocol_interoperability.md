@@ -2,7 +2,7 @@
 title: "Building an Open and Interoperable Voice Ecosystem"
 excerpt: "OpenVoiceOS has always been about freedom and flexibility, giving users full control over their voice assistants and how they connect with the world. But freedom also brings a challenge: ensuring that all these independent components can understand and work with each other."
 coverImage: "/assets/blog/protocol_interoperability/thumb.png"
-date: "2025-10-25T00:00:00.000Z"
+date: "2025-10-24T00:00:00.000Z"
 author:
   name: JarbasAl
   picture: "https://avatars.githubusercontent.com/u/33701864"
@@ -26,9 +26,9 @@ Voice technology thrives when systems can communicate. Whether you're connecting
 
 Interoperability means:
 
-* 🧩 **Plug-and-play** integration between tools, frameworks, and agents
-* ⚙️ **Reuse** of existing infrastructure instead of reinventing the wheel
-* 🔄 **Resilience** - the freedom to swap out components without breaking everything else
+ 🧩 **Plug-and-play** integration between tools, frameworks, and agents
+- ⚙️ **Reuse** of existing infrastructure instead of reinventing the wheel
+- 🔄 **Resilience** - the freedom to swap out components without breaking everything else
 
 In short: standards keep the open in Open Voice OS.
 
@@ -77,6 +77,7 @@ This work is already underway in the **`ovos-persona-server`**, and will eventua
 Under the hood, OVOS uses a **websocket-based JSON messagebus** to communicate internally. Historically, message formats were somewhat ad hoc, but that’s changing.
 
 An [**index of Pydantic models**](https://github.com/OpenVoiceOS/ovos-pydantic-models) is now being developed to describe all known OVOS message types forming what we call the **OVOS Messagebus Protocol**.
+
 This documentation effort will make it easier for external tools, dashboards, or bridges (like HiveMind) to interact with OVOS safely and predictably.
 
 ![OpenVoiceOS messagebus](/assets/blog/protocol_interoperability/bus.png)
@@ -98,10 +99,10 @@ The **reference plugin** uses OVOS as the agent, but **any agent** can be integr
 
 This architecture enables a distributed ecosystem where:
 
-* Different devices can run **different agents**, each with its own intelligence and capabilities.
-* All HiveMind satellites remain compatible and interconnected.
-* You can use the **OVOS audio stack and plugin ecosystem** (for STT, TTS, wake words, etc.) with **any non-OVOS agent**, simply by writing a small **HiveMind agent plugin** wrapper.
-* `hivemind-a2a-agent-plugin` will allow connecting hivemind voice satellites to any A2A agent
+- Different devices can run **different agents**, each with its own intelligence and capabilities.
+- All HiveMind satellites remain compatible and interconnected.
+- You can use the **OVOS audio stack and plugin ecosystem** (for STT, TTS, wake words, etc.) with **any non-OVOS agent**, simply by writing a small **HiveMind agent plugin** wrapper.
+- `hivemind-a2a-agent-plugin` will allow connecting hivemind voice satellites to any A2A agent
 
 With the ongoing effort to formalize the **OVOS Messagebus Protocol**, HiveMind will soon align even more closely, officially carrying the same message definitions inside, effectively becoming an **implementation of the OVOS Messagebus over the HiveMind protocol**.
 
@@ -116,10 +117,10 @@ In this context, the “protocol” is a **shared base class** with a well-defin
 
 This approach allows the **same plugin** to run anywhere:
 
-* as a standalone **HTTP microservice** (e.g., STT, TTS, translation, or persona server),
-* locally on an **OVOS device**,
-* under a **HiveMind satellite**, or
-* as a service under **HiveMind server**.
+- as a standalone **HTTP microservice** (e.g., STT, TTS, translation, or persona server),
+- locally on an **OVOS device**,
+- under a **HiveMind satellite**, or
+- as a service under **HiveMind server**.
 
 It can even be embedded into other projects that want immediate access to OVOS’s plugin ecosystem **without importing the full OVOS stack**.
 
