@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getAllPosts, getPostBySlug } from "@/lib/api";
+import { SITE_NAME, SITE_URL, TWITTER_HANDLE } from "@/lib/constants";
 import markdownToHtml from "@/lib/markdownToHtml";
 import Alert from "@/app/_components/alert";
 import Container from "@/app/_components/container";
@@ -50,6 +51,44 @@ export default async function Post(props: Params) {
   return (
     <>
       {post.preview && <Alert preview={post.preview} />}
+      
+      {/* Structured Data for Article */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": post.title,
+            "description": post.excerpt,
+            "image": post.coverImage ? `${SITE_URL}${post.coverImage}` : post.ogImage.url,
+            "author": {
+              "@type": "Person",
+              "name": post.author.name,
+              "image": post.author.picture,
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "OpenVoiceOS",
+              "logo": {
+                "@type": "ImageObject",
+                "url": `${SITE_URL}/logo.svg`
+              }
+            },
+            "datePublished": new Date(post.date).toISOString(),
+            "dateModified": new Date(post.date).toISOString(),
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": `${SITE_URL}/posts/${post.slug}`
+            },
+            "url": `${SITE_URL}/posts/${post.slug}`,
+            "wordCount": post.content ? post.content.split(' ').length : 0,
+            "keywords": "OpenVoiceOS, OVOS, voice assistant, open source, voice AI, privacy",
+            "articleSection": "Technology",
+            "inLanguage": "en-US"
+          })
+        }}
+      />
 
       <article className="mb-6 pt-14 sm:pt-24 sm:mb-16">
         <Container>
@@ -290,25 +329,80 @@ export async function generateMetadata(props: Params): Promise<Metadata> {
     return notFound();
   }
 
-  const title = `${post.title} | OpenVoiceOS Blog`;
-  const description = post.excerpt || "";
+  const title = post.title;
+  const description = post.excerpt || `Read ${post.title} on the OpenVoiceOS blog - Your source for open-source voice AI insights.`;
+  const publishedTime = new Date(post.date).toISOString();
+  const url = `${SITE_URL}/posts/${post.slug}`;
+  const images = [
+    {
+      url: post.coverImage ? `${SITE_URL}${post.coverImage}` : post.ogImage.url,
+      width: 1200,
+      height: 630,
+      alt: post.title,
+    },
+  ];
+
+  // Extract reading time estimate (approximate)
+  const wordsPerMinute = 200;
+  const wordCount = post.content ? post.content.split(' ').length : 0;
+  const readingTime = Math.ceil(wordCount / wordsPerMinute);
 
   return {
     title,
     description,
+    keywords: [
+      "OpenVoiceOS",
+      "OVOS",
+      "voice assistant",
+      "open source",
+      "voice AI",
+      "privacy",
+      "smart speaker",
+    ],
+    authors: [{ name: post.author.name }],
+    creator: post.author.name,
+    publisher: SITE_NAME,
+    category: "Technology",
+    robots: {
+      index: true,
+      follow: true,
+      nocache: false,
+      googleBot: {
+        index: true,
+        follow: true,
+        noimageindex: false,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
     openGraph: {
       title,
       description,
-      images: [post.ogImage.url],
-      type: "article",
-      publishedTime: post.date,
+      url,
+      siteName: SITE_NAME,
+      images,
+      locale: 'en_US',
+      type: 'article',
+      publishedTime,
+      modifiedTime: publishedTime,
       authors: [post.author.name],
+      section: 'Technology',
     },
     twitter: {
-      card: "summary_large_image",
+      card: 'summary_large_image',
       title,
       description,
-      images: [post.ogImage.url],
+      creator: TWITTER_HANDLE,
+      site: TWITTER_HANDLE,
+      images,
+    },
+    alternates: {
+      canonical: url,
+    },
+    other: {
+      'article:reading_time': readingTime.toString(),
+      'article:word_count': wordCount.toString(),
     },
   };
 }

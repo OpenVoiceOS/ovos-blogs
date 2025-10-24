@@ -1,6 +1,14 @@
 import Header from "@/app/_components/header";
 import Footer from "@/app/_components/footer";
-import { CMS_NAME, HOME_OG_IMAGE_URL } from "@/lib/constants";
+import { 
+  CMS_NAME, 
+  HOME_OG_IMAGE_URL, 
+  SITE_NAME, 
+  SITE_DESCRIPTION, 
+  SITE_URL,
+  SITE_KEYWORDS,
+  TWITTER_HANDLE 
+} from "@/lib/constants";
 import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import cn from "classnames";
@@ -16,16 +24,52 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: `OpenVoiceOS Blog`,
-  description: `Official blog for OpenVoiceOS - The open-source voice operating system`,
-  openGraph: {
-    images: [HOME_OG_IMAGE_URL],
-    title: "OpenVoiceOS Blog",
-    description:
-      "Official blog for OpenVoiceOS - The open-source voice operating system",
-    url: "https://blog.openvoiceos.org",
-    siteName: "OpenVoiceOS Blog",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
   },
+  description: SITE_DESCRIPTION,
+  keywords: SITE_KEYWORDS,
+  authors: [{ name: "OpenVoiceOS Team" }],
+  creator: "OpenVoiceOS",
+  publisher: "OpenVoiceOS",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: SITE_URL,
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    siteName: SITE_NAME,
+    images: [
+      {
+        url: HOME_OG_IMAGE_URL,
+        width: 1200,
+        height: 630,
+        alt: SITE_NAME,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    site: TWITTER_HANDLE,
+    creator: TWITTER_HANDLE,
+    images: [HOME_OG_IMAGE_URL],
+  },
+  category: "technology",
 };
 
 export default function RootLayout({
@@ -70,8 +114,35 @@ export default function RootLayout({
           name="viewport"
           content="width=device-width, initial-scale=1.0, viewport-fit=cover"
         />
-        <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
+        <link rel="canonical" href={SITE_URL} />
+        <link rel="alternate" type="application/rss+xml" href="/feed.xml" title={`${SITE_NAME} RSS Feed`} />
         <link rel="stylesheet" href="/assets/css/highlight.css" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": SITE_NAME,
+              "description": SITE_DESCRIPTION,
+              "url": SITE_URL,
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": `${SITE_URL}/search?q={search_term_string}`,
+                "query-input": "required name=search_term_string"
+              },
+              "publisher": {
+                "@type": "Organization",
+                "name": "OpenVoiceOS",
+                "url": "https://openvoiceos.org",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": HOME_OG_IMAGE_URL
+                }
+              }
+            })
+          }}
+        />
       </head>
       <body
         className={cn(
