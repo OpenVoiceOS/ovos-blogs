@@ -1,4 +1,5 @@
 import { getAllPosts } from "@/lib/api";
+import markdownToHtml from "@/lib/markdownToHtml";
 import RSS from "rss";
 import { NextResponse } from "next/server";
 
@@ -18,16 +19,19 @@ export async function GET() {
     ttl: 60,
   });
 
-  posts.forEach((post) => {
+  // Process posts with full content
+  for (const post of posts) {
+    const htmlContent = await markdownToHtml(post.content || "");
+    
     feed.item({
       title: post.title,
-      description: post.excerpt || "",
+      description: htmlContent,
       url: `https://openvoiceos.github.io/ovos-blogs/posts/${post.slug}`,
       guid: `https://openvoiceos.github.io/ovos-blogs/posts/${post.slug}`,
       date: new Date(post.date),
       author: post.author?.name || "OpenVoiceOS Team",
     });
-  });
+  }
 
   return new NextResponse(feed.xml(), {
     headers: {
