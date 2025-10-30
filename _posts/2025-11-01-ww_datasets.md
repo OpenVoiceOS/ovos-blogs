@@ -48,9 +48,9 @@ OpenVoiceOS has been organizing a growing collection of open datasets — both w
 
 ### Synthetic Data
 
-Generated specifically for controlled experiments, these synthetic and augmented datasets include speech created using TTS and voice cloning.
+Generated specifically for controlled experiments, these synthetic and augmented datasets include speech created using TTS and voice cloning. These datasets are a work in progress, expect more data to be added over time.
 
-👉 [Synthetic Wake Word Collection](https://huggingface.co/collections/TigreGotico/wakeword-datasets)
+👉 [Synthetic Wake Word Collection](https://huggingface.co/collections/TigreGotico/synthetic-wakeword-datasets)
 
 ---
 
