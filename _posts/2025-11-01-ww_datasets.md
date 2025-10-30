@@ -99,6 +99,9 @@ A balanced, multi-speaker dataset featuring four English keywords recorded by 50
 
 ### Google Speech Commands
 
+👉 [HuggingFace](https://huggingface.co/datasets/google/speech_commands)
+👉 [Kaggle Mirror](https://www.kaggle.com/datasets/neehakurelli/google-speech-commands)
+
 A widely used dataset for keyword spotting — also useful for building wake word or “not-wake” word datasets.
 
 | Wake Word | Samples | Notes                            |
@@ -146,7 +149,6 @@ A small dataset of Alexa wake word samples.
 Recordings made with the Nao robot in real domestic environments — includes speech and background sounds with natural noise and reverb.
 
 👉 [NAR Dataset on Hugging Face](https://huggingface.co/datasets/TigreGotico/NAR)
-
 👉 [Official Page](https://team.inria.fr/perception/nard/)
 
 | Wake Word | Samples |
@@ -170,9 +172,12 @@ Massive dataset of spoken words across 50 languages — ideal for multilingual r
 
 These datasets aren’t wake words themselves — but they’re incredibly useful as *negative samples* or background noise when training detection systems.
 
+---
+
 ### [DipCo – Dinner Party Corpus, Interspeech 2020](https://zenodo.org/records/8122551)
 
 👉 [Hugging Face Mirror](https://huggingface.co/datasets/huckiyang/DiPCo)
+
 Simulated dinner-party recordings with multiple speakers, overlapping speech, and background music — perfect for training models to handle real-world noise.
 
 ---
