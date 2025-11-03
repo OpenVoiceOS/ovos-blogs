@@ -14,7 +14,7 @@ ogImage:
 
 -----
 
-For years, the OpenVoiceOS community has relied on the **Precise** wake word engine. It's the core of how you bring your voice assistant to life! However, as technology evolves, so must we. The time has come to ensure future compatibility and even better performance on modern hardware.
+For years, the OpenVoiceOS community has relied on the [Precise-lite](https://github.com/OpenVoiceOS/ovos-ww-plugin-precise-lite) wake word engine. It's the core of how you bring your voice assistant to life! However, as technology evolves, so must we. The time has come to ensure future compatibility and even better performance on modern hardware.
 
 ## The Problem: Outdated Dependencies
 
@@ -35,11 +35,11 @@ This is a **game-changer** for stability and future-proofing!
 
 ### Introducing `ovos-ww-plugin-precise-onnx`
 
-We are thrilled to announce the official release of the new plugin: [`ovos-ww-plugin-precise-onnx`](https://github.com/OpenVoiceOS/ovos-ww-plugin-precise-onnx))!
+We are thrilled to announce the official release of the new plugin: [`ovos-ww-plugin-precise-onnx`](https://github.com/OpenVoiceOS/ovos-ww-plugin-precise-onnx)!
 
 By adopting ONNX, we eliminate the reliance on the problematic `tflite-runtime` package. ONNX provides a standardized, performant, and future-proof format for machine learning models, ensuring better compatibility across different systems and hardware.
 
-You can find **all available Precise models**, now converted to ONNX, in our dedicated repository: [`precise-lite-models`](https://github.com/OpenVoiceOS/precise-lite-models)).
+You can find **all available Precise models**, now converted to ONNX, in our dedicated repository: [`precise-lite-models`](https://github.com/OpenVoiceOS/precise-lite-models).
 
 -----
 
@@ -64,8 +64,8 @@ This migration ensures that the popular and powerful Precise engine remains a **
 
 Update your installation and try the new **ONNX-powered Precise** for yourself!
 
-  * **New Plugin:** [`ovos-ww-plugin-precise-onnx`](https://github.com/OpenVoiceOS/ovos-ww-plugin-precise-onnx))
-  * **ONNX Models:** [`precise-lite-models`](https://github.com/OpenVoiceOS/precise-lite-models))
+  * **New Plugin:** [`ovos-ww-plugin-precise-onnx`](https://github.com/OpenVoiceOS/ovos-ww-plugin-precise-onnx)
+  * **ONNX Models:** [`precise-lite-models`](https://github.com/OpenVoiceOS/precise-lite-models)
 
 
 ---
