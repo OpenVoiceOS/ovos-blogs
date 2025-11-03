@@ -31,8 +31,6 @@ This friction was an unnecessary barrier to entry for new users and a source of 
 
 We've completely overhauled the Precise wake word plugin by **exporting Precise models to the ONNX format** (Open Neural Network Exchange).
 
-This is a **game-changer** for stability and future-proofing!
-
 ### Introducing `ovos-ww-plugin-precise-onnx`
 
 We are thrilled to announce the official release of the new plugin: [`ovos-ww-plugin-precise-onnx`](https://github.com/OpenVoiceOS/ovos-ww-plugin-precise-onnx)!
@@ -47,20 +45,20 @@ You can find **all available Precise models**, now converted to ONNX, in our ded
 
 While the primary goal was to fix installation woes, the move to ONNX has delivered an **unexpected performance boost!**
 
-Initial testing on a **Raspberry Pi 5** shows a significant reduction in CPU usage:
+Initial testing on a Raspberry Pi 5 shows a significant reduction in CPU usage:
 
 | Wake Word Engine               | RPi 5 Listener Process CPU Usage (Approx.) |
 |:-------------------------------|--------------------------------------------|
 | **Precise (`tflite-runtime`)** | ~1.8% - 2.6%                               |
 | **Precise (ONNX)**             | **~1.0% - 1.3%**                           |
 
-That's a **massive efficiency gain**, allowing your OVOS system to dedicate more resources to running skills and other tasks! This makes OpenVoiceOS even lighter and faster on edge devices like the Raspberry Pi.
+That's a nice efficiency gain, allowing your OVOS system to dedicate more resources to running skills and other tasks! This makes OpenVoiceOS even lighter and faster on edge devices like the Raspberry Pi.
 
 -----
 
 ## Get the Upgrade Today!
 
-This migration ensures that the popular and powerful Precise engine remains a **stable, high-performance option** for the OpenVoiceOS community for years to come. Enjoy the easier installation, greater stability, and lower CPU usage!
+This migration ensures that the popular Precise engine remains a stable, high-performance option for the OpenVoiceOS community for years to come. Enjoy the easier installation, greater stability, and lower CPU usage!
 
 Update your installation and try the new **ONNX-powered Precise** for yourself!
 
