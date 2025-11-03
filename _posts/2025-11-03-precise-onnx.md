@@ -20,8 +20,8 @@ For years, the OpenVoiceOS community has relied on the [Precise-lite](https://gi
 
 The original Precise implementation depended heavily on `tflite_runtime` and specific, older versions of other packages, notably requiring `numpy<2.0.0`. This setup has been a growing headache:
 
-  * **⚠️ Deprecation:** `tflite_runtime` is becoming increasingly difficult to install and maintain, especially with recent versions of Python.
-  * **🐍 Python Version Incompatibility:** The strict dependency on older packages was creating friction and installation failures for users adopting newer Python releases.
+- **⚠️ Deprecation:** `tflite_runtime` is becoming increasingly difficult to install and maintain, especially with recent versions of Python.
+- **🐍 Python Version Incompatibility:** The strict dependency on older packages was creating friction and installation failures for users adopting newer Python releases.
 
 This friction was an unnecessary barrier to entry for new users and a source of frustration for existing ones. We knew we had to fix it.
 
@@ -62,8 +62,8 @@ This migration ensures that the popular Precise engine remains a stable, high-pe
 
 Update your installation and try the new **ONNX-powered Precise** for yourself!
 
-  * **New Plugin:** [`ovos-ww-plugin-precise-onnx`](https://github.com/OpenVoiceOS/ovos-ww-plugin-precise-onnx)
-  * **ONNX Models:** [`precise-lite-models`](https://github.com/OpenVoiceOS/precise-lite-models)
+- **New Plugin:** [`ovos-ww-plugin-precise-onnx`](https://github.com/OpenVoiceOS/ovos-ww-plugin-precise-onnx)
+- **ONNX Models:** [`precise-lite-models`](https://github.com/OpenVoiceOS/precise-lite-models)
 
 
 ---
