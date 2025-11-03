@@ -31,7 +31,7 @@ This friction was an unnecessary barrier to entry for new users and a source of 
 
 We've completely overhauled the Precise wake word plugin by **exporting Precise models to the ONNX format** (Open Neural Network Exchange).
 
-### Introducing `ovos-ww-plugin-precise-onnx`
+### Introducing ovos-ww-plugin-precise-onnx
 
 We are thrilled to announce the official release of the new plugin: [`ovos-ww-plugin-precise-onnx`](https://github.com/OpenVoiceOS/ovos-ww-plugin-precise-onnx)!
 
