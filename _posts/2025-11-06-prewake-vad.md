@@ -57,9 +57,9 @@ This collaborative approach has been shown to massively reduce the false activat
 
 ### A Huge Boost for the Vosk Wake Word Plugin
 
-The introduction of Pre-Wake-VAD is particularly exciting for the popular **Vosk wake word plugin**.
+The introduction of Pre-Wake-VAD is particularly exciting for the popular [**Vosk wake word plugin**](https://github.com/OpenVoiceOS/ovos-ww-plugin-vosk).
 
-For those unfamiliar, the Vosk plugin is incredible because it allows users to change their wake word simply by editing a text string in a config file — no data collection, no model training required! However, this flexibility sometimes came with a higher false activation rate.
+For those unfamiliar, the Vosk plugin is incredible because it allows users to change their wake word simply by editing a text string in a config file, no data collection, no model training required! However, this flexibility sometimes came with a higher false activation rate.
 
 With **Pre-Wake-VAD**, that concern is largely eliminated. By getting rid of false positives caused by non-speech audio, this new feature makes the versatile, text-configurable Vosk plugin far more usable and reliable for everyone.
 
