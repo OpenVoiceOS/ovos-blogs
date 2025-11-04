@@ -24,7 +24,7 @@ Before **Pre-Wake-VAD**, the OVOS listener loop operated in a straightforward ma
 - 2.  Upon hearing the WW, it started recording the user's request.
 - 3.  **VAD** was used *after* the wake word to detect when the user **finished speaking**.
 
-This constant listening for the wake word consumed more CPU and, critically, was susceptible to false activations. Random sounds, music, or even animal sounds could sometimes trigger the wake word.
+This constant listening for the wake word consumed more CPU and, critically, was susceptible to false activations. Random noises, music, or even animal sounds could sometimes trigger the wake word.
 
 #### The **Pre-Wake-VAD** Logic: A Smarter Sequence
 
@@ -63,7 +63,7 @@ For those unfamiliar, the Vosk plugin is incredible because it allows users to c
 
 With **Pre-Wake-VAD**, that concern is largely eliminated. By getting rid of false positives caused by non-speech audio, this new feature makes the versatile, text-configurable Vosk plugin far more usable and reliable for everyone.
 
-Stay tuned! We’ll be sharing the comprehensive benchmark results in an upcoming blog post, but early results confirm a massive difference in performance!
+Stay tuned! We’ll be sharing the comprehensive benchmark results in an upcoming blog post, but early results confirm a massive difference in false activations!
 
 ---
 
