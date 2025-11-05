@@ -67,6 +67,30 @@ Stay tuned! We’ll be sharing the comprehensive benchmark results in an upcomin
 
 ---
 
+## How to Enable Pre-Wake-VAD
+
+To start using this new noise-filtering feature, you need to ensure you have the correct version of the listener package and update your configuration file.
+
+You must be running at least version **0.5.0** of the listener package. You can update it using pip:
+
+```bash
+pip install --upgrade ovos-dinkum-listener
+```
+
+Add the following parameter inside the `"listener"` section of your `mycroft.conf` file to enable the Pre-Wake-VAD logic:
+
+```json
+{
+  "listener": {
+    "vad_pre_wake_enabled": true
+  }
+}
+```
+
+Once both steps are complete, restart your OVOS service, and you'll be using the new, smarter listening loop!
+
+---
+
 ## Help Us Build Voice for Everyone
 
 OpenVoiceOS is more than software, it’s a mission. If you believe voice assistants should be open, inclusive, and user-controlled, here’s how you can help:
