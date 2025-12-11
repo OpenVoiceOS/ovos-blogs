@@ -43,7 +43,7 @@ There is still a long way to go before Barranquenho speakers no longer need to s
 * **Speech-to-Text (STT) Systems:** Imagine speaking in Barranquenho and having your words accurately transcribed. This could revolutionize documentation, communication, and accessibility. 
 * **Text-to-Speech (TTS) Systems:** Give digital voices the ability to speak Barranquenho, opening doors for educational tools, audiobooks, and interactive experiences.
 
-This work aligns perfectly with our mission to leverage open-source technology for linguistic diversity and making voice AI accessible for all languages.
+This work aligns perfectly with our mission of making voice AI accessible for everyone in any language.
 
 ### Join Us: Help Bring Barranquenho Voices to AI!
 
