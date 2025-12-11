@@ -57,3 +57,17 @@ While the orthographic convention gives us the rules for pronunciation, **real-w
 Whether you're a native speaker, an enthusiast, or a linguist, your voice can help us create the next generation of Barranquenho AI resources. If you are interested in contributing, please reach out to us at \[Your Contact Email Here or a form link]. Every voice counts, and together, we can ensure that Barranquenho thrives in the digital age.
 
 Let's make some noise for Barranquenho! 📢
+
+---
+
+## Help Us Build Voice for Everyone
+
+OpenVoiceOS is more than software, it’s a mission. If you believe voice assistants should be open, inclusive, and user-controlled, here’s how you can help:
+
+- **💸 Donate**: Help us fund development, infrastructure, and legal protection.
+- **📣 Contribute Open Data**: Share voice samples and transcriptions under open licenses.
+- **🌍 Translate**: Help make OVOS accessible in every language.
+
+We're not building this for profit. We're building it for people. With your support, we can keep voice tech transparent, private, and community-owned.
+
+👉 [Support the project here](https://www.openvoiceos.org/contribution)
