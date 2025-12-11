@@ -1,7 +1,7 @@
 ---
 title: "Introducing the First Phonemizer for Barranquenho"
 excerpt: "Today marks an exciting milestone for linguistic preservation! We're thrilled to announce the development of the very first phonemizer for Barranquenho, a truly unique Ibero-Romance language spoken in the Portuguese municipality of Barrancos."
-coverImage: "/assets/blog/ast/thumb.png"
+coverImage: "/assets/blog/barranquenho/thumb.png"
 date: "2025-12-12T00:00:00.000Z"
 author:
   name: JarbasAl
