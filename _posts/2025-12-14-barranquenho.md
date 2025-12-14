@@ -2,7 +2,7 @@
 title: "Introducing the First Phonemizer for Barranquenho"
 excerpt: "Today marks an exciting milestone for linguistic preservation! We're thrilled to announce the development of the very first phonemizer for Barranquenho, a truly unique Ibero-Romance language spoken in the Portuguese municipality of Barrancos."
 coverImage: "/assets/blog/barranquenho/thumb.png"
-date: "2025-12-12T00:00:00.000Z"
+date: "2025-12-14T00:00:00.000Z"
 author:
   name: JarbasAl
   picture: "https://avatars.githubusercontent.com/u/33701864"
@@ -12,7 +12,7 @@ ogImage:
 
 ## Introducing the First Phonemizer for Barranquenho
 
-> This blog was originally posted in the [TigreGotico website](https://tigregotico.github.io/blog/2025-12-12-barranquenho)
+> This blog was originally posted in the [TigreGotico website](https://tigregotico.pt/blog/2025-12-12-barranquenho)
 
 Today marks an exciting milestone for linguistic preservation! We're thrilled to announce the release of [g2p_barranquenho](https://github.com/TigreGotico/g2p_barranquenho),  the **very first Grapheme-to-Phoneme (G2P) phonemizer for [Barranquenho](https://en.wikipedia.org/wiki/Barranquenho)**, a truly unique Ibero-Romance language spoken in the Portuguese municipality of Barrancos.
 
