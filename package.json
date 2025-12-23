@@ -17,8 +17,8 @@
     "fs": "^0.0.1-security",
     "gray-matter": "^4.0.3",
     "next": "^15.3.1",
-    "react": "19.0.0-rc-02c0e824-20241028",
-    "react-dom": "19.0.0-rc-02c0e824-20241028",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
     "rehype-highlight": "^7.0.2",
     "rehype-stringify": "^10.0.1",
     "remark": "^15.0.1",
@@ -39,7 +39,7 @@
     "typescript": "^5.5.2"
   },
   "overrides": {
-    "react": "19.0.0-rc-02c0e824-20241028",
-    "react-dom": "19.0.0-rc-02c0e824-20241028"
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
   }
 }
