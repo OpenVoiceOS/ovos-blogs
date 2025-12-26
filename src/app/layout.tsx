@@ -1,5 +1,6 @@
 import Header from "@/app/_components/header";
 import Footer from "@/app/_components/footer";
+import Script from "next/script";
 import { 
   CMS_NAME, 
   HOME_OG_IMAGE_URL, 
@@ -141,8 +142,14 @@ export default function RootLayout({
                 }
               }
             })
-          }}
-        />
+          }} />
+
+        <Script
+            src="https://cdn.tigregotico.pt/api/script.js"
+            data-site-id="0715afc5ad9d"
+            defer
+        ></Script>
+
       </head>
       <body
         className={cn(
