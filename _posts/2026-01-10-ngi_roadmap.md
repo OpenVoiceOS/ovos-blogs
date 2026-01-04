@@ -133,19 +133,20 @@ languages will continue to be supported, following our [2025 work with Aragonese
 Beyond formal protocols like MCP, OVOS continues to expand interoperability via compatible implementations with popular APIs, 
 enabling seamless integration of OVOS plugins with applications that may not even be aware of OVOS.  
 
-While we currently support chat endpoints via OpenAI and Ollama, 2026 will extend this to embeddings, files, STT/TTS (
-including OpenAI Whisper), MaryTTS, and potentially others. 
-
 OVOS itself can operate as a persona behind the persona server, becoming a drop-in replacement for existing LLM applications,
 this approach has already been demonstrated in [Home Assistant](https://blog.openvoiceos.org/posts/2025-09-17-ovos_ha_dream_team) as a proof of concept.
+
+While ovos-persona-server currently supports OpenAI compatible chat endpoints, 2026 will extend OpenAI compatibility to include embeddings and files, enabling RAG solutions.
+
+[ovos-stt-server](https://github.com/OpenVoiceOS/ovos-stt-http-server) and [ovos-tts-server](https://github.com/OpenVoiceOS/ovos-tts-server) will also be extended to be compatible with OpenAI, MaryTTS, and potentially other popular service provider APIs. 
 
 ---
 
 ### Miscellaneous UX & Tools
 
-Additional improvements will focus on developer and integrator productivity. This includes a web-based configuration UI,
-message bus monitoring and export tools, and end-to-end testing frameworks for skills and messages.
+Additional improvements will target developer and integrator efficiency, including a web-based configuration UI, message-bus monitoring and export utilities, and end-to-end testing frameworks for skills and message flows.
 
+In 2025, we quietly introduced several prototypes already shipping in raspOVOS: the [ovos-yaml-editor](https://github.com/OpenVoiceOS/ovos-yaml-editor), the [ovoscope](https://github.com/TigreGotico/ovoscope) test harness, and, near year-end, the public release of [ovos-busmon](https://github.com/TigreGotico/ovos-busmon). Throughout 2026, these tools will be consolidated, refined, and formally incorporated into the OVOS toolchain.
 
 ---
 
