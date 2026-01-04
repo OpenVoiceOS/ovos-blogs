@@ -54,19 +54,22 @@ Fish? [Join the discussion on github!](https://github.com/OpenVoiceOS/ovos-relea
 
 ### Modular Core & Intent Handling
 
-Our 2025 modularization allows the intent handling pipeline to be fully replaceable via plugins, enabling us to focus
-development on individual repositories without affecting **ovos-core** stability. In 2026, we will continue refining
-core subsystems, and we plan to experiment with an embeddings-based intent plugin as a potential replacement for
-Padatious. The existing [ovos-m2v-pipeline](https://github.com/TigreGotico/ovos-m2v-pipeline) validated this approach in 2025. Our goal now is to drop the classifier
+Our 2025 modularization allows the [intent handling pipeline](https://openvoiceos.github.io/ovos-technical-manual/pipelines_overview/) to be fully customizable via plugins, enabling us to focus
+development on individual repositories without affecting **ovos-core** stability.
+
+In 2026, we will continue refining core subsystems, and we plan to experiment with an embeddings-based intent plugin as a potential replacement for
+[Padatious](https://openvoiceos.github.io/ovos-technical-manual/padatious_pipeline/). The existing [ovos-m2v-pipeline](https://openvoiceos.github.io/ovos-technical-manual/m2v_pipeline/) validated this approach in 2025. Our goal now is to drop the classifier
 head, making the plugin more universal and multilingual, while keeping backward compatibility with existing skills and
-pipelines. Compatibility with existing skills remains a top priority as we evaluate alternatives.
+pipelines. 
+
+**Compatibility with existing skills is a top priority as we evaluate alternatives.**
 
 ---
 
 ### OVOS and the LLM ecosystem
 
-Personas were introduced in 2025 as stacks of **solver plugins**, which function as black boxes: they receive a list of
-messages and produce a response, much like a large language model. The **ovos-persona pipeline** replaced or augmented
+[Personas](https://openvoiceos.github.io/ovos-technical-manual/150-personas) were introduced in 2025 as stacks of [**solver plugins**](https://openvoiceos.github.io/ovos-technical-manual//360-solver_plugins), which function as black boxes: they receive a list of
+messages and produce a response, much like a large language model. The **[ovos-persona pipeline](https://openvoiceos.github.io/ovos-technical-manual/153-persona_pipeline)** replaced or augmented
 classic skills, enabling generative responses when skill matching fails or as a full skill replacement.
 
 Building on persona work, 2026 will [expand OVOS’s role in the LLM ecosystem](https://blog.openvoiceos.org/posts/2025-10-24-protocol_interoperability) by exposing OVOS plugins as callable tools.
@@ -80,8 +83,8 @@ scope is reserved for **individual solver plugins**. In 2026, our focus is on ex
 ### Memory Plugin Abstraction
 
 Memory handling will become a fully formalized plugin type. These plugins receive the user utterance and session ID,
-returning a structured message history for submission to a persona. Currently, short-term memory is hardcoded in *
-*ovos-persona** as the last N turns. With this new abstraction, any memory backend can be plugged in, including
+returning a structured message history for submission to a persona. Currently, short-term memory is hardcoded in 
+**ovos-persona** as the last N turns. With this new abstraction, any memory backend can be plugged in, including
 retrieval-augmented generation via **ovos-persona-server** OpenAI-compatible endpoints.
 
 ---
@@ -136,9 +139,9 @@ enabling seamless integration of OVOS plugins with applications that may not eve
 OVOS itself can operate as a persona behind the persona server, becoming a drop-in replacement for existing LLM applications,
 this approach has already been demonstrated in [Home Assistant](https://blog.openvoiceos.org/posts/2025-09-17-ovos_ha_dream_team) as a proof of concept.
 
-While ovos-persona-server currently supports OpenAI compatible chat endpoints, 2026 will extend OpenAI compatibility to include embeddings and files, enabling RAG solutions.
+While [ovos-persona-server](https://openvoiceos.github.io/ovos-technical-manual/202-persona_server) currently supports OpenAI compatible chat endpoints, 2026 will extend OpenAI compatibility to include embeddings and files, enabling RAG solutions.
 
-[ovos-stt-server](https://github.com/OpenVoiceOS/ovos-stt-http-server) and [ovos-tts-server](https://github.com/OpenVoiceOS/ovos-tts-server) will also be extended to be compatible with OpenAI, MaryTTS, and potentially other popular service provider APIs. 
+[ovos-stt-server](https://openvoiceos.github.io/ovos-technical-manual/200-stt_server/) and [ovos-tts-server](https://openvoiceos.github.io/ovos-technical-manual/201-tts_server) will also be extended to be compatible with OpenAI, MaryTTS, and potentially other popular service provider APIs. 
 
 ---
 
