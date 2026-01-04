@@ -35,8 +35,8 @@ This roadmap reflects current development priorities for 2026 and summarizes wor
 
 ## OVOS Release Strategy
 
-Since 2025, we have followed a [rolling release model](https://github.com/OpenVoiceOS/ovos-releases) based on semantic versioning.
-Our **alpha** channel is fully automated: every pull request triggers a pre-release, with conventional commits enforcing versioning.
+Since 2025, we have followed a [rolling release model](https://github.com/OpenVoiceOS/ovos-releases) based on [semantic versioning](https://semver.org/) and [constraints files](https://pip.pypa.io/en/stable/user_guide/#constraints-files).
+Our **alpha** channel is fully automated: every pull request triggers a pre-release, with [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) enforcing versioning.
 In contrast, **stable** and **testing** channels have not yet had formal schedules; although release workflows have been
 validated, we have not defined when these releases should be pushed.
 
