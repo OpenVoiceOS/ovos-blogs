@@ -19,7 +19,7 @@ remaining privacy-first and fully transparent.
 
 This roadmap is supported by the [**NGI Zero Commons Fund**](https://blog.openvoiceos.org/posts/2025-10-20-ngi), and much of the work has been happening openly since late
 October 2025. The detectives among our readers can already explore early prototypes or draft PRs to see many of the
-developments referenced here. Highlights from 2025 include research on TTS voices for minority languages ([Aragonese and Asturian](https://blog.openvoiceos.org/posts/2025-12-09-ast)), [pre-wake-VAD settings](https://blog.openvoiceos.org/posts/2025-11-06-prewake-vad) in **ovos-listener** to reduce false activations, and [migration of precise wake word models to ONNX](https://blog.openvoiceos.org/posts/2025-11-03-precise-onnx).
+developments referenced here. Highlights from 2025 include [pre-wake-VAD settings](https://blog.openvoiceos.org/posts/2025-11-06-prewake-vad) to reduce false activations, [migration of precise wake word models to ONNX](https://blog.openvoiceos.org/posts/2025-11-03-precise-onnx), and research on [TTS models for minority languages](https://blog.openvoiceos.org/posts/2025-12-09-ast).
 
 In 2026, we will build on this foundation by formalizing core subsystems, expanding session and tool support, creating
 new infrastructure such as the OVOS Plugin Arena, extending third-party server compatibility, and strengthening
