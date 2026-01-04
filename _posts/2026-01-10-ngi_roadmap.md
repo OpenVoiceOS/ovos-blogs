@@ -141,7 +141,7 @@ this approach has already been demonstrated in [Home Assistant](https://blog.ope
 
 ---
 
-### 11. Miscellaneous UX & Tools
+### Miscellaneous UX & Tools
 
 Additional improvements will focus on developer and integrator productivity. This includes a web-based configuration UI,
 message bus monitoring and export tools, and end-to-end testing frameworks for skills and messages.
