@@ -113,7 +113,7 @@ COALA published a speech dataset recorded in factories and workshops:
 
 ---
 
-# Why Industry Chooses OVOS + HiveMind
+## Why Industry Chooses OVOS + HiveMind
 
 The appeal is straightforward:
 
