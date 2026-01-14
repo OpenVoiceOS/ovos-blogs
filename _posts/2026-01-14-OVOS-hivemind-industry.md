@@ -10,7 +10,7 @@ ogImage:
   url: "/assets/blog/ovos-hivemind-industry/thumb.png"
 ---
 
-# OVOS & HiveMind in the Manufacturing Industry
+## OVOS & HiveMind in the Manufacturing Industry
 
 > This blog was originally posted in the [TigreGotico website](https://tigregotico.pt/blog/2025-11-26-OVOS-hivemind-industry)
 
@@ -22,7 +22,7 @@ I am not involved with these deployments, but the fact that the stack is being a
 
 ---
 
-# WASABI Open Call
+## WASABI Open Call
 
 The 2nd [WASABI Open Call](https://wasabiproject.eu/wp-content/uploads/2025/08/WASABI_Guide_for_Applicants_2nd-OC_vFIN.pdf) to provide financial support to at least 10 experiments led by SMEs recently closed.
 This open call is designed to support AI-based digital assistance experiments involving SMEs from manufacturing.
