@@ -71,7 +71,7 @@ All of these rely on OVOS and on HiveMind for routing communication between devi
 
 ---
 
-# What COALA/WASABI Built on Top of OVOS
+## What COALA/WASABI Built on Top of OVOS
 
 Although the projects produced no open-source industrial skills, they did create several components around OVOS + HiveMind:
 
@@ -127,7 +127,7 @@ In short: the combination is flexible, vendor-neutral, and respects industrial d
 
 ---
 
-# Closing Thoughts
+## Closing Thoughts
 
 I didn’t set out to build an industrial standard.
 I set out to build something open, reliable, and user-controlled.
