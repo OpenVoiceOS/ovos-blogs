@@ -2,7 +2,7 @@
 title: "Voice: 5× Faster Than Typing and ready for the AI era"
 excerpt: "We still type, click, and scroll, even though speaking is the fastest, most natural interface humans have ever had. Voice isn’t a gimmick. It’s the interface AI has been waiting for."
 coverImage: "/assets/blog/voice-faster-than-typing/cover.png"
-date: "2025-10-18"
+date: "2026-01-25"
 author:
   name: "Peter Steenbergen"
   picture: "https://www.openvoiceos.org/_next/static/media/core3.a9ea7286.jpeg"
@@ -42,7 +42,7 @@ In real-world terms, this translates to:
 - Fewer interruptions to your workflow  
 - Faster access to systems, tools, and knowledge  
 
-Stanford University study showed that voice input on smartphones was **around three times faster than typing and often more accurate**, thanks to modern deep-learning-based speech recognition.
+Stanford University study showed that voice input on smartphones was [**around three times faster than typing and often more accurate**](https://hci.stanford.edu/research/speech/Ubicomp18_pdf.pdf), thanks to modern deep-learning-based speech recognition.
 
 ### Voice removes the input bottleneck
 
@@ -78,7 +78,7 @@ Voice allows you to:
 - Interact without breaking focus or switching context  
 
 And crucially, this does **not** require sending your data to the cloud.  
-OpenVoiceOS is designed to run **locally**, **offline**, and **open source**, following the same principles outlined in our posts on [local voice assistants and privacy](https://blog.openvoiceos.org/).
+OpenVoiceOS is designed to be able to run **locally**, **offline**, and is fully **open source**.
 
 Voice isn’t a novelty feature. It’s the most efficient way to access intelligence.
 
