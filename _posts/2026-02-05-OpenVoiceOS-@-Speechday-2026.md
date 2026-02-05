@@ -18,7 +18,7 @@ On Monday, February 2, 2026, Peter Steenbergen and I attended the [fourth Dutch 
 
 ## OVOS & VisioLab
 
-We represented OpenVoiceOS to promote our FOSS (free and open-source) framework. I was also there on behalf of VisioLab (the tech innovation department of Visio). My pitch focused on the [VoiceLab project](https://voicelab.visio.org), which centers on testing and prototyping new voice interactions for the blind and visually impaired—early adopters of voice-first interfacing. Additionally, we looked for collaborators to help build a truly open-source Dutch TTS through the subproject [The Voice of Holland](https://voicelab.visio.org/spraakmakers/#ai-stem-van-nederland).
+We represented OpenVoice OS to promote our FOSS (free and open-source) framework. I was also there on behalf of VisioLab (the tech innovation department of Visio). My pitch focused on the [VoiceLab project](https://voicelab.visio.org), which centers on testing and prototyping new voice interactions for the blind and visually impaired—early adopters of voice-first interfacing. Additionally, we looked for collaborators to help build a truly open-source Dutch TTS through the subproject [The Voice of Holland](https://voicelab.visio.org/spraakmakers/#ai-stem-van-nederland).
 
 ![Timon and Peter in front of our info-stand](/assets/blog/OpenVoiceOS-@-Speechday-2026/timon-and-peter-at-the-infostand.JPG)
 
