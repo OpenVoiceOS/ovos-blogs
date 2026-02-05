@@ -1,32 +1,32 @@
 ---
 title: "OpenVoice OS @ Speechday 2026"
 excerpt: "A recap of our visit to the fourth Dutch Speech Tech Day in Hilversum, the Netherlands"
-coverImage: "/assets/blog/OpenVoiceOS-@-Speechday-2026/sound-and-vision-main-venue.jpg"
+coverImage: "https://github.com/OpenVoiceOS/ovos-blogs/raw/OpenVoiceOS-@-Speechday-2026/public/assets/blog/OpenVoiceOS-%40-Speechday-2026/sound-and-vision-main-venue.jpg"
 date: "2026-02-05T13:00:00.000Z"
 author:
   name: "Timon van Hasselt"
   picture: ""
 ogImage:
-  url: "/assets/blog/OpenVoiceOS-@-Speechday-2026/sound-and-vision-main-venue.jpg"
+  url: "https://github.com/OpenVoiceOS/ovos-blogs/raw/OpenVoiceOS-@-Speechday-2026/public/assets/blog/OpenVoiceOS-%40-Speechday-2026/sound-and-vision-main-venue.jpg"
 ---
 
 On Monday, February 2, 2026, Peter Steenbergen and I attended the [fourth Dutch Speech Tech Day](https://sites.google.com/view/dutchspeechtechday2026) at “Beeld & Geluid” (Sound & Vision) in Hilversum, The Netherlands. It was our first time attending this annual meeting of approximately 100 researchers, innovators, and speech technology enthusiasts, held in the inspiring Radio & Television archive building.
 
-![The exterior of the Sound & Vision building, modern and colorful](/assets/blog/OpenVoiceOS-@-Speechday-2026/sound-and-vision-building.png)
-![The main venue at Sound & Vision](/assets/blog/OpenVoiceOS-@-Speechday-2026/sound-and-vision-main-venue.jpg)
-![Peter at the infomarket stand](/assets/blog/OpenVoiceOS-@-Speechday-2026/peter-in-the-infomarket-stand.JPG)
+![The exterior of the Sound & Vision building, modern and colorful](https://github.com/OpenVoiceOS/ovos-blogs/raw/OpenVoiceOS-@-Speechday-2026/public/assets/blog/OpenVoiceOS-%40-Speechday-2026/sound-and-vision-building.png)
+![The main venue at Sound & Vision](https://github.com/OpenVoiceOS/ovos-blogs/raw/OpenVoiceOS-@-Speechday-2026/public/assets/blog/OpenVoiceOS-%40-Speechday-2026/sound-and-vision-main-venue.jpg)
+![Peter at the infomarket stand](https://github.com/OpenVoiceOS/ovos-blogs/raw/OpenVoiceOS-@-Speechday-2026/public/assets/blog/OpenVoiceOS-%40-Speechday-2026/peter-in-the-infomarket-stand.JPG)
 
 ## OVOS & VisioLab
 
 We represented OpenVoiceOS to promote our FOSS (free and open-source) framework. I was also there on behalf of VisioLab (the tech innovation department of Visio). My pitch focused on the [VoiceLab project](https://voicelab.visio.org), which centers on testing and prototyping new voice interactions for the blind and visually impaired—early adopters of voice-first interfacing. Additionally, we looked for collaborators to help build a truly open-source Dutch TTS through the subproject [The Voice of Holland](https://voicelab.visio.org/spraakmakers/#ai-stem-van-nederland).
 
-![Timon and Peter in front of our info-stand](/assets/blog/OpenVoiceOS-@-Speechday-2026/timon-and-peter-at-the-infostand.JPG)
+![Timon and Peter in front of our info-stand](https://github.com/OpenVoiceOS/ovos-blogs/raw/OpenVoiceOS-@-Speechday-2026/public/assets/blog/OpenVoiceOS-%40-Speechday-2026/timon-and-peter-at-the-infostand.JPG)
 
 We had many fascinating conversations with like-minded people. Once visitors realized we had no commercial interest and were simply there to learn, exchange knowledge, and promote a sovereign platform, the ice broke quickly. It was refreshing to connect as peers in such an open environment.
 
 ## LEGO
 
-![9 modules visualized in LEGO blocks, the OVOS pipeline](/assets/blog/OpenVoiceOS-@-Speechday-2026/ovos-lego-modules.jpg)
+![9 modules visualized in LEGO blocks, the OVOS pipeline](https://github.com/OpenVoiceOS/ovos-blogs/raw/OpenVoiceOS-@-Speechday-2026/public/assets/blog/OpenVoiceOS-%40-Speechday-2026/ovos-lego-modules.jpg)
 
 The interest in OpenVoiceOS was wonderful to see. Using LEGO blocks as a metaphor for the framework's modularity proved to be a great conversation starter ("Hey, what’s that LEGO all about?"). These modules—including voice activity detection, automatic speech recognition (ASR), and intent matching—form the OVOS pipeline. 
 
@@ -46,7 +46,7 @@ Our focus remains on local, private home devices that -just work- and are fast a
 
 It was a pleasure to meet organizers and researchers like Matt Coler (University of Groningen). We share the ambition to support "small" or underexposed languages and user groups, such as people with speech disorders or specific dialects. By joining forces with this network of innovators, we can reduce dependency on Big Tech and prove that we can be self-sufficient in speech technology.
 
-![Selfie of Matt Coler and Timon](/assets/blog/OpenVoiceOS-@-Speechday-2026/timon-and-matt-coler.JPG)
+![Selfie of Matt Coler and Timon](https://github.com/OpenVoiceOS/ovos-blogs/raw/OpenVoiceOS-@-Speechday-2026/public/assets/blog/OpenVoiceOS-%40-Speechday-2026/timon-and-matt-coler.JPG)
 
 ## References
 
