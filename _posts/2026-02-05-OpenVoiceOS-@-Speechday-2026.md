@@ -32,7 +32,7 @@ The interest in OpenVoiceOS was wonderful to see. Using LEGO blocks as a metapho
 
 This modularity aligned perfectly with the day's themes. New speech models appearing weekly on HuggingFace were the "talk of the town." I especially enjoyed demonstrating this flexibility: just the evening before the event, I swapped my favorite [OVOS-Google-STT plugin](https://github.com/OpenVoiceOS/ovos-stt-plugin-chromium) for a newly released offline, open-source ASR model ([NVIDIA parakeet-tdt-0.6-v3-onnx](https://huggingface.co/istupakov/parakeet-tdt-0.6b-v3-onnx)). 
 
-Thanks to an Apache 2.0 licensed [OVOS-onnx-ASR-plugin](https://github.com/TigreGotico/ovos-stt-plugin-onnx-asr) created by the OVOS lead developer only hours after the model's release - wow, that was fast! - , we could give a live demo of a completely local setup. 
+Thanks to an Apache 2.0 licensed [OVOS-onnx-ASR-plugin](https://github.com/TigreGotico/ovos-stt-plugin-onnx-asr) created by the OVOS lead developer only hours after the model's release—wow, that was fast!—we could give a live demo of a completely local setup.
 
 It performed with the speed of proprietary online plugins; you couldn't tell the difference from the outside! The next challenge is testing this on a Raspberry Pi 4 to see if we can maintain that performance.
 
