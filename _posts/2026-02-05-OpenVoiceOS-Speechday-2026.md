@@ -7,7 +7,7 @@ author:
   name: "Timon van Hasselt"
   picture: ""
 ogImage:
-  url: "/assets/blog/OpenVoiceOS-@-Speechday-2026/sound-and-vision-main-venue.jpg"
+  url: "/assets/blog/OpenVoiceOS-Speechday-2026/sound-and-vision-main-venue.jpg"
 ---
 
 On Monday, February 2, 2026, Peter Steenbergen and I attended the [fourth Dutch Speech Tech Day](https://sites.google.com/view/dutchspeechtechday2026) at “Beeld & Geluid” (Sound & Vision) in Hilversum, The Netherlands. It was our first time attending this annual meeting of approximately 100 researchers, innovators, and speech technology enthusiasts, held in the inspiring Radio & Television archive building.
@@ -54,3 +54,21 @@ It was a pleasure to meet organizers and researchers like Matt Coler (University
 - [VoiceLab Visio](https://voicelab.visio.org)
 - [OVOS Technical Manual - Personas](https://openvoiceos.github.io/ovos-technical-manual/150-personas/)
 - [OVOS ONNX ASR Plugin](https://github.com/TigreGotico/ovos-stt-plugin-onnx-asr)
+
+---
+
+## Help Us Build Voice for Everyone
+
+OpenVoiceOS is more than software — it’s a mission.
+
+If you believe voice assistants should be open, inclusive, and user-controlled, there are many ways to help:
+
+- **💸 Donate** — support development, infrastructure, and long-term sustainability  
+- **📣 Contribute open data** — share voice samples and transcriptions under open licenses  
+- **🌍 Translate** — help make OpenVoiceOS accessible in every language  
+
+We’re not building this for profit.
+
+We’re building it for people.
+
+👉 [Support the project here](https://www.openvoiceos.org/contribution)
