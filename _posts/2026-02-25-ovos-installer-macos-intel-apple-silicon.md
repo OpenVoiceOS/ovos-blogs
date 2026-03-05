@@ -39,7 +39,7 @@ That’s not a forever rule. It’s the “ship one reliable path first” rule.
 
 ---
 
-## macOS prerequisites (aka: the three boring ingredients)
+## macOS prerequisites (aka: the four boring ingredients)
 
 Before you run the installer, make sure you have:
 
@@ -50,7 +50,13 @@ Before you run the installer, make sure you have:
    xcode-select --install
    ```
 
-3. **Microphone permission** granted to your terminal app
+3. **Homebrew Bash** installed (required by `ovos-installer`):
+
+   ```bash
+   brew install bash
+   ```
+
+4. **Microphone permission** granted to your terminal app
 
    macOS is *very* polite about letting you install things, then *very* strict about letting you capture audio.
 
