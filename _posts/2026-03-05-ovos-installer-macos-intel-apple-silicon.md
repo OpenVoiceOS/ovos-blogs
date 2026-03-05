@@ -217,3 +217,18 @@ If you just test and report: you’re still doing the work that makes this borin
 - PR #16 (CoreAudio improvements): https://github.com/OpenVoiceOS/ovos-microphone-plugin-sounddevice/pull/16
 - Telemetry docs: https://github.com/OpenVoiceOS/ovos-installer/blob/main/docs/telemetry.md
 - Telemetry dashboard: https://telemetry.smartgic.io/ovos-installer/dashboard/
+
+
+---
+
+## Help Us Build Voice for Everyone
+
+OpenVoiceOS is more than software, it’s a mission. If you believe voice assistants should be open, inclusive, and user-controlled, here’s how you can help:
+
+- **💸 Donate**: Help us fund development, infrastructure, and legal protection.
+- **📣 Contribute Open Data**: Share voice samples and transcriptions under open licenses.
+- **🌍 Translate**: Help make OVOS accessible in every language.
+
+We're not building this for profit. We're building it for people. With your support, we can keep voice tech transparent, private, and community-owned.
+
+👉 [Support the project here](https://www.openvoiceos.org/contribution)
