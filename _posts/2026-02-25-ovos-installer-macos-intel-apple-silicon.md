@@ -2,7 +2,7 @@
 title: "Boring installs, now on macOS: ovos-installer supports Intel + Apple Silicon"
 excerpt: "ovos-installer can now deploy OpenVoiceOS on macOS (Intel and Apple Silicon) using launchd + virtualenv. Here’s the boring (good) path to a working OVOS stack on your Mac."
 coverImage: "/assets/blog/ovos-installer-macos/ovos-installer-macos-support.png"
-date: "2026-02-25T00:00:00.000Z"
+date: "2026-03-05T00:00:00.000Z"
 author:
   name: "Gaëtan Trellu"
   picture: "https://github.com/goldyfruit.png"
