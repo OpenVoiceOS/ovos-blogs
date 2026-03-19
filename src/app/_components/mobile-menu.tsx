@@ -132,6 +132,15 @@ export default function MobileMenu() {
             </li>
             <li>
               <Link
+                href="/write"
+                className="flex text-stone-800 dark:text-stone-200 hover:text-accent dark:hover:text-accent-light py-2"
+                onClick={() => setMobileNavOpen(false)}
+              >
+                Write a Post
+              </Link>
+            </li>
+            <li>
+              <Link
                 href="/feed.xml"
                 className="flex text-stone-800 dark:text-stone-200 hover:text-accent dark:hover:text-accent-light py-2 items-center"
                 onClick={() => setMobileNavOpen(false)}

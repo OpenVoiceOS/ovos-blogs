@@ -1,0 +1,190 @@
+name: Process Blog Submission
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  process-submission:
+    # Only run if issue title starts with [blog-submission]
+    if: startsWith(github.event.issue.title, '[blog-submission]')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Extract and process submission
+        id: process
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          # Extract JSON from code fence in issue body
+          echo "$ISSUE_BODY" > /tmp/issue_body.txt
+
+          # Extract JSON between ```json and ```
+          python3 << 'EOF'
+          import json
+          import re
+          import os
+          import sys
+          from datetime import datetime
+
+          issue_body = os.environ.get('ISSUE_BODY', '')
+          issue_number = os.environ.get('ISSUE_NUMBER', '')
+
+          # Extract JSON from code fence
+          json_match = re.search(r'```json\s*([\s\S]*?)\s*```', issue_body)
+          if not json_match:
+              print("::error::Could not find JSON payload in issue body")
+              sys.exit(1)
+
+          try:
+              payload = json.loads(json_match.group(1))
+          except json.JSONDecodeError as e:
+              print(f"::error::Invalid JSON in issue body: {e}")
+              sys.exit(1)
+
+          # Validate required fields
+          required = ['title', 'excerpt', 'author', 'content']
+          for field in required:
+              if field not in payload:
+                  print(f"::error::Missing required field: {field}")
+                  sys.exit(1)
+
+          if 'name' not in payload['author'] or 'github' not in payload['author']:
+              print("::error::Author must have 'name' and 'github' fields")
+              sys.exit(1)
+
+          # Generate slug from title
+          slug = re.sub(r'[^a-z0-9]+', '-', payload['title'].lower()).strip('-')
+
+          # Generate filename
+          date_str = datetime.now().strftime('%Y-%m-%d')
+          filename = f"{date_str}-{slug}.md"
+
+          # Build frontmatter
+          author_github = payload['author']['github'].lstrip('@')
+          cover_image = payload.get('coverImage', '/assets/blog/common/cover.png')
+
+          frontmatter_lines = [
+              '---',
+              f'title: "{payload["title"]}"',
+              f'excerpt: "{payload["excerpt"]}"',
+              f'coverImage: "{cover_image}"',
+              f'date: "{date_str}T00:00:00.000Z"',
+              'author:',
+              f'  name: "{payload["author"]["name"]}"',
+              f'  picture: "https://github.com/{author_github}.png"',
+          ]
+
+          # Add coauthors if present
+          coauthors = payload.get('coauthors', [])
+          if coauthors:
+              frontmatter_lines.append('coauthors:')
+              for ca in coauthors:
+                  ca_github = ca.get('github', '').lstrip('@')
+                  frontmatter_lines.append(f'  - name: "{ca["name"]}"')
+                  frontmatter_lines.append(f'    picture: "https://github.com/{ca_github}.png"')
+
+          frontmatter_lines.extend([
+              'ogImage:',
+              f'  url: "{cover_image}"',
+              '---',
+              '',
+          ])
+
+          frontmatter = '\n'.join(frontmatter_lines)
+
+          # Write the markdown file
+          filepath = f"_posts/{filename}"
+          with open(filepath, 'w') as f:
+              f.write(frontmatter)
+              f.write(payload['content'])
+
+          print(f"Created {filepath}")
+
+          # Output variables for next steps
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write(f"filename={filename}\n")
+              f.write(f"filepath={filepath}\n")
+              f.write(f"title={payload['title']}\n")
+              f.write(f"author={payload['author']['name']}\n")
+
+          EOF
+
+      - name: Create branch and commit
+        id: create-branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          BRANCH="blog-submission-$ISSUE_NUMBER"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git checkout -b "$BRANCH"
+          git add _posts/
+          git commit -m "Add blog post: ${{ steps.process.outputs.title }}
+
+          Submitted by ${{ steps.process.outputs.author }}
+          Closes #$ISSUE_NUMBER"
+
+          git push origin "$BRANCH"
+
+          echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          gh pr create \
+            --title "Blog: ${{ steps.process.outputs.title }}" \
+            --body "## Blog Post Submission
+
+          This PR was automatically generated from issue #$ISSUE_NUMBER.
+
+          **Title:** ${{ steps.process.outputs.title }}
+          **Author:** ${{ steps.process.outputs.author }}
+          **File:** \`${{ steps.process.outputs.filepath }}\`
+
+          ### Review Checklist
+
+          - [ ] Content is appropriate for the OVOS blog
+          - [ ] Markdown formatting is correct
+          - [ ] Images are properly linked or can be added
+          - [ ] No sensitive information included
+
+          ---
+
+          Closes #$ISSUE_NUMBER" \
+            --base master \
+            --head "${{ steps.create-branch.outputs.branch }}"
+
+      - name: Comment on issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          PR_URL=$(gh pr view "${{ steps.create-branch.outputs.branch }}" --json url -q '.url')
+
+          gh issue comment $ISSUE_NUMBER --body "🎉 **Your blog post submission has been processed!**
+
+          A Pull Request has been created: $PR_URL
+
+          The maintainers will review your submission. You may be asked to make changes or add images before it's merged.
+
+          Thank you for contributing to the OpenVoiceOS blog!"
