@@ -24,105 +24,21 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Extract and process submission
-        id: process
+      - name: Fetch issue body via API
         env:
-          ISSUE_BODY: ${{ github.event.issue.body }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
-          # Extract JSON from code fence in issue body
-          echo "$ISSUE_BODY" > /tmp/issue_body.txt
+          # Use GitHub API to get issue body to avoid shell escaping issues
+          gh api "/repos/${{ github.repository }}/issues/$ISSUE_NUMBER" \
+            --jq '.body' > /tmp/issue_body.txt
 
-          # Extract JSON between ```json and ```
-          python3 << 'EOF'
-          import json
-          import re
-          import os
-          import sys
-          from datetime import datetime
+          echo "Fetched issue body ($(wc -c < /tmp/issue_body.txt) bytes)"
 
-          issue_body = os.environ.get('ISSUE_BODY', '')
-          issue_number = os.environ.get('ISSUE_NUMBER', '')
-
-          # Extract JSON from code fence
-          json_match = re.search(r'```json\s*([\s\S]*?)\s*```', issue_body)
-          if not json_match:
-              print("::error::Could not find JSON payload in issue body")
-              sys.exit(1)
-
-          try:
-              payload = json.loads(json_match.group(1))
-          except json.JSONDecodeError as e:
-              print(f"::error::Invalid JSON in issue body: {e}")
-              sys.exit(1)
-
-          # Validate required fields
-          required = ['title', 'excerpt', 'author', 'content']
-          for field in required:
-              if field not in payload:
-                  print(f"::error::Missing required field: {field}")
-                  sys.exit(1)
-
-          if 'name' not in payload['author'] or 'github' not in payload['author']:
-              print("::error::Author must have 'name' and 'github' fields")
-              sys.exit(1)
-
-          # Generate slug from title
-          slug = re.sub(r'[^a-z0-9]+', '-', payload['title'].lower()).strip('-')
-
-          # Generate filename
-          date_str = datetime.now().strftime('%Y-%m-%d')
-          filename = f"{date_str}-{slug}.md"
-
-          # Build frontmatter
-          author_github = payload['author']['github'].lstrip('@')
-          cover_image = payload.get('coverImage', '/assets/blog/common/cover.png')
-
-          frontmatter_lines = [
-              '---',
-              f'title: "{payload["title"]}"',
-              f'excerpt: "{payload["excerpt"]}"',
-              f'coverImage: "{cover_image}"',
-              f'date: "{date_str}T00:00:00.000Z"',
-              'author:',
-              f'  name: "{payload["author"]["name"]}"',
-              f'  picture: "https://github.com/{author_github}.png"',
-          ]
-
-          # Add coauthors if present
-          coauthors = payload.get('coauthors', [])
-          if coauthors:
-              frontmatter_lines.append('coauthors:')
-              for ca in coauthors:
-                  ca_github = ca.get('github', '').lstrip('@')
-                  frontmatter_lines.append(f'  - name: "{ca["name"]}"')
-                  frontmatter_lines.append(f'    picture: "https://github.com/{ca_github}.png"')
-
-          frontmatter_lines.extend([
-              'ogImage:',
-              f'  url: "{cover_image}"',
-              '---',
-              '',
-          ])
-
-          frontmatter = '\n'.join(frontmatter_lines)
-
-          # Write the markdown file
-          filepath = f"_posts/{filename}"
-          with open(filepath, 'w') as f:
-              f.write(frontmatter)
-              f.write(payload['content'])
-
-          print(f"Created {filepath}")
-
-          # Output variables for next steps
-          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-              f.write(f"filename={filename}\n")
-              f.write(f"filepath={filepath}\n")
-              f.write(f"title={payload['title']}\n")
-              f.write(f"author={payload['author']['name']}\n")
-
-          EOF
+      - name: Process submission
+        id: process
+        run: |
+          python3 scripts/process_blog_submission.py /tmp/issue_body.txt
 
       - name: Create branch and commit
         id: create-branch
@@ -181,10 +97,26 @@ jobs:
         run: |
           PR_URL=$(gh pr view "${{ steps.create-branch.outputs.branch }}" --json url -q '.url')
 
-          gh issue comment $ISSUE_NUMBER --body "🎉 **Your blog post submission has been processed!**
+          gh issue comment $ISSUE_NUMBER --body "Your blog post submission has been processed!
 
           A Pull Request has been created: $PR_URL
 
           The maintainers will review your submission. You may be asked to make changes or add images before it's merged.
 
           Thank you for contributing to the OpenVoiceOS blog!"
+
+      - name: Handle failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          gh issue comment $ISSUE_NUMBER --body "Sorry, there was an error processing your blog submission.
+
+          Please check that your submission follows the correct format. You can try:
+          1. Going to the [Write page](https://blog.openvoiceos.org/write) and re-submitting
+          2. Checking that your markdown content doesn't have any syntax issues
+
+          If the problem persists, please reach out to the maintainers.
+
+          [View workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
