@@ -1,20 +1,16 @@
 ---
 title: "OVOS Localize: A Translation Platform With No Servers"
 excerpt: "We built a full translation platform for OpenVoiceOS skills — context-aware editor, automated PR pipeline, validation engine, open ML datasets — entirely on GitHub. No servers. No admin. Just a GitHub account."
-coverImage: "/assets/blog/ovos-localize/cover.png"
+coverImage: "/assets/blog/ovos-localize/thumb.png"
 date: "2026-03-24"
 author:
   name: "Claude (Anthropic)"
   picture: "https://www.anthropic.com/favicon.ico"
 coauthors:
-  - name: "Miro (j1nx)"
-    picture: "https://github.com/j1nx.png"
+  - name: JarbasAl
+    picture: "https://avatars.githubusercontent.com/u/33701864"
 ogImage:
-  url: "/assets/blog/ovos-localize/cover.png"
----
-
-> **Transparency note:** This blog post was written by Claude (claude-sonnet-4-6, Anthropic), the same AI that built the majority of OVOS Localize. Miro (j1nx) directed the project, set the requirements, reviewed all code, and is responsible for the human judgement calls throughout. The platform itself — parsers, validators, AST analysis, GitHub workflows, the SPA — was developed in close collaboration between Miro and Claude over many sessions. We think it's worth being upfront about that.
-
+  url: "/assets/blog/ovos-localize/thumb.png"
 ---
 
 What if your translation platform had no servers? No accounts to create, no admin to email, no hosted service that can go down or change its pricing model mid-project?
@@ -105,28 +101,35 @@ Every translation contributed through OVOS Localize automatically becomes part o
 
 These update daily, split at 100 MB for GitHub compatibility, and are loadable via HuggingFace Datasets. The more languages get translated, the richer the open voice AI ecosystem gets.
 
-## A Note on How This Was Built
+---
 
-We want to be direct about the development process.
-
-OVOS Localize was built collaboratively between Miro (j1nx) and Claude (claude-sonnet-4-6). Miro defined the architecture, set every product requirement, reviewed every code change, and made all the decisions about what to build and why. Claude wrote most of the implementation: the Python parsers, validators, AST analyzer, dataset builders, GitHub Actions workflows, and the SPA frontend.
-
-This is increasingly the reality of open-source development in 2026: AI can handle a large fraction of implementation work, but it requires clear direction, domain knowledge, and human review to produce something correct and useful. The OVOS community should know when AI was involved in code that will run in their tools.
-
-All code is on GitHub, auditable by anyone. The AI-generated commits are logged in `MAINTENANCE_REPORT.md`.
-
-## Help Us Localise OVOS
+## Get started with ovos-localize
 
 Here's where you can help:
 
 - **Translate skills** at [openvoiceos.github.io/ovos-localize](https://openvoiceos.github.io/ovos-localize/). Filter by your language on the dashboard, pick a skill with low coverage, and contribute.
-
 - **Check the Issues view** for your language. Low-diversity intent files and missing dialog variants are easy to fix if you're a native speaker.
-
 - **Add your skill** by opening a PR to add your `org/repo` to [`skills.txt`](https://github.com/OpenVoiceOS/ovos-localize/blob/dev/skills.txt). The pipeline picks it up on the next daily run.
-
 - **Request a new language** via the "Can't find your language?" link in the language selector.
 
 For the technical architecture — how the GitHub App tokens work, how the AST analysis extracts context, the full validation rule set — see the [OVOS Localize whitepaper](https://github.com/OpenVoiceOS/ovos-localize/blob/dev/docs/whitepaper.md).
 
 No infrastructure to set up. No admin to email. Just GitHub.
+
+---
+
+> **Transparency note:** This blog post was written by Claude (claude-sonnet-4-6, Anthropic), the same AI that built the majority of OVOS Localize. Casimiro (jarbas) directed the project, set the requirements, reviewed all code, and is responsible for the human judgement calls throughout. The platform itself — parsers, validators, AST analysis, GitHub workflows, the SPA — was developed in close collaboration between Miro and Claude over many sessions. We think it's worth being upfront about that.
+
+---
+
+## Help Us Build Voice for Everyone
+
+OpenVoiceOS is more than software, it’s a mission. If you believe voice assistants should be open, inclusive, and user-controlled, here’s how you can help:
+
+- **💸 Donate**: Help us fund development, infrastructure, and legal protection.
+- **📣 Contribute Open Data**: Share voice samples and transcriptions under open licenses.
+- **🌍 Translate**: Help make OVOS accessible in every language.
+
+We're not building this for profit. We're building it for people. With your support, we can keep voice tech transparent, private, and community-owned.
+
+👉 [Support the project here](https://www.openvoiceos.org/contribution)
