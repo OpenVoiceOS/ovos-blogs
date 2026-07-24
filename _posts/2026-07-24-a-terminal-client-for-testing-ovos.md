@@ -11,9 +11,12 @@ ogImage:
 ---
 
 I'd been missing a working CLI client for a while - specifically for
-testing intents. Typing an utterance and watching what actually
-happens is the fastest way I know to check whether a phrasing works,
-whether a skill is loaded, whether the pipeline is doing what you think
+testing intents. Back in the Mycroft days I used the CLI client
+constantly - it was just how you tested things. Once it stopped
+working, I kept reaching for it out of habit and kept coming up empty.
+Typing an utterance and watching what actually happens is the fastest
+way I know to check whether a phrasing works, whether a skill is
+loaded, whether the pipeline is doing what you think
 it's doing - no wake word, no microphone, no speech-to-text accuracy
 getting in the way of the thing you're actually trying to test.
 
@@ -54,12 +57,15 @@ it's all in the logs, all on the bus, all inspectable with
 `systemctl` and existing tools if you go looking. What the TUI client
 actually buys you is that it's fast and convenient enough that you
 *do* look, instead of it being a chore you skip. That matters more
-than it sounds like it should - a friend pointed me at
-[`ovos-busmon`](https://github.com/OpenVoiceOS/ovos-busmon) recently
-(a genuinely excellent live bus monitor with full JSON payload
-inspection and message injection, worth using alongside this, not
-instead of it), and the honest comparison is: busmon is closer to a
-bus-level Wireshark, this is more of a daily-driver cockpit.
+than it sounds like it should. Worth knowing the ecosystem already has
+good single-purpose tools for pieces of this too - `ovos-simple-cli`
+(bundled with
+[`ovos-bus-client`](https://github.com/OpenVoiceOS/ovos-bus-client)),
+[`ovos-logs`](https://github.com/OpenVoiceOS/ovos-utils), and
+[`ovos-busmon`](https://github.com/OpenVoiceOS/ovos-busmon) (a live
+bus monitor with full JSON payload inspection and message injection)
+among them - this one just tries to bundle the day-to-day pieces into
+one screen.
 
 ## What it caught, just from being easy to use
 
