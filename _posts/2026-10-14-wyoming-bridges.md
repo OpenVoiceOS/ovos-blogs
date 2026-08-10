@@ -12,45 +12,41 @@ ogImage:
 
 ## OVOS Speaks Wyoming
 
-The open-source voice world has two thriving hearts. On one side, OpenVoiceOS, with its sprawling catalog of pluggable STT, TTS, and wake-word engines. On the other, Home Assistant's Assist stack, built around a small protocol called **Wyoming**.
+If you run Home Assistant's Assist voice pipelines, you are limited to whatever speech engines speak Wyoming, Assist's voice protocol. OpenVoiceOS (OVOS) has a much larger catalog of speech-to-text (STT), text-to-speech (TTS), and wake-word plugins, but until now none of them worked with Assist. Three new bridges close that gap: they expose any OVOS plugin as a Wyoming service, so you can pick from the whole OVOS catalog inside Home Assistant.
 
-Both are open. Both are private-by-default. And yet, for the longest time, they couldn't share a single engine. If you had built the perfect offline voice pipeline in OVOS, you couldn't offer it to Home Assistant. Two communities solving the same problem, separated by a wire format.
-
-That changes with a set of bridges that let Home Assistant run any OVOS engine. This work ships as an extra beyond our grant's Expose deliverable.
+This work ships as an extra beyond our grant's Expose deliverable.
 
 ---
 
 ## What Wyoming is, briefly
 
-Wyoming is the peer-to-peer voice protocol behind Home Assistant's Assist stack, originally from the rhasspy project. It's deliberately simple: it frames audio and events over a plain socket, so a client like Home Assistant can hand audio to a service and get transcriptions, synthesized speech, or wake-word detections back. That simplicity is exactly what makes it a good meeting point.
+Wyoming is the peer-to-peer voice protocol behind Home Assistant's Assist stack, originally from the rhasspy project. It frames audio and events over a plain socket. A client such as Home Assistant hands audio to a service and gets back transcriptions, synthesized speech, or wake-word detections.
 
-Our approach is honest and unglamorous: these are **bridges**, adapters that expose existing OVOS plugins over the Wyoming wire protocol. There's no reimplementation and no forking of engines. Your OVOS plugin runs as it always has; the bridge is a thin server that speaks Wyoming to Home Assistant and OVOS plugin calls to the engine. One direction only: the bridges are Wyoming *servers* that let Home Assistant consume OVOS engines.
+The bridges are adapters, not reimplementations. Each one wraps an existing OVOS plugin and speaks Wyoming on one side, the OVOS plugin API on the other. Your OVOS plugin runs exactly as it always has. The bridges are Wyoming *servers*: Home Assistant connects to them, not the other way around.
 
 ---
 
-## Three bridges
-
-There is one bridge per stage of the voice pipeline:
+## Three bridges, one per pipeline stage
 
 - **[wyoming-ovos-stt](https://github.com/OpenVoiceOS/wyoming-ovos-stt)** exposes any OVOS speech-to-text plugin, for example an `onnx-asr` model, as a Wyoming ASR service.
 - **[wyoming-ovos-tts](https://github.com/OpenVoiceOS/wyoming-ovos-tts)** exposes any OVOS text-to-speech plugin, such as a phoonnx or piper voice, as a Wyoming TTS service.
 - **[wyoming-ovos-wakeword](https://github.com/OpenVoiceOS/wyoming-ovos-wakeword)** exposes any OVOS wake-word plugin as a Wyoming wake service.
 
-Each bridge is a small Python service that takes two things: which OVOS plugin to load, and where to listen. On the command line the plugin is a required `--plugin-name` (the same value you would put under `module` in `mycroft.conf`), and the listen address is `--uri`, which defaults to `stdio://` and also accepts a `tcp://host:port` address. The plugin's own settings — language, model, voice — are read from `mycroft.conf` exactly as they would be inside a running OVOS. Nothing about the engine changes; the bridge just wraps it.
+Each bridge takes two arguments: `--plugin-name`, the OVOS plugin to load (the same value you would put under `module` in `mycroft.conf`), and `--uri`, where it listens. `--uri` defaults to `stdio://` and also accepts a `tcp://host:port` address. The plugin reads its own settings (language, model, voice) from `mycroft.conf`, the same file it would read inside a running OVOS instance.
 
-Point Home Assistant at one of these and the corresponding OVOS engine appears as a provider you can select in Assist. Because the bridge is thin, whatever the underlying plugin supports — streaming, language selection, custom models — comes along for the ride.
+Point Home Assistant at a bridge and the OVOS engine behind it appears as a provider in Assist. Whatever the plugin supports, such as streaming, language selection, or custom models, works through the bridge too, since the bridge does not touch that logic.
 
 ---
 
 ## Deploying the bridges
 
-The easiest way to run all of this is with containers. The **[ovos-wyoming-docker](https://github.com/OpenVoiceOS/ovos-wyoming-docker)** repository ships a `docker-compose.yml` with ready-made images for specific engines and voices, so you don't have to hand-assemble a Python environment on your voice box. The images are published under the `jarbasai/ovos-wyoming-*` namespace, and the compose file wires each one to a stable host port:
+The **[ovos-wyoming-docker](https://github.com/OpenVoiceOS/ovos-wyoming-docker)** repository ships a `docker-compose.yml` with ready-made images, so you do not have to assemble a Python environment by hand. Images are published under the `jarbasai/ovos-wyoming-*` namespace:
 
 - **STT:** a Chromium-based recognizer (`jarbasai/ovos-wyoming-chromium`) on host port **10500**, and a server-backed STT image on **10501**.
 - **TTS:** a family of voices, each on its own port, including Matxa (10601), Mimic (10603), NOS (10604), and SAM (10605), plus Google-Translate and remote-server variants.
 - **Wake word:** a `wakewords` image on host port **10900**.
 
-Inside every container the bridge listens on port 8080; the compose file maps that to the host port shown above, so all the services land in the ~10500-10900 range. Each service also mounts your `mycroft.conf`, which is where you set the plugin's language, model, or voice.
+Inside every container the bridge listens on port 8080. The compose file maps that to the host port shown above, so the services land in the ~10500-10900 range. Each service also mounts your `mycroft.conf`, where you set the plugin's language, model, or voice.
 
 Bring one up like any other compose service:
 
@@ -59,24 +55,20 @@ Bring one up like any other compose service:
 docker compose up -d wyoming-ovos-tts-sam
 ```
 
-That publishes the SAM voice bridge on host port 10605. Then, in Home Assistant, wire it in through the UI:
+That publishes the SAM voice bridge on host port 10605. In Home Assistant, go to **Settings → Devices & Services → Add Integration → Wyoming Protocol**, and enter the host and port of the running bridge (for example your voice box's address and `10605`). Home Assistant connects and offers it as a TTS, STT, or wake-word provider for your Assist pipelines.
 
-**Settings → Devices & Services → Add Integration → Wyoming Protocol**, and enter the host and port of the running bridge (for example your voice box's address and `10605`). Home Assistant connects to the service and offers it as a TTS, STT, or wake-word provider for your Assist pipelines.
+The exact image names and host ports live in the compose file. The pattern is the same for all three bridges: run the container, note the host port, add it in Home Assistant.
 
-The exact image names and host ports live in the compose file, but the shape is the same across all three bridges: run the container, note the host port, add it in Home Assistant. Prefer to run without Docker? Each bridge is a plain Python service; give it a `--plugin-name` and a `--uri` such as `tcp://0.0.0.0:10605`, and point Home Assistant at that address instead.
+To run without Docker, each bridge is a plain Python service. Give it a `--plugin-name` and a `--uri` such as `tcp://0.0.0.0:10605`, and point Home Assistant at that address instead.
 
 ---
 
 ## Why this matters
 
-The point isn't a clever protocol trick. It's the end of a quiet lock-in.
-
-- **No lock-in.** Your choice of STT, TTS, or wake word is no longer tied to which assistant you happened to start with.
-- **Mix and match.** Run OVOS wake-word detection in front of a Home Assistant pipeline, or a phoonnx voice inside Assist. Compose the best of both stacks.
-- **The whole OVOS catalog, reachable.** Every OVOS plugin — the growing family of offline STT and TTS engines, dozens of voices and languages — becomes available to Home Assistant users through a single integration.
-- **Private and offline.** Nothing here phones home. These bridges keep audio on your own hardware, on your own network, exactly where both communities want it.
-
-Two open ecosystems, one protocol, and finally, shared engines.
+- **No lock-in.** Your choice of STT, TTS, or wake word is no longer tied to which assistant you started with.
+- **Mix and match.** Run OVOS wake-word detection in front of a Home Assistant pipeline, or a phoonnx voice inside Assist.
+- **The whole OVOS catalog, reachable.** Every OVOS plugin, the full family of offline STT and TTS engines with their voices and languages, becomes available to Home Assistant users through one integration.
+- **Private and offline.** Nothing here phones home. The bridges keep audio on your own hardware and network.
 
 ---
 
