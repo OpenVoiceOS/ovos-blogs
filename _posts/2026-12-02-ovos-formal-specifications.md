@@ -1,5 +1,5 @@
 ---
-title: "OVOS Is a Voice Operating System — and Now It Has a Written ABI"
+title: "OVOS Is a Voice Operating System — and Now It Has a Written Protocol Spec"
 excerpt: "The OVOS architecture repository is a set of formal, implementation-agnostic specifications for how a voice OS's components talk to each other: 20 specs covering the intent stack, the bus and sessions, the pipeline, audio, GUI, and media. Written in RFC-2119 language, so 'correct' stops being a matter of opinion."
 coverImage: "/assets/blog/ngi/thumb.png"
 date: "2026-12-02T00:00:00.000Z"
@@ -10,26 +10,30 @@ ogImage:
   url: "/assets/blog/ngi/thumb.png"
 ---
 
-## OVOS Is a Voice Operating System — and Now It Has a Written ABI
+## OVOS Is a Voice Operating System — and Now It Has a Written Protocol Spec
 
-Most voice assistants are products: you ask a question, they answer, and how they do it stays a black box. OpenVoiceOS calls itself a **voice operating system**, not a voice assistant, and the [**OVOS architecture repository**](https://github.com/OpenVoiceOS/architecture) now writes down exactly what that means. It is the ABI of the platform: the documented contract that lets independent components — skills, satellites, orchestrators — talk to each other without knowing anything about each other's internals.
+Most voice assistants are products: you ask a question, they answer, and how they do it stays a black box. OpenVoiceOS calls itself a **voice operating system**, not a voice assistant, and the [**OVOS architecture repository**](https://github.com/OpenVoiceOS/architecture) now writes down exactly what that means. It is the wire contract of the platform: the documented rulebook that lets independent components — skills, satellite devices, orchestrators built by different people, on different hardware — talk to each other without knowing anything about each other's internals.
 
-A voice OS defines the boundary between what a user says and the computation that runs. It arbitrates which application handles each utterance, manages conversation state across turns, and gives third-party applications a stable interface to run against. Until now, that interface lived only in code. The architecture repo makes it a document.
+For someone using a voice assistant, this is what makes it possible to mix and match: run a skill written by one developer on a device built by another, swap the app that turns speech into an action, or move your setup to different hardware, and have the pieces keep working together. Until now, the rules for how those pieces cooperate lived only in code scattered across projects. The architecture repo makes it one document.
+
+*The rest of this post is for developers and maintainers building on OVOS — skill authors, satellite/bridge builders, and anyone writing an orchestrator.*
 
 ---
 
 ## Why it matters: the OS analogy holds point for point
 
-| Operating system | Voice OS equivalent |
-|---|---|
-| Process scheduler | Pipeline plugin ordering |
-| IPC / message passing | The bus and the MSG-1 envelope |
-| Shared memory | The session carrier |
-| Process supervision | The handler-lifecycle trio |
-| Loadable kernel modules | Pipeline and transformer plugins |
-| System-call ABI | The `match(utterances, lang, session) → Match` contract |
+This table maps the spec pieces to familiar operating-system concepts. It's an illustrative comparison, not an exact equivalence — treat it as a way in, not a spec in itself.
 
-Because there is a stable ABI, OVOS is a runtime, not a monolith. You can swap the scheduler (pipeline ordering), the NLU engines (pipeline plugins), the dialogue policy (converse and context), or the output layer (TTS, display), in any combination, and everything else keeps working. A skill written against the intent stack runs on any conformant orchestrator, under any pipeline configuration, in any supported language.
+| Operating system concept | Voice OS equivalent | In plain terms |
+|---|---|---|
+| Process scheduler | Pipeline plugin ordering | Decides which piece of software handles what you said, and in what order it's tried |
+| IPC / message passing | The bus and the MSG-1 envelope | The shared channel components use to send each other messages |
+| Shared memory | The session carrier | The bit of state that travels with a conversation so components stay in sync |
+| Process supervision | The handler-lifecycle trio | The rules for starting, tracking, and stopping a request as it's handled |
+| Loadable kernel modules | Pipeline and transformer plugins | Swappable building blocks — e.g. the natural-language understanding (NLU) engine that figures out intent, or the text-to-speech (TTS) engine that generates the reply |
+| System-call ABI | The `match()` contract every intent handler implements | The fixed shape every plugin must expose so the rest of the system can call it |
+
+Because there is a stable contract, OVOS is a runtime, not a monolith. You can swap the scheduler (pipeline ordering), the NLU engines (pipeline plugins), the dialogue policy (converse and context), or the output layer (TTS, display), in any combination, and everything else keeps working. A skill written against the intent stack runs on any conformant orchestrator, under any pipeline configuration, in any supported language.
 
 ---
 
@@ -57,11 +61,13 @@ There is a separate OVOS effort, [ovos-pydantic-models](https://github.com/OpenV
 
 ---
 
-## How to use it
+## How to try it
 
-Read the specs at [github.com/OpenVoiceOS/architecture](https://github.com/OpenVoiceOS/architecture). If you maintain a skill, check it against `INTENT-1` through `INTENT-4`. If you are building a satellite, a bridge, or a competing orchestrator, `MSG-1`, `SESSION-1`, and `PIPELINE-1` are the contracts to implement against. Where your implementation and the spec disagree, that is a bug report against your code, not a request to change the document.
+Read the specs at [github.com/OpenVoiceOS/architecture](https://github.com/OpenVoiceOS/architecture). If you maintain a skill, check it against `INTENT-1` through `INTENT-4`. If you are building a satellite, a bridge, or a competing orchestrator, `MSG-1`, `SESSION-1`, and `PIPELINE-1` are the contracts to implement against.
 
-An unwritten platform cannot be reimplemented, cannot be conformance-tested, and cannot be trusted to stay stable as the code underneath it changes. Writing the ABI down fixes all three: skill authors get guarantees that hold across releases, and OVOS gets a definition of "correct" that lives outside any one codebase.
+You don't have to implement the spec machinery from scratch: [**ovos-spec-tools**](https://github.com/OpenVoiceOS/ovos-spec-tools) is a reference implementation with the sentence-template expander, the locale resource loader, the dialog renderer, language matching, and the `ovos-spec-lint` linter. Depend on it instead of reimplementing that plumbing yourself. Where your implementation and the spec disagree, that is a bug report against your code, not a request to change the document.
+
+An unwritten platform cannot be reimplemented, cannot be checked for conformance, and cannot be trusted to stay stable as the code underneath it changes. Writing the spec down is the first step toward fixing all three. A conformance corpus and test harness are the planned next step, expected to live in `ovos-spec-tools`; they are not built yet. What's already true today: skill authors get a document that defines "correct" outside any one codebase, instead of having to read implementation source to guess at the contract.
 
 ---
 
