@@ -12,31 +12,31 @@ ogImage:
 
 ## Debug Your Assistant from a URL
 
-Developing for OVOS has always meant reading logs. The messagebus carries every event the platform processes — utterances, intent matches, skill activations, TTS requests, session state changes, HiveMind traffic — but it all streams past as text in a terminal. Finding the one message you care about in a running system means writing a throwaway listener or grepping through log files after the fact.
+The OVOS messagebus carries every event the platform processes — utterances, intent matches, skill activations, TTS requests, session state, HiveMind traffic. Today that stream mostly goes to a terminal as scrolling text. Finding one message in a running system means writing a throwaway listener or grepping log files after the fact.
 
-[`ovos-busmon`](https://github.com/OpenVoiceOS/ovos-busmon) gives you something better: a live view of the bus in your browser, with filters, JSON inspection, capture export, and — when you need it — message injection.
+[`ovos-busmon`](https://github.com/OpenVoiceOS/ovos-busmon) puts the bus in your browser instead: filters, JSON inspection, capture export, and message injection when you need to force a bug to reproduce.
 
 ---
 
-## Two Modes, One UI
+## Two Ways to Connect
 
-The monitor UI is a single static page, and it works two different ways depending on how you open it. It detects which transport to use automatically, so you never configure that by hand.
+The monitor is a single static page, and it detects which transport to use automatically — you never configure that by hand.
 
-### Mode 1 — fully in-browser, zero server
+### Zero-server: open the page
 
-Open the page and it opens a WebSocket **straight to the OVOS messagebus** — no backend, nothing to install. By default it connects to `ws://localhost:8181/core`; you can change the host, port, and path in the connection panel or pass them as query parameters:
+Open the page and it opens a WebSocket straight to the OVOS messagebus. No backend, nothing to install. It connects to `ws://localhost:8181/core` by default; set host, port, and path in the connection panel, or as query parameters:
 
 ```
 index.html?host=192.168.1.10&port=8181&path=/core
 ```
 
-Because it is just a static file, it can be hosted on GitHub Pages. That is the point of the title: anyone on a laptop that can reach an OVOS device opens a URL and is watching that device's bus seconds later, with no local setup at all.
+It is a static file, so you can host it on GitHub Pages: anyone on a laptop that can reach an OVOS device opens a URL and watches that device's bus within seconds, no local setup required.
 
-One browser caveat worth knowing: Chromium-based browsers allow a `ws://localhost` connection from an `https://` page, because localhost counts as a trustworthy origin. Safari and some Firefox builds block it. If the connection is refused, the UI has a **Download standalone HTML** button — save that file, open it locally as `file://`, and you get identical functionality with no origin restrictions.
+One browser caveat: Chromium-based browsers allow a `ws://localhost` connection from an `https://` page, because localhost counts as a trustworthy origin. Safari and some Firefox builds block it. If the connection is refused, use the **Download standalone HTML** button — save the file, open it as `file://`, and it works with no origin restrictions.
 
-### Mode 2 — the FastAPI service
+### Always-on: run the FastAPI service
 
-For a monitor that is always on, install the package and run the service:
+For a monitor that stays up, install the package and run it:
 
 ```bash
 pip install ovos-busmon
@@ -44,7 +44,7 @@ ovos-busmon
 # Listens on http://127.0.0.1:8005 by default
 ```
 
-Here the connection to the bus happens **server-side**, through `ovos-bus-client`, and the same UI is served over HTTP. Instead of a browser WebSocket, the page pulls events over Server-Sent Events and REST. The service exposes a small, honest API:
+Here the connection to the bus happens server-side, through `ovos-bus-client`, and the same UI is served over HTTP. The page pulls events over Server-Sent Events and REST instead of a browser WebSocket. The API is small:
 
 | Endpoint | What it does |
 |---|---|
@@ -55,13 +55,9 @@ Here the connection to the bus happens **server-side**, through `ovos-bus-client
 | `POST /api/send` | Inject a message onto the bus |
 | `GET /api/export` | JSONL download of the whole capture buffer |
 
-The service keeps a ring buffer of recent messages (2000 by default), so a client that reconnects — or one you open a minute late — can page back through what it missed via `since_id` rather than starting blind.
+The service keeps a ring buffer of recent messages (2000 by default). A client that reconnects, or one you open a minute late, pages back through what it missed via `since_id` instead of starting blind.
 
----
-
-## Configuration Is Environment Variables
-
-There are no `--host` / `--port` flags to memorise. Everything is set through environment variables (or a `.env` file), which makes the service easy to drop into a container or a systemd unit:
+Configuration is environment variables (or a `.env` file) — no flags to memorize, and easy to drop into a container or systemd unit:
 
 | Variable | Default | Meaning |
 |---|---|---|
@@ -78,32 +74,32 @@ A Docker Compose file ships with the repo. It binds the service to `127.0.0.1:80
 
 ## Filtering the Firehose
 
-Whichever mode you use, the interface is the same, and it is built for cutting a busy bus down to the events that matter:
+Both modes share the same interface, built for cutting a busy bus down to what matters:
 
-- **Message type**, with glob patterns — `recognizer_loop:*` to watch the input side, `ovos.*` for the namespaced events, or an exact type like `speak`.
-- **Full-text search** across type, data, context, and session — match any string anywhere in the payload.
+- **Message type**, with glob patterns — `recognizer_loop:*` for the input side, `ovos.*` for namespaced events, or an exact type like `speak`.
+- **Full-text search** across type, data, context, and session.
 - **Session ID, source, and destination** — isolate one conversation or one skill.
-- **Sort** newest-first or oldest-first, and **pause/resume** capture when you want to freeze the view and read.
+- **Sort** newest-first or oldest-first, and **pause/resume** capture to freeze the view and read.
 
-Each message expands into syntax-highlighted JSON, so you inspect the full payload without leaving the page. When you have the events you want, export the capture as JSONL or JSON — client-side from the buffer, or via `/api/export` in service mode — to attach to a bug report or replay later.
-
----
-
-## It Can Talk Back
-
-The monitor is not read-only. The **Inject** panel — backed by `POST /api/send` — puts an arbitrary message onto the bus: pick a type, write a JSON payload, send. This is the feature that turns the tool from a viewer into a workbench. You can reproduce a skill's behaviour by emitting the exact message that triggers it, instead of staging the whole voice pipeline to get there. Debugging an intent handler no longer requires speaking to your assistant on a loop.
-
-That power is exactly why the injection surface is meant for **local, personal administration only**. The service binds to `127.0.0.1` by default, HTTP Basic auth guards the endpoint, and the guidance is blunt: keep the localhost binding, add TLS if you ever move it, and never expose the injection endpoint to an untrusted network. Anyone who can reach it can emit any message on your bus.
+Each message expands into syntax-highlighted JSON, so you can inspect the full payload without leaving the page. Export what you find as JSONL or JSON — client-side from the buffer, or via `/api/export` in service mode — to attach to a bug report or replay later.
 
 ---
 
-## HiveMind-Ready
+## Injecting Messages
 
-Because you can filter on source and destination, the monitor maps cleanly onto how HiveMind routes traffic. Satellites, relays, and the central node all tag their messages with routing context, so you can follow a single utterance from a satellite, through a relay, to the core and back — without stitching together log files from several machines by hand.
+The **Inject** panel, backed by `POST /api/send`, puts an arbitrary message onto the bus: pick a type, write a JSON payload, send. You can reproduce a skill's behavior by emitting the exact message that triggers it, instead of staging the whole voice pipeline to get there — no more talking to your assistant in a loop to test one intent handler.
+
+That power is why injection is meant for local, personal administration only. The service binds to `127.0.0.1` by default and HTTP Basic auth guards the endpoint. Keep the localhost binding, add TLS if you move it off localhost, and never expose the injection endpoint to an untrusted network — anyone who can reach it can emit any message on your bus.
 
 ---
 
-`ovos-busmon` is a developer and diagnostics tool, and it stays in that lane: it logs nothing to disk beyond what you explicitly export. Zero-server for a quick look, a proper service for a permanent one, and an inject panel for when watching is not enough. It is the observability layer the OVOS developer experience has been missing.
+## Following HiveMind Traffic
+
+Because you can filter on source and destination, the monitor maps onto how HiveMind routes traffic. Satellites, relays, and the central node tag their messages with routing context, so you can follow one utterance from a satellite through a relay to the core and back, without stitching together log files from several machines by hand.
+
+---
+
+`ovos-busmon` logs nothing to disk beyond what you explicitly export. Zero-server for a quick look, the FastAPI service for a permanent one, and an inject panel for when watching is not enough.
 
 ---
 
