@@ -12,15 +12,13 @@ ogImage:
 
 ## Call OVOS Speech Servers From Any AI Agent
 
-OpenVoiceOS runs a family of small HTTP servers for speech: one for transcription, one for synthesis, one for translation. Each already exposes plain REST endpoints, but pointing an AI agent at them meant hand-writing a client — reading the docs, hard-coding routes, and mapping parameters by hand for every agent runtime.
+If you want an AI agent to transcribe, speak, or translate through OVOS, you no longer write a client for it. The server describes its own tools; the agent reads that description and calls them.
 
-Three pull requests remove that step by teaching the servers to describe themselves in two agent-native protocols, **MCP** (Model Context Protocol) and **UTCP** (Universal Tool Calling Protocol):
+OpenVoiceOS runs three small HTTP servers for speech: one for transcription, one for synthesis, one for translation. Each already exposed plain REST endpoints, but pointing an agent at them meant hand-writing a client — reading the docs, hard-coding routes, mapping parameters by hand for every agent runtime. Three pull requests remove that step by teaching the servers to describe themselves in two agent-native protocols, **MCP** (Model Context Protocol) and **UTCP** (Universal Tool Calling Protocol):
 
 - [ovos-stt-http-server #75](https://github.com/OpenVoiceOS/ovos-stt-http-server/pull/75)
 - [ovos-tts-server #100](https://github.com/OpenVoiceOS/ovos-tts-server/pull/100)
 - [ovos-translate-server #16](https://github.com/OpenVoiceOS/ovos-translate-server/pull/16)
-
----
 
 ## Two Protocols, One Goal
 
@@ -40,13 +38,13 @@ curl -s http://localhost:9666/utcp | jq '.tools[].name'
 # "tts_status"  "tts_synthesize_v2"  "tts_synthesize_legacy"
 ```
 
-Because UTCP describes the existing REST surface, an agent that reads the manual calls the same routes a `curl` user would — the protocol is a description layer, not a new server.
+UTCP describes the existing REST surface. An agent that reads the manual calls the same routes a `curl` user would — the protocol is a description layer, not a new server.
 
 ### MCP — opt-in, one install
 
-Each server also grows an optional `/mcp` mount built on FastMCP, served over streamable HTTP with SSE transport, mounted alongside the existing FastAPI app. It carries a single dependency (`mcp>=1.0.0`) gated behind the `[mcp]` extra. Install the extra and the mount appears; leave it out and `create_app()` still builds the normal server, so the MCP code degrades gracefully rather than crashing on a missing import.
+Each server also grows an optional `/mcp` mount, built on FastMCP and served over streamable HTTP with SSE transport, alongside the existing FastAPI app. It carries a single dependency (`mcp>=1.0.0`) gated behind the `[mcp]` extra. Install the extra and the mount appears; leave it out and `create_app()` still builds the normal server — the MCP code degrades gracefully instead of crashing on a missing import.
 
-For STT and translate the `/mcp` mount comes up **automatically** once the extra is installed. The TTS server keeps it behind an explicit `--mcp` flag:
+For STT and translate, `/mcp` mounts automatically once the extra is installed. The TTS server keeps it behind an explicit `--mcp` flag:
 
 ```bash
 # STT and translate: install the [mcp] extra, /mcp mounts automatically
@@ -57,13 +55,11 @@ ovos-translate-server --engine ovos-lang-detector-plugin-fastlang
 ovos-tts-server --engine ovos-tts-plugin-piper --mcp           # port 9666
 ```
 
-Add the server to your Claude Desktop config and the assistant can transcribe audio, synthesize speech, or translate text on demand — the same way it calls any other MCP tool.
-
----
+Add the server to your Claude Desktop config and the assistant can transcribe audio, synthesize speech, or translate text on demand, the same way it calls any other MCP tool.
 
 ## What Each Server Exposes
 
-The MCP tool set is a deliberately smaller, agent-shaped surface than the full HTTP API — the tools an LLM actually reaches for, rather than every legacy route:
+The MCP tool set is smaller than the full HTTP API on purpose: the tools an LLM actually reaches for, not every legacy route.
 
 | Server | UTCP tools | MCP tools |
 |---|---|---|
@@ -71,13 +67,11 @@ The MCP tool set is a deliberately smaller, agent-shaped surface than the full H
 | ovos-tts-server | `tts_synthesize_v2`, `tts_synthesize_legacy`, `tts_status` | `synthesize` |
 | ovos-translate-server | `ovos_translate.translate`, `ovos_translate.translate_with_source`, `ovos_translate.detect_language`, `ovos_translate.classify_language`, `ovos_translate.supported_languages` | `translate`, `detect_language` |
 
-The STT `transcribe` tool takes **one** of `audio_b64` (base64 raw PCM) or `audio_path` (a file the server can read), plus a BCP-47 `lang` (default `"auto"`) and a `sample_rate` (default `16000`). When `lang="auto"` hits an engine that has no audio language detection, the call falls back to the engine's default language instead of erroring — a partial result beats a failed request.
-
----
+The STT `transcribe` tool takes **one** of `audio_b64` (base64 raw PCM) or `audio_path` (a file the server can read), plus a BCP-47 `lang` (default `"auto"`) and a `sample_rate` (default `16000`). When `lang="auto"` hits an engine with no audio language detection, the call falls back to the engine's default language instead of erroring — a partial result beats a failed request.
 
 ## Trying It End-to-End
 
-The STT round-trip from an MCP client looks like this:
+The STT round-trip from an MCP client:
 
 ```python
 import asyncio
@@ -95,25 +89,21 @@ async def main():
 asyncio.run(main())
 ```
 
-For TTS the `synthesize` tool returns a base64-encoded WAV artifact (the TTS server defaults to port 9666, translate to 9686). The translate server exposes both `translate` (with optional target-language parameter) and `detect_language` as MCP tools.
+For TTS, the `synthesize` tool returns a base64-encoded WAV artifact (the TTS server defaults to port 9666, translate to 9686). The translate server exposes both `translate` (with an optional target-language parameter) and `detect_language` as MCP tools.
 
-This path is exercised in CI, not just documented: each PR adds live-HTTP end-to-end tests that boot the real app with a stub engine, fetch `GET /utcp` and check the advertised URLs, then drive the MCP `initialize → list_tools → call_tool` sequence over streamable HTTP. The STT branch carries a `fix(mcp)` commit precisely because a live run caught two problems a mocked test would have missed — the mounted sub-app's lifespan was not propagated, and `lang=auto` failed on engines without audio language detection.
-
----
+This path is exercised in CI, not just documented. Each PR adds live-HTTP end-to-end tests that boot the real app with a stub engine, fetch `GET /utcp` and check the advertised URLs, then drive the MCP `initialize → list_tools → call_tool` sequence over streamable HTTP. The STT branch carries a `fix(mcp)` commit for exactly this reason: a live run caught two problems a mocked test would have missed — the mounted sub-app's lifespan was not propagated, and `lang=auto` failed on engines without audio language detection.
 
 ## Consuming It From OVOS Itself
 
 The same protocols work in the other direction. [`ovos-tool-adapters`](https://github.com/OpenVoiceOS/ovos-tool-adapters) ships `MCPToolBox` and `UTCPToolBox`, registered as `opm.agents.toolbox` plugins (`ovos-mcp-toolbox`, `ovos-utcp-toolbox`). Name one in a persona's `toolboxes` list and the [OVOS agentic loop](https://github.com/OpenVoiceOS/ovos-agentic-loop) consumes every tool the remote server advertises, with no protocol-specific code in the persona.
 
-The adapter does the plumbing that makes remote tools behave like local ones. A daemon-thread asyncio event loop keeps each MCP/UTCP session alive between calls, so there is no reconnect per tool invocation. Each tool's JSON Schema is translated into a Pydantic model at discovery time, so the LLM sees the server's real input schema rather than a generic blob. `MCPToolBox` speaks stdio (subprocess), SSE, and streamable HTTP; `UTCPToolBox` supports whatever transports the installed UTCP version provides. If the `mcp` or `utcp` package is absent, the toolbox returns an empty tool list and logs a warning instead of taking down the loop.
-
----
+A daemon-thread asyncio event loop keeps each MCP/UTCP session alive between calls, so there is no reconnect per tool invocation. Each tool's JSON Schema is translated into a Pydantic model at discovery time, so the LLM sees the server's real input schema rather than a generic blob. `MCPToolBox` speaks stdio (subprocess), SSE, and streamable HTTP; `UTCPToolBox` supports whatever transports the installed UTCP version provides. If the `mcp` or `utcp` package is absent, the toolbox returns an empty tool list and logs a warning instead of taking down the loop.
 
 ## Why This Matters
 
-The OVOS speech stack is built around the principle that every capability should be a swappable plugin. MCP and UTCP extend that principle outward: any agent runtime, any orchestrator, any tool-aware assistant can call OVOS speech capabilities without knowing how they are implemented. A HiveMind node, a Claude Desktop session, and a `UTCPToolBox` in an agentic pipeline all see the same typed interface.
+The OVOS speech stack is built around the idea that every capability should be a swappable plugin. MCP and UTCP extend that outward: any agent runtime, any orchestrator, any tool-aware assistant can call OVOS speech capabilities without knowing how they are implemented. A HiveMind node, a Claude Desktop session, and a `UTCPToolBox` in an agentic pipeline all see the same typed interface.
 
-The integrations are intentionally thin. UTCP adds no runtime dependencies and only re-describes routes that already exist; MCP adds one gated dependency and a small, curated tool set. There is no middleware and no custom client to maintain — only the HTTP call itself.
+The integrations stay thin by design. UTCP adds no runtime dependencies and only re-describes routes that already exist; MCP adds one gated dependency and a small, curated tool set. There is no middleware and no custom client to maintain — only the HTTP call itself.
 
 ---
 
