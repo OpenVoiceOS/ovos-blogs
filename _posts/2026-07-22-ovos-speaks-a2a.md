@@ -12,7 +12,7 @@ ogImage:
 
 ## OVOS Speaks A2A: A Two-Way Bridge Between Personas and Agents
 
-[Agent2Agent (A2A)](https://google.github.io/A2A/) is an open protocol for agent interoperability. An A2A server publishes a discovery document — the *agent card* — at `GET /.well-known/agent.json`, and accepts work as [JSON-RPC 2.0](https://www.jsonrpc.org/specification) requests, both blocking and streaming over Server-Sent Events. A client needs to know nothing about what runs inside the server. It reads the card, sends a message, and reads the reply.
+[Agent2Agent (A2A)](https://a2a-protocol.org) is an open protocol for agent interoperability. An A2A server publishes a discovery document — the *agent card* — at `GET /.well-known/agent.json`, and accepts work as [JSON-RPC 2.0](https://www.jsonrpc.org/specification) requests, both blocking and streaming over Server-Sent Events. A client needs to know nothing about what runs inside the server. It reads the card, sends a message, and reads the reply.
 
 Three new pieces wire OVOS into that world in both directions:
 
@@ -28,7 +28,7 @@ The first makes OVOS an A2A *server*; the other two make it an A2A *client*.
 
 The persona server already speaks several dialects — it ships an OpenAI-compatible route plus adapters for Anthropic, Gemini, Bedrock, Cohere and TGI. The A2A endpoint joins that list.
 
-It is built on the official [`a2a-sdk`](https://google.github.io/A2A/), pulled in through a new optional extra (`a2a-sdk>=0.3.0`). Install it and enable the endpoint by passing a public base URL:
+It is built on the official [`a2a-sdk`](https://a2a-protocol.org), pulled in through a new optional extra (`a2a-sdk>=0.3.0`). Install it and enable the endpoint by passing a public base URL:
 
 ```bash
 pip install "ovos-persona-server[a2a]"
