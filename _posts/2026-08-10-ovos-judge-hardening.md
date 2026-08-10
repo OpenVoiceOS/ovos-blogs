@@ -1,6 +1,6 @@
 ---
-title: "ovos-judge: from vibe-coded alpha to a tool you can trust"
-excerpt: "ovos-judge is an LLM judge that drives a live OVOS persona and grades what comes back. It started as a 100% AI-written alpha with no human review. Here's the adversarial hardening pass that just landed — and the bug unit tests hid from us."
+title: "Introducing ovos-judge: an LLM QA tool for OpenVoiceOS"
+excerpt: "ovos-judge is an LLM judge that drives a live OVOS instance or persona and grades how it behaves — generated test phrasings, live bus events, a browser UI, and a headless CLI mode for CI."
 coverImage: "/assets/blog/common/cover.png"
 date: "2026-08-10T00:00:00.000Z"
 author:
@@ -10,36 +10,46 @@ ogImage:
   url: "/assets/blog/common/cover.png"
 ---
 
-# ovos-judge: from vibe-coded alpha to a tool you can trust
+# Introducing ovos-judge: an LLM QA tool for OpenVoiceOS
 
-*This post was drafted by an AI assistant (Claude) and is pending human review.*
+*Drafted by an AI assistant and pending human review.*
 
-## What ovos-judge is
+`ovos-judge` is a new LLM-driven QA tool for OpenVoiceOS. An LLM "judge" writes test utterances, sends them to a running OVOS instance — or a persona through a chat plugin — and captures both the spoken reply and the MessageBus events that fired along the way, then grades whether the skill behaved as it should. It ships with a browser UI for interactive testing and a headless CLI mode you can drop straight into CI.
 
-`ovoscope` gives OpenVoiceOS skills a deterministic test suite: fixed input, fixed expected output, pass or fail. That's the right tool for regression testing, but it can't tell you how a skill behaves against the messy, open-ended things real users say.
+## Why you'd want it
 
-`ovos-judge` is the generative complement. It's an LLM-driven QA tool: a configurable chat LLM plays the **judge**. It writes test utterances, sends them to a running OVOS instance or persona through a chat plugin, captures both the spoken response and the MessageBus events fired along the way, and then evaluates whether the skill behaved correctly — all from a real-time browser UI. Where ovoscope asks "does this exact input produce this exact output," ovos-judge asks "does this skill hold up under a live, conversational, LLM-generated attack surface." Together they cover the two ends of testing a voice assistant: deterministic regression and generative, live evaluation.
+Hand-written tests only cover the phrasings someone thought to write down. Real users say things differently every time, and a skill that passes every scripted test can still stumble the moment the wording changes. ovos-judge probes a much wider set of generated phrasings automatically and evaluates how the assistant actually responds to each one.
 
-## The honest origin
+Think of it as the generative, live complement to `ovoscope`. ovoscope gives you deterministic, exact-bus-message regression tests — the same input always has to produce the same expected output. ovos-judge covers the other end: an LLM generates varied test utterances on the fly, drives a live persona or OVOS instance with them, and judges the outcome. Neither replaces the other — a solid test suite for a skill wants both the fixed regression checks and the open-ended, generative pass.
 
-We're not going to bury this: ovos-judge started as a 100% "vibe-coded" project. An AI wrote every line — Python, JavaScript, HTML, CSS, the CI workflow, the docs — and no human reviewed the code before it shipped as an alpha. It had a working demo and passing tests, and that was it. The README said so plainly from day one, because "the AI was confident" is not evidence, and we'd rather name that risk than let someone find out the hard way.
+## How to use it
 
-## What the hardening pass actually did
+Install it from PyPI:
 
-An adversarial security review went through the HTTP surface and the session storage layer looking for ways to break it, not ways to confirm it worked. It found real issues and they got fixed:
+```bash
+pip install ovos-judge
+```
 
-- LLM-generated content going into the HTML export wasn't escaped — a stored XSS waiting to happen the first time a judge model produced something clever. It's autoescaped now.
-- The server bound to all interfaces by default. It now binds to loopback (`127.0.0.1`) unless you explicitly open it up.
-- Session ids weren't validated and session store files had no permission restrictions. Both are locked down now, and request bodies are capped so an oversized payload gets a clean 413 instead of falling through unchecked.
+Launch the web UI:
 
-Separately, a functional bug turned up that had nothing to do with security and everything to do with which dependency version you actually resolve. ovos-judge follows the OVOS convention of tracking the **latest prereleases** of its OVOS dependencies. On that line, `ovos-persona` is the 0.9.x series, whose `Persona.chat` takes `(messages: List[AgentMessage], sess: Session)` and reads `messages[-1].content`. But nothing in the packaging *forced* the prerelease, so an install could quietly resolve the older stable `ovos-persona 0.7.1` instead — a completely different call shape (`(messages, lang, units)`, plain-dict messages). With the wrong shape, the persona answered nothing, and the judge dutifully marked every single generated utterance as a failure. Every unit test mocked `persona.chat()` with a permissive signature, so the mismatch never surfaced — the suite stayed green while the core "drive a persona" path was dead. The fix is two-sided: floor-pin the OVOS dependencies to their current prereleases so pip resolves the line ovos-judge is actually built for, and build the call to match that line — with a regression test that mimics the real 0.9.x contract instead of a mock that accepts anything. The lesson: a green suite tells you the code agrees with its mocks; only a real model on the real dependency tells you it works.
+```bash
+ovos-judge
+```
 
-Around that: a LICENSE and funding attribution were added, and CI was brought up toward the rest of the org's standard (coverage, lint, end-to-end run, a floor-pinned `ovos-plugin-manager`).
+By default this serves a local browser UI on `127.0.0.1:8888`. Pass `--host 0.0.0.0` if you want to expose it beyond your own machine, and `--port` to run it on a different port.
 
-## Why "deployed and used it" is the part that matters
+In the UI, pick the **Judge LLM** chat plugin that will write and evaluate the test utterances, then choose the **target persona** — a bundled persona, a persona JSON file, or persona JSON pasted inline. Set the bus host and port, the max number of rounds, and a timeout, then write a **Test Prompt** describing in plain language what you want tested. Click **Start Test** and watch the live conversation stream: utterance, response, and a pass/fail evaluation for each round, with running passed/failed counts. When the session finishes, read the **Summary** and export it as **JSON** or **HTML** to share or archive.
 
-The unit tests were green the whole time the persona bug existed. That's the point of naming it here: a green suite tells you the code agrees with its own mocks, not that it works. The bug only showed up when the tool was run the way a user runs it — a real server over HTTP and WebSocket, a real persona target, restart-recovery checked, adversarial inputs thrown at the HTTP surface on purpose. That's not a nice-to-have extra step; it's the validation doctrine ovos-judge itself exists to make easy for *other* OVOS skills. It would have been a little embarrassing to skip it on ovos-judge itself.
+For CI, skip the UI entirely and run a session headlessly from a config file:
 
-## Where that leaves it
+```bash
+ovos-judge --config session.json --output result.json
+```
 
-ovos-judge is still maturing, and we're not claiming otherwise. What changed is that it went through an adversarial pass instead of resting on AI confidence, a real bug that unit tests had hidden got caught and fixed, and it was actually deployed and used like a user before we called any of this done. AI-authored tooling can be genuinely useful — but only once someone stops trusting the model's confidence and puts it under real pressure. That's what turns an alpha into something you can build on.
+This runs the session once and exits `0` if everything passed or `1` if anything failed, with `--output` writing the full result for use as a CI artifact.
+
+## Get started
+
+ovos-judge is open source and ready to try against your own skills and personas. Head to the repository to get started:
+
+[https://github.com/TigreGotico/ovos-judge](https://github.com/TigreGotico/ovos-judge)
