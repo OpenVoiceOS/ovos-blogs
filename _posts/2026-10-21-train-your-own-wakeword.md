@@ -10,7 +10,7 @@ ogImage:
   url: "/assets/blog/ngi/thumb.png"
 ---
 
-## Train Your Own Wake Word for OVOS
+## From Notebook to Wake Word
 
 "Hey Mycroft" works fine, until you want your assistant to answer to your own name, a word in your language, or a private phrase nobody else would guess. A wake-word model is tiny — the exported files usually run under 1 MB. Training one has always been out of reach for most users anyway, because it takes data you don't have.
 
@@ -48,10 +48,12 @@ The project's own caveat: synthetic data is good for getting a model working and
 
 ## Train It Yourself
 
-The [public quickstart notebook](https://github.com/TigreGotico/ww-trainer/pull/20) — `kaggle_quickstart` — is the user-facing entry point. It runs on a free Colab or Kaggle GPU, so you need only a browser; a full run takes roughly 25–40 minutes on a free Kaggle T4. On the command line it's one call:
+The [public quickstart notebook](https://github.com/TigreGotico/wakeforge/blob/dev/notebooks/kaggle_quickstart.ipynb) — `kaggle_quickstart` — is the user-facing entry point. It runs on a free Colab or Kaggle GPU (a T4, a common free-tier cloud graphics card), so you need only a browser; a full run takes roughly 25–40 minutes.
+
+If you'd rather skip the notebook and use a terminal, the same flow is one CLI call:
 
 ```bash
-wakeforge-quickstart "hey jarvis" ./hey_jarvis
+ww_trainer-quickstart --wake-word "hey jarvis" --output-dir ./hey_jarvis
 # -> ./hey_jarvis/best_f1_featurizer.onnx  +  ./hey_jarvis/best_f1.onnx
 ```
 
@@ -71,11 +73,11 @@ The flow underneath:
    - via the ovos-ww-plugin-wakeforge runtime plugin
 ```
 
-Step 5 is where it's easy to trip up. A WakeForge model is a **featurizer + head ONNX pair**, and the plugin that loads exactly that pair is **[ovos-ww-plugin-wakeforge](https://github.com/OpenVoiceOS/ovos-ww-plugin-wakeforge)**. In `mycroft.conf`, point one hotword at the two files (local paths or URLs) and set a detection `threshold`. The plugin handles the rest: score smoothing, a `patience` count of consecutive frames before firing, a debounce interval, an optional VAD channel, and a stateful streaming GRU head. WakeForge exports use their own format — they don't drop into the Precise, microWakeWord, or wakewordlab plugins, which each load different model types.
+Step 5 is where it's easy to trip up. A WakeForge model is a **featurizer + head ONNX pair**, and the plugin that loads exactly that pair is **[ovos-ww-plugin-wakeforge](https://github.com/OpenVoiceOS/ovos-ww-plugin-wakeforge)**. In `mycroft.conf`, point one hotword at the two files (local paths or URLs) and set a detection `threshold`. The plugin handles the rest: score smoothing, a `patience` count of consecutive frames before firing, a debounce interval, an optional VAD (voice activity detection — a separate check for "is anyone speaking at all") channel, and a stateful streaming GRU (a small recurrent neural-network layer that keeps a memory of recent audio) head. WakeForge exports use their own format — they don't drop into the Precise, microWakeWord, or wakewordlab plugins, which each load different model types.
 
 ## Why This Matters
 
-Wake words are the front door to a voice assistant, and until now that door came with a fixed set of keys. Local, user-trainable wake words change that: pick any name, in any language, and keep the whole pipeline offline, because detection runs entirely on your device — no cloud service ever hears your phrase.
+Wake words used to be fixed: your assistant answered only to the phrases someone else picked and trained for you. Local, user-trainable wake words change that: pick any name, in any language, and keep the whole pipeline offline, because detection runs entirely on your device — no cloud service ever hears your phrase.
 
 Results depend on your data and your phrase, and a production detector still wants some real recordings; we're not claiming otherwise. What's changed is the barrier: training a custom wake word is no longer a research project, it's a notebook you can open right now, and one entry in a wider collection of OVOS training notebooks for wake words, voices, and intents.
 
