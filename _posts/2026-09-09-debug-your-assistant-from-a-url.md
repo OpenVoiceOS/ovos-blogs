@@ -55,7 +55,7 @@ Here the connection to the bus happens server-side, through `ovos-bus-client`, a
 | `POST /api/send` | Inject a message onto the bus |
 | `GET /api/export` | JSONL download of the whole capture buffer |
 
-The service keeps a ring buffer of recent messages (2000 by default). A client that reconnects, or one you open a minute late, pages back through what it missed via `since_id` instead of starting blind.
+The service keeps a ring buffer — a fixed-size queue that overwrites its oldest entries once full — of recent messages (2000 by default). A client that reconnects, or one you open a minute late, pages back through what it missed via `since_id` instead of starting blind.
 
 Configuration is environment variables (or a `.env` file) — no flags to memorize, and easy to drop into a container or systemd unit:
 
@@ -70,13 +70,15 @@ Configuration is environment variables (or a `.env` file) — no flags to memori
 
 A Docker Compose file ships with the repo. It binds the service to `127.0.0.1:8005` only and sets `OVOS_BUS_HOST=host.docker.internal` so the container can still reach a bus running on the host.
 
+`BUSMON_USERNAME` and `BUSMON_PASSWORD` default to `ovos` / `ovos`. Set both to something else before you run the service unattended — anyone who can reach the port otherwise logs in with a password taken straight from the docs.
+
 ---
 
 ## Filtering the Firehose
 
 Both modes share the same interface, built for cutting a busy bus down to what matters:
 
-- **Message type**, with glob patterns — `recognizer_loop:*` for the input side, `ovos.*` for namespaced events, or an exact type like `speak`.
+- **Message type**, with glob patterns (wildcard matching, e.g. `recognizer_loop:*` for the input side, `ovos.*` for namespaced events, or an exact type like `speak`).
 - **Full-text search** across type, data, context, and session.
 - **Session ID, source, and destination** — isolate one conversation or one skill.
 - **Sort** newest-first or oldest-first, and **pause/resume** capture to freeze the view and read.
@@ -87,9 +89,9 @@ Each message expands into syntax-highlighted JSON, so you can inspect the full p
 
 ## Injecting Messages
 
-The **Inject** panel, backed by `POST /api/send`, puts an arbitrary message onto the bus: pick a type, write a JSON payload, send. You can reproduce a skill's behavior by emitting the exact message that triggers it, instead of staging the whole voice pipeline to get there — no more talking to your assistant in a loop to test one intent handler.
+The **Inject** panel, backed by `POST /api/send`, puts an arbitrary message onto the bus: pick a type, write a JSON payload, send. You can reproduce a skill's behavior by emitting the exact message that triggers it, instead of staging the whole voice pipeline to trigger one intent handler.
 
-That power is why injection is meant for local, personal administration only. The service binds to `127.0.0.1` by default and HTTP Basic auth guards the endpoint. Keep the localhost binding, add TLS if you move it off localhost, and never expose the injection endpoint to an untrusted network — anyone who can reach it can emit any message on your bus.
+That power is why injection is meant for local, personal administration only, even when you run it as an always-on service. Keep the default `127.0.0.1` binding, change `BUSMON_USERNAME` and `BUSMON_PASSWORD` from their `ovos` / `ovos` defaults, add TLS if you move it off localhost, and never expose the injection endpoint to an untrusted network — anyone who can reach it can log in and emit any message on your bus.
 
 ---
 
