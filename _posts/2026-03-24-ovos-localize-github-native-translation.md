@@ -1,6 +1,6 @@
 ---
-title: "OVOS Localize: A Translation Platform With No Servers"
-excerpt: "A full translation platform for OpenVoiceOS skills — context-aware editor, automated PR pipeline, a validation engine tuned to voice-assistant file types, and open ML datasets — running entirely on GitHub. No servers, no admin, no vendor. Just a GitHub account, and forkable by anyone."
+title: "OVOS Localize: A Translation Platform We Don't Have to Run"
+excerpt: "A full translation platform for OpenVoiceOS skills — context-aware editor, automated PR pipeline, a validation engine tuned to voice-assistant file types, and open ML datasets — running entirely on GitHub, with zero infrastructure of our own to operate. Just a GitHub account, and forkable by anyone."
 coverImage: "/assets/blog/ovos-localize/thumb.png"
 date: "2026-03-24"
 author:
@@ -13,7 +13,7 @@ ogImage:
   url: "/assets/blog/ovos-localize/thumb.png"
 ---
 
-Translating a voice assistant is a different job than translating an app. An app string like `"Save"` becomes `"Speichern"` and you're done. A voice assistant line like `turn {brightness} the {light_name}` is a training sentence for an intent classifier — get it wrong and the skill stops recognizing your language at all. [OVOS Localize](https://openvoiceos.github.io/ovos-localize/) is a translation platform built for that harder job, and it runs with no servers: just GitHub Pages, GitHub Actions, and a GitHub account.
+Translating a voice assistant is a different job than translating an app. An app string like `"Save"` becomes `"Speichern"` and you're done. A voice assistant line like `turn {brightness} the {light_name}` is a training sentence for an intent classifier — get it wrong and the skill stops recognizing your language at all. [OVOS Localize](https://openvoiceos.github.io/ovos-localize/) is a translation platform built for that harder job: instead of guessing at bare strings, translators see the code that uses each line and what it means. It runs on GitHub Pages and GitHub Actions, so we operate no infrastructure of our own — just a GitHub account to sign in.
 
 ## Why voice assistant strings are harder to translate
 
@@ -49,21 +49,30 @@ OVOS Localize skips custom infrastructure and uses what GitHub already provides:
 | Bot identity | GitHub App (`ovos-localize[bot]`) |
 | Audit log | Pull request history |
 
-The result is a static single-page app on GitHub Pages, reading JSON committed to the same repo, driven by six GitHub Actions workflows: `add_skill` registers a new skill repo, `enable_new_language` opens a language for translation, `submit_translation` turns a contribution into a pull request, `fix_lang_code` repairs non-canonical locale directory names, `poll_merged_fixes` watches for merged fixes and keeps the dashboard honest, and `update_data` rebuilds all editor and dataset files daily. No Docker, no cloud bill, no vendor.
+The result is a static single-page app on GitHub Pages, reading JSON committed to the same repo. Six GitHub Actions workflows run it:
 
-Submitting a translation opens a GitHub Issue. `submit_translation` reads a machine-readable block in the issue body, mints a short-lived token scoped only to the target skill repo, creates a branch, commits the translation, opens a PR, and closes the issue — in seconds. The skill maintainer reviews the PR from there. You need nothing but a GitHub account.
+- `add_skill` registers a new skill repo
+- `enable_new_language` opens a language for translation
+- `submit_translation` turns a contribution into a pull request
+- `fix_lang_code` repairs non-canonical locale directory names
+- `poll_merged_fixes` watches for merged fixes and keeps the dashboard honest
+- `update_data` rebuilds all editor and dataset files daily
+
+No Docker, no server to patch, no cloud bill.
+
+Submitting a translation opens a GitHub Issue. `submit_translation` reads a machine-readable block in the issue body, mints a short-lived token scoped only to the target skill repo, creates a branch, commits the translation, opens a PR, and closes the issue. The skill maintainer reviews the PR from there. You need nothing but a GitHub account.
 
 ## How it works
 
 The **dashboard** is a heatmap: every registered OVOS skill against dozens of languages, colour-coded by translation coverage. Dark means complete; light means someone needs to help.
 
-The **editor** is a three-panel view — source on the left, your translation in the middle, and a context card on the right. That context card is the key idea: it shows the Python handler that uses the file, the method source, the slots it expects, and what the skill says when it speaks these lines. You're not translating blind.
+The **editor** is a three-panel view — source on the left, your translation in the middle, and a context card on the right. That context card is the key idea: it shows the Python handler that uses the file, the method source, the slots it expects, and what the skill says when it speaks these lines. You always see the context, not just the isolated line.
 
-Those context cards come from real **Python AST analysis**. When the data pipeline sees `self.speak_dialog("query_weather")` in a skill method, it connects that dialog file to that handler and stores the source, so every file has provenance and every slot has a meaning.
+Those context cards come from real Python **AST** (Abstract Syntax Tree) analysis — a structural parse of the code, not a text search. When the data pipeline sees `self.speak_dialog("query_weather")` in a skill method, it connects that dialog file to that handler and stores the source, so every file has provenance and every slot has a meaning.
 
 **Validation runs before you submit.** OVOS Localize ships a dedicated parser and validator for each of the six locale file types it understands — `.intent`, `.voc`, `.dialog`, `.entity`, `.rx`, and `.value`:
 
-- `.intent` files need at least 10 sentences after alternative-syntax expansion, must preserve every source `{slot}`, and must clear a lexical-diversity threshold so ten near-identical lines don't pass as ten examples.
+- `.intent` files need at least 10 sentences after alternative-syntax expansion, must preserve every source `{slot}`, and must clear a lexical diversity score of 0.25 (the ratio of unique three-word phrases to all three-word phrases across the training lines), so ten near-identical lines don't pass as ten examples.
 - `.dialog` files need at least 2 variants and must preserve `{variable}` substitutions exactly — extra or missing variables are hard errors.
 - `.entity` files need at least 5 examples for reliable slot filling.
 - `.voc` files are keyword lists — non-empty, with short entries flagged if they look like whole sentences.
@@ -84,12 +93,12 @@ Every translation contributed through OVOS Localize also feeds an open ML datase
 
 - **Intent classification** — (utterance, skill, intent) triples for training classifiers
 - **Parallel translation** — English ↔ target-language pairs for translation model fine-tuning
-- **Slot filling** — templates, slot names, and entity values for NER training
+- **Slot filling** — templates, slot names, and entity values for Named Entity Recognition (NER) training
 - **Response pairs** — (utterance, response) pairs for dialogue model training
 - **TTS corpus** — deduplicated dialog sentences for speech synthesis training
 - **Skill metadata** — multilingual skill names and descriptions for discovery
 
-These rebuild daily, split at 100 MB for GitHub compatibility, and export in HuggingFace Datasets layout, ready to publish. The more languages get translated, the richer this open corpus becomes.
+These rebuild daily, split at 100 MB for GitHub compatibility, and are written to `data/datasets/` in the repo in HuggingFace Datasets layout — the format is ready, we haven't published a hosted dataset from it yet. The more languages get translated, the richer this open corpus becomes.
 
 ## Get started
 
