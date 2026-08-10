@@ -12,17 +12,15 @@ ogImage:
 
 ## Every OVOS Bus Message, Now a Typed Model You Can Validate
 
-The message bus is the nervous system of an OVOS device. The listener puts an utterance on it; the intent pipeline picks it up; a skill answers; the audio stack speaks. Every one of those hand-offs is a message — a `message_type` string, a `data` payload, and a `context`. For years, the only way to know what any given message actually *contained* was to read the code that emitted it. What fields does `speak` carry? Is `lang` required? Does `recognizer_loop:utterance` hold a string or a list? The answers lived in handlers scattered across a dozen repositories, learned by grep and by getting it wrong.
+A malformed message on the OVOS bus used to fail quietly, three services downstream from where the mistake was made, looking like someone else's bug. [**ovos-pydantic-models**](https://github.com/OpenVoiceOS/ovos-pydantic-models) fixes that: it gives every message type on the bus a typed Pydantic model, so a wrong field raises an error at the exact point you built or received it.
 
-[**ovos-pydantic-models**](https://github.com/OpenVoiceOS/ovos-pydantic-models) replaces that folklore with something you can import. It is a typed Pydantic v2 model for every message that flows over the OVOS MessageBus — the package's own words are worth quoting: *"the authoritative, machine-readable specification of the OVOS MessageBus protocol."* Not prose about the bus. The bus, written down as code that runs.
+The message bus is the nervous system of an OVOS device. The listener puts an utterance on it; the intent pipeline picks it up; a skill answers; the audio stack speaks. Each hand-off is a message — a `message_type` string, a `data` payload, and a `context`. Knowing what any given message actually contained used to mean reading the code that emitted it: does `speak` require `lang`? Is `recognizer_loop:utterance` a string or a list? The answers lived in handlers scattered across a dozen repositories.
 
----
+## What shipped
 
-## What "machine-readable specification" actually buys you
+ovos-pydantic-models is, in the package's own words, "the authoritative, machine-readable specification of the OVOS MessageBus protocol" — not prose about the bus, but the bus written as code that runs. Because each message type is a real Pydantic model, one definition does four jobs: it type-checks your code, it serializes and deserializes payloads, it generates documentation, and it validates messages in integration tests.
 
-A specification you can only read is a specification you can drift away from. A specification you can *execute* keeps you honest. Because each message type is a real Pydantic model, the same definition does four jobs at once: it type-checks your code, it serializes and deserializes payloads, it generates documentation, and it validates messages in integration tests. One source of truth, four uses, no copies to fall out of sync.
-
-The coverage is not a token sample. The package ships **617 message-type models**, organized by the subsystem that owns them:
+The package ships **617 message-type models**, organized by the subsystem that owns them:
 
 - **Listener / STT** — `RecognizerLoopUtteranceMessage`, `RecognizerLoopWakeWordMessage`, the `recognizer_loop:state.*` trio, `MycroftMicMuteMessage`, `OpmWwQueryMessage`.
 - **Intent pipeline** — `add_context` / `remove_context` / `clear_context`, the fallback register/ping/pong set, `skill.converse.*`, `stop:global` and `stop:skill`, `CompleteIntentFailureMessage`.
@@ -30,11 +28,9 @@ The coverage is not a token sample. The package ships **617 message-type models*
 
 Each model carries the same three-part envelope — `message_type`, `data`, `context` — and each `data` shape is itself a typed model, so the fields inside a payload are specified too, not just the message name.
 
----
+## How to use it
 
-## Using it
-
-Constructing a message is the part where mistakes usually happen quietly. Here they happen loudly, at the moment you make them:
+Build a message and a wrong shape raises immediately:
 
 ```python
 from ovos_pydantic_models import SpeakMessage, SpeakData
@@ -46,7 +42,7 @@ print(msg.message_type)     # "speak"
 print(msg.model_dump())     # {"message_type": "speak", "data": {...}, "context": {...}}
 ```
 
-And the other direction — validating something that arrived over the wire, where you have the least control over what you're handed:
+Validate something that arrived over the wire, where you have the least control over what you were handed:
 
 ```python
 from ovos_pydantic_models import RecognizerLoopUtteranceMessage
@@ -58,27 +54,19 @@ msg = RecognizerLoopUtteranceMessage.model_validate(raw)
 print(msg.data.utterances)   # ["play some jazz"]
 ```
 
-If a required field is missing or a type is wrong, Pydantic raises a `ValidationError` that names the exact field and the exact problem — at the boundary, where it is cheap to fix, instead of ten stack frames downstream where it looks like something else's bug. There is no single generic `Message` catch-all doing loose duck-typing: each of the 617 types is its own model, which is precisely what makes the errors specific.
+If a required field is missing or a type is wrong, Pydantic raises a `ValidationError` that names the exact field and the exact problem. There is no single generic `Message` catch-all doing loose duck-typing: each of the 617 types is its own model, which is what makes the errors specific.
 
----
+## How the index was built, and why it's beta
 
-## How the index was built — and why it's beta
+617 models is too many to hand-curate — hand-curation is exactly how you miss the one message that only appears in a single skill's emit call. So the inventory was discovered from the code itself: an abstract syntax tree (AST) pass over the entire OVOS repository set, nearly two hundred repos, found every place a bus message is emitted or consumed. Each message type that turned up was then auto-documented with an LLM, which drafted the field descriptions and model scaffolding from the surrounding code.
 
-Six hundred and seventeen models is more than anyone wants to hand-curate, and hand-curation is exactly how you miss the message that only appears in one skill's emit call. So the inventory wasn't written from memory — it was **discovered from the code itself**. We parsed the abstract syntax tree (AST) of the entire OVOS repository set — nearly two hundred repos — walking each codebase to find every place a bus message is emitted or consumed, so that "what messages exist?" is answered by the source, not by recollection. Each message type that turned up was then **auto-documented with an LLM**, which drafted the field descriptions and model scaffolding from the surrounding code.
+That pipeline is what makes 617 models tractable, and why the result is labeled honestly: the index is beta until a human reviews it. AST discovery finds messages a person would forget; LLM drafting fills them in quickly; neither guarantees every field description is right. The models are structurally usable today — they validate real payloads — but individual entries get promoted from "generated" to "reviewed" as maintainers work through them. A complete, clearly-marked-beta index beats a small, hand-blessed one that silently omits half the bus.
 
-That pipeline is what makes 617 models tractable, and it's also why we label the result honestly: **the index is beta until a human reviews it.** AST discovery finds messages a person would forget; LLM drafting fills them in quickly; neither guarantees every field description is right. The models are structurally usable today — they validate real payloads — but individual entries get promoted from "generated" to "reviewed" as maintainers work through them. We would rather ship a complete, clearly-marked-beta index than a small, hand-blessed one that silently omits half the bus.
-
-A follow-up [coverage pass (PR #9)](https://github.com/OpenVoiceOS/ovos-pydantic-models/pull/9) shows the method in action: it scanned the repositories for messages that were flowing in the wild but still had no model, and added roughly forty of them — stop events, pipeline lifecycle messages, and parts of the PHAL hardware-abstraction surface that had been undocumented. The goal is not "most of the bus." It is the whole bus, so that a model failing to exist is a bug to file, not a shrug.
-
----
+A follow-up [coverage pass (PR #9)](https://github.com/OpenVoiceOS/ovos-pydantic-models/pull/9) shows the method in action: it scanned the repositories for messages that were flowing in the wild but still had no model, and added roughly forty of them — stop events, pipeline lifecycle messages, and parts of the PHAL hardware-abstraction surface that had been undocumented.
 
 ## Where this sits
 
-One clarification worth making, because it's easy to assume otherwise: this is *not* the same thing as the [OVOS Formal Specifications](https://github.com/OpenVoiceOS/architecture). Those specs describe how components *behave* — how the pipeline orders plugins, how a session is carried, how a stop propagates — the runtime contract, in RFC-2119 language. ovos-pydantic-models describes what the messages themselves *look like* — the data shapes on the wire. Behaviour versus payload; two complementary efforts, deliberately kept separate. If you're implementing a skill or a plugin, you'll usually reach for the message models; if you're re-implementing an orchestrator, you'll want both.
-
-## Why it matters
-
-For a skill or plugin author, this turns "what does this message look like?" from an archaeology project into an import statement — and turns a malformed payload from a silent, far-away failure into an immediate, named error. For anyone building a *compatible* implementation — a bridge, an alternate client, a satellite — it is a concrete target you can validate yourself against instead of guessing from behaviour. And for OVOS itself, it is groundwork: you cannot confidently evolve a protocol you cannot precisely describe, and now the description is 617 models deep and runs on every import.
+This is not the same thing as the [OVOS Formal Specifications](https://github.com/OpenVoiceOS/architecture). Those specs describe how components behave — how the pipeline orders plugins, how a session is carried, how a stop propagates — the runtime contract, in RFC-2119 language. ovos-pydantic-models describes what the messages themselves look like — the data shapes on the wire. Behavior versus payload: two complementary efforts, deliberately kept separate. If you're implementing a skill or a plugin, you'll usually reach for the message models; if you're re-implementing an orchestrator, you'll want both.
 
 ---
 
