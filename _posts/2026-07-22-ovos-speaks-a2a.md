@@ -16,11 +16,11 @@ Any OVOS persona can now talk to outside agent frameworks, and borrow reasoning 
 
 An A2A server publishes a discovery document — the *agent card* — at `GET /.well-known/agent.json`, and accepts work as [JSON-RPC 2.0](https://www.jsonrpc.org/specification) requests, both blocking and streaming over Server-Sent Events. A client needs to know nothing about what runs inside the server: it reads the card, sends a message, and reads the reply.
 
-1. **`ovos-persona-server`** gains an A2A endpoint, so any OVOS persona becomes an A2A agent other tools can call.
-2. **`ovos-a2a-solver-plugin`** goes the other way, letting a persona hand its reasoning to a remote A2A agent.
-3. **`hivemind-a2a-agent-plugin`** brings the same client-side bridge to the HiveMind bus, so a satellite can be answered by an external A2A agent.
+1. [**`ovos-persona-server`**](https://github.com/OpenVoiceOS/ovos-persona-server) gains an A2A endpoint, so any OVOS persona becomes an A2A agent other tools can call.
+2. [**`ovos-a2a-solver-plugin`**](https://github.com/OpenVoiceOS/ovos-a2a-agent-plugin) goes the other way, letting a persona hand its reasoning to a remote A2A agent.
+3. [**`hivemind-a2a-agent-plugin`**](https://github.com/JarbasHiveMind/hivemind-a2a-agent-plugin) brings the same client-side bridge to the HiveMind bus, so a satellite can be answered by an external A2A agent.
 
-The first makes OVOS an A2A *server*; the other two make it an A2A *client*.
+The first makes OVOS an A2A *server*; the other two make it an A2A *client*. All three are new code, not yet released to PyPI — the install commands below use git until that lands.
 
 ---
 
@@ -28,10 +28,10 @@ The first makes OVOS an A2A *server*; the other two make it an A2A *client*.
 
 The persona server already speaks several dialects — it ships an OpenAI-compatible route plus adapters for Anthropic, Gemini, Bedrock, Cohere and TGI. The A2A endpoint joins that list.
 
-It is built on the official [`a2a-sdk`](https://a2a-protocol.org), pulled in through a new optional extra (`a2a-sdk>=0.3.0`). Install it and enable the endpoint by passing a public base URL:
+It is built on the official [`a2a-sdk`](https://a2a-protocol.org), pulled in through a new optional extra (`a2a-sdk>=0.3.0`). The extra lives on the [`dev` branch](https://github.com/OpenVoiceOS/ovos-persona-server/tree/dev) and has not shipped to PyPI yet, so install straight from git and enable the endpoint by passing a public base URL:
 
 ```bash
-pip install "ovos-persona-server[a2a]"
+pip install "ovos-persona-server[a2a] @ git+https://github.com/OpenVoiceOS/ovos-persona-server.git@dev"
 ovos-persona-server --persona my_persona.json \
                     --a2a-base-url http://localhost:8337/a2a
 ```
@@ -55,7 +55,11 @@ Any A2A-aware client — an orchestration framework, another agent, a custom too
 
 The reverse direction is `ovos-a2a-solver-plugin`, a `ChatEngine` plugin for [ovos-persona](https://github.com/OpenVoiceOS/ovos-persona) — the same engine interface used by local LLM solvers. Instead of running a model, it forwards the conversation to a remote A2A agent and returns the reply.
 
-A packaging detail worth being precise about: the pip package is **`ovos-a2a-solver-plugin`**, but the name you put in a persona config is its entry point, **`ovos-a2a-solver`** (registered under the `opm.agents.chat` group, class `A2AChatEngine`). Install the package, then set it as a persona's engine:
+Two naming details worth being precise about. First, the code lives in the [`OpenVoiceOS/ovos-a2a-agent-plugin`](https://github.com/OpenVoiceOS/ovos-a2a-agent-plugin) repository, but its packaged name (declared in `pyproject.toml`) is **`ovos-a2a-solver-plugin`** — repo and package do not share a name. Second, the name you put in a persona config is its entry point, **`ovos-a2a-solver`** (registered under the `opm.agents.chat` group, class `A2AChatEngine`), which is different again from the package name. The package is not on PyPI yet, so install it from git, then set the entry point as a persona's engine:
+
+```bash
+pip install git+https://github.com/OpenVoiceOS/ovos-a2a-agent-plugin.git
+```
 
 ```yaml
 # ~/.config/mycroft/personas/my-a2a-persona.yaml
@@ -69,6 +73,8 @@ engine_config:
 ```
 
 Only `agent_url` is required. `auth_header` is passed through verbatim as the `Authorization` header, `timeout` is the HTTP timeout in seconds, and `streaming` switches the client between the blocking `tasks/send` and the streaming `tasks/sendSubscribe` call — the latter requires the server to advertise `capabilities.streaming: true` on its card.
+
+Note the method names here, `tasks/send` and `tasks/sendSubscribe`, are the older A2A dialect, while the persona-server endpoint above speaks the current spec's `message/send` and `message/stream`. This is not a typo: the persona-server side is built on the official `a2a-sdk`, which speaks current-spec method names, while this plugin ships its own small hand-rolled client that still speaks the older dialect. Both are valid JSON-RPC calls against a server that supports them, but if you point this plugin at a server that only understands the newer method names, the call will fail — check what your target A2A server accepts.
 
 Under the hood the plugin ships a small standalone `A2AClient` that can fetch an agent card and submit tasks on its own, independent of the plugin manager:
 
@@ -87,7 +93,11 @@ The persona keeps everything it already owns — wake words, TTS, session state,
 
 ## HiveMind Satellites Answering via A2A
 
-`hivemind-a2a-agent-plugin` moves that same client bridge down to the HiveMind bus. It registers under the `hivemind.agent.protocol` entry point, so HiveMind-core discovers it once installed, and it is selected as the hive's `agent_protocol`:
+[`hivemind-a2a-agent-plugin`](https://github.com/JarbasHiveMind/hivemind-a2a-agent-plugin) — hosted under the JarbasHiveMind org rather than OpenVoiceOS, since that's where the rest of HiveMind-core lives — moves that same client bridge down to the HiveMind bus. It registers under the `hivemind.agent.protocol` entry point, so HiveMind-core discovers it once installed, and it is selected as the hive's `agent_protocol`. It is not on PyPI yet, so install it from git:
+
+```bash
+pip install git+https://github.com/JarbasHiveMind/hivemind-a2a-agent-plugin.git
+```
 
 ```json
 {
@@ -109,7 +119,11 @@ A satellite — a voice client, a phone, a headless node with no local intellige
 
 ## The Pattern
 
-Put the three together and OVOS sits on both ends of the same protocol:
+Put the three together and OVOS sits on both ends of the same protocol, in three flows:
+
+- **Server**: an external A2A client calls the `/a2a` endpoint, which hands the request to an OVOS persona and its existing solver chain.
+- **Solver**: an OVOS persona uses `ovos-a2a-solver` to send its reasoning out to a remote A2A agent, then returns that agent's answer.
+- **HiveMind**: a HiveMind satellite sends its query up through `hivemind-a2a-agent-plugin`, which forwards it to a remote A2A agent and streams the answer back down.
 
 ```
   external A2A client  →  /a2a endpoint  →  OVOS persona  →  its solver chain
