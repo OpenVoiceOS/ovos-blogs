@@ -1,6 +1,6 @@
 ---
 title: "OVOS Is a Voice Operating System — and Now It Has a Written ABI"
-excerpt: "The OVOS architecture repository is a set of formal, implementation-agnostic specifications for how a voice OS's components talk to each other: 23 specs covering the intent stack, the bus and sessions, the pipeline, audio, GUI, and media. Written in RFC-2119 language, so 'correct' stops being a matter of opinion."
+excerpt: "The OVOS architecture repository is a set of formal, implementation-agnostic specifications for how a voice OS's components talk to each other: 20 specs covering the intent stack, the bus and sessions, the pipeline, audio, GUI, and media. Written in RFC-2119 language, so 'correct' stops being a matter of opinion."
 coverImage: "/assets/blog/ngi/thumb.png"
 date: "2026-12-02T00:00:00.000Z"
 author:
@@ -37,10 +37,10 @@ The consequence is worth sitting with. Because there's a stable ABI, OVOS is a *
 
 ## What's actually specified
 
-The repository is **23 specifications**, grouped by the subsystem they govern. Each has a stable ID, a version, and normative text:
+The repository is **20 specifications**, grouped by the subsystem they govern. Each has a stable ID, a version, and normative text:
 
 - **The intent stack** — `INTENT-1` (sentence template grammar), `INTENT-2` (locale resource formats), `INTENT-3` (intent definition), `INTENT-4` (intent and entity registration). This is how a skill declares what it understands.
-- **Bus and session** — `MSG-1` (the bus message envelope), `SESSION-1` (the session carrier wire shape), `SESSION-2` (session lifecycle and state ownership), `BRIDGE-1` (bus bridging and opaque relay), `USER-ID-1` (user identity resolution). This is how components talk and how state travels with a conversation.
+- **Bus and session** — `MSG-1` (the bus message envelope), `SESSION-1` (the session carrier wire shape), `SESSION-2` (session lifecycle and state ownership), `BRIDGE-1` (bus bridging and opaque relay). This is how components talk and how state travels with a conversation.
 - **The pipeline** — `PIPELINE-1` (the utterance lifecycle), plus the plugins that live in it: `TRANSFORM-1`, `CONTEXT-1`, `CONVERSE-1`, `STOP-1`, `PERSONA-1`, `FALLBACK-1`, `COMMON-QUERY-1`. This is how an utterance becomes an action.
 - **Audio and display** — `AUDIO-IN-1` (audio input), `AUDIO-1` (audio output), `GUI-1` (the display subsystem).
 - **Media** — `OCP-1`, the OVOS Common Playback virtual media player.
