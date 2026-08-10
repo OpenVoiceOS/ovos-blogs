@@ -12,40 +12,40 @@ ogImage:
 
 ## A Frisian Voice for OVOS
 
-Most of the world's languages have no synthetic voice. Not because they don't deserve one, but because building text-to-speech has always meant costly recordings, closed toolchains, and a commercial reason to bother. For a language with a few hundred thousand speakers and no market to chase, that reason rarely shows up.
+Most languages have no synthetic voice. Not because they don't deserve one, but because building text-to-speech has always meant costly recordings, closed toolchains, and a market big enough to justify the work. A language with a few hundred thousand speakers rarely clears that bar for commercial vendors.
 
-We think that's exactly backwards. Open voice technology should serve the languages that commercial vendors pass over. Today we get to share a new voice that does just that, and we're even happier about *how* it arrived: a member of our community trained it.
+OVOS now has a Frisian voice, and a community member built it, not us. Here's the voice, how it works, and how to train one for your own language.
 
 ---
 
 ## Meet the Frisian Voice
 
-Frisian (Frysk, `fy-NL`) is a minority language of the Netherlands, spoken mainly in the province of Friesland. It's an official language with a small, proud speaker community and almost no commercial voice-tech support behind it. It is precisely the kind of language open voice tech exists for.
+Frisian (Frysk, `fy-NL`) is a minority language of the Netherlands, spoken mainly in the province of Friesland. It's an official language with a small speaker community and almost no commercial voice-tech support.
 
-OVOS now has a Frisian voice, trained by community contributor **fdemelo**. It runs on **phoonnx**, our neural TTS engine, and ships as the "dii" speaker. You can find the model here:
+Community contributor **fdemelo** trained the voice. It runs on **phoonnx**, our neural TTS engine, and ships as the "dii" speaker:
 
 **[OpenVoiceOS/phoonnx_fy-NL_dii_unicode](https://huggingface.co/OpenVoiceOS/phoonnx_fy-NL_dii_unicode)**
 
-A warm, genuine thank-you to fdemelo for the time and care poured into this. This is the community at its best: someone noticed a language that deserved a voice and decided to give it one.
+Thank you to fdemelo for the work. Someone noticed a language without a voice and gave it one.
 
 ---
 
 ## What phoonnx Actually Is
 
-phoonnx is a multilingual phonemization and text-to-speech library built around ONNX models. Under the hood, a voice like the Frisian one is a VITS neural model exported to ONNX, so it runs fast and fully offline on ordinary hardware, no GPU and no cloud round-trip required.
+phoonnx is a multilingual phonemization and text-to-speech library built around ONNX models — a portable model format that runs fast without a GPU. The Frisian voice is a VITS neural model exported to ONNX, so it runs fully offline on ordinary hardware.
 
-The other half of phoonnx is phonemization: turning written text into the sound units a model can learn from. phoonnx supports a whole family of phonemizers, from `espeak-ng` and gruut to model-based grapheme-to-phoneme engines. It also carries a plain Unicode phonemization path, which is what the `_unicode` in the Frisian model's name refers to. That path matters for minority languages: when no polished pronunciation tool exists for a language yet, you can still train a working voice straight from its written form instead of waiting for tooling that may never come.
+The other half of phoonnx is phonemization: turning written text into the sound units a model can learn from. phoonnx supports several phonemizers, from `espeak-ng` and gruut to model-based grapheme-to-phoneme engines. It also has a plain Unicode phonemization path — the `_unicode` in the Frisian model's name refers to it. That path matters for minority languages: when no pronunciation tool exists yet for a language, you can still train a working voice straight from its written form instead of waiting for tooling that may never come.
 
 ---
 
-## Train a Voice for YOUR Language
+## Train a Voice for Your Language
 
-Here's the part we're most excited about. The tools fdemelo used are not locked away. They're public notebooks, and they're waiting for you:
+The tools fdemelo used are public:
 
 - **[TTS training notebook (VITS)](https://github.com/TigreGotico/notebooks/blob/main/tts/train_vits.ipynb)** — trains a phoonnx/VITS voice end to end.
-- **[Synthetic dataset generation guide](https://github.com/TigreGotico/notebooks/blob/main/tts/tts_dataset_gen.ipynb)** — helps you build a training corpus when you don't already have hours of recorded speech.
+- **[Synthetic dataset generation guide](https://github.com/TigreGotico/notebooks/blob/main/tts/tts_dataset_gen.ipynb)** — builds a training corpus when you don't already have hours of recorded speech.
 
-The pipeline, in rough strokes, looks like this:
+The pipeline, in rough strokes:
 
 1. **Gather a dataset** of `(text, audio)` pairs in your language.
 2. **Phonemize** the text so the model learns how words are pronounced.
@@ -54,7 +54,7 @@ The pipeline, in rough strokes, looks like this:
 5. **Publish** it on HuggingFace so anyone can use it.
 6. **Use it in OVOS** by pointing your TTS plugin at your model.
 
-For the Frisian voice specifically, that last step is a few lines in your OVOS config:
+For the Frisian voice, that last step is a few lines in your OVOS config:
 
 ```json
 "tts": {
@@ -66,33 +66,31 @@ For the Frisian voice specifically, that last step is a few lines in your OVOS c
 }
 ```
 
-That's it. No proprietary licenses, no cloud training bill you can't afford, no vendor deciding your language isn't worth their engineers' time.
+No proprietary licenses, no cloud training bill, no vendor deciding your language isn't worth the engineering time.
 
-And if you're working with a low-resource language where recorded speech is scarce, the synthetic dataset generation guide is there to help you bootstrap a corpus. It's how a language with little existing data can still end up with a real, usable voice.
+If you're working with a low-resource language where recorded speech is scarce, the synthetic dataset generation guide helps you bootstrap a corpus from little existing data.
 
 ---
 
 ## Part of a Growing Family
 
-Frisian isn't alone. OVOS already ships community and minority-language voices for **Asturian** (`phoonnx_ast_*`) and **Aragonese** (`phoonnx_an_*`), built with the very same phoonnx pipeline. Frisian is the newest member of that family, and it won't be the last: we keep training further minority-language voices, and every one we finish makes the next one easier.
+Frisian isn't alone. OVOS already ships community and minority-language voices for **Asturian** (`phoonnx_ast_*`) and **Aragonese** (`phoonnx_an_*`), built with the same phoonnx pipeline. Frisian is the newest addition, and more are in progress: each finished voice makes the next one easier.
 
-If your language isn't on the list yet, that's not a "no." That's an invitation.
+If your language isn't on the list yet, that's an invitation, not a no.
 
 ---
 
 ## Why This Matters
 
-A voice for a language is a small act of preservation. It says the language belongs in the future, not only the past: in the devices we talk to, the assistants we build, the tools our children will grow up using.
+A voice for a language is a small act of preservation. It says the language belongs in the future — in the devices we talk to, the assistants we build, the tools the next generation will use.
 
 Doing it the OVOS way means:
 
-- **No commercial gatekeepers.** No one gets to decide your language is too small to matter.
-- **Fully local and offline.** The voice runs on your device. Nothing is sent to a server.
-- **Community-owned.** The model, the notebooks, and the pipeline are all open. What fdemelo built, anyone can inspect, improve, and build upon.
+- **No commercial gatekeepers.** No one decides your language is too small to matter.
+- **Fully local and offline.** The voice runs on your device. Nothing goes to a server.
+- **Community-owned.** The model, the notebooks, and the pipeline are all open. What fdemelo built, anyone can inspect, improve, and build on.
 
-Language technology shouldn't be a privilege the market hands out. It should be something a community can build for itself. The Frisian voice is proof that it can, and the notebooks are how we hand you the keys.
-
-We can't wait to hear what your language sounds like.
+Language technology shouldn't be a privilege the market hands out. It should be something a community can build for itself. The Frisian voice is proof that it can. The notebooks are how we hand you the keys.
 
 ---
 
