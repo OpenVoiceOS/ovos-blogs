@@ -12,9 +12,9 @@ ogImage:
 
 ## OVOS Speaks A2A: A Two-Way Bridge Between Personas and Agents
 
-[Agent2Agent (A2A)](https://a2a-protocol.org) is an open protocol for agent interoperability. An A2A server publishes a discovery document — the *agent card* — at `GET /.well-known/agent.json`, and accepts work as [JSON-RPC 2.0](https://www.jsonrpc.org/specification) requests, both blocking and streaming over Server-Sent Events. A client needs to know nothing about what runs inside the server. It reads the card, sends a message, and reads the reply.
+Any OVOS persona can now talk to outside agent frameworks, and borrow reasoning from them too. Three new pieces make OVOS both a server and a client on the [Agent2Agent (A2A)](https://a2a-protocol.org) protocol, an open standard for agent interoperability. A HiveMind topology where some nodes hold local knowledge and others proxy out to cloud reasoning stops being a custom integration and becomes a matter of configuration.
 
-Three new pieces wire OVOS into that world in both directions:
+An A2A server publishes a discovery document — the *agent card* — at `GET /.well-known/agent.json`, and accepts work as [JSON-RPC 2.0](https://www.jsonrpc.org/specification) requests, both blocking and streaming over Server-Sent Events. A client needs to know nothing about what runs inside the server: it reads the card, sends a message, and reads the reply.
 
 1. **`ovos-persona-server`** gains an A2A endpoint, so any OVOS persona becomes an A2A agent other tools can call.
 2. **`ovos-a2a-solver-plugin`** goes the other way, letting a persona hand its reasoning to a remote A2A agent.
@@ -118,7 +118,7 @@ Put the three together and OVOS sits on both ends of the same protocol:
   HiveMind satellite  →  a2a-agent-plugin  →  remote A2A agent
 ```
 
-The same persona can *serve* other agents over A2A and *consume* other agents through it. A HiveMind topology where some nodes hold local knowledge and others proxy out to cloud reasoning stops being a custom integration and becomes a matter of configuration.
+The same persona can *serve* other agents over A2A and *consume* other agents through it.
 
 ---
 
