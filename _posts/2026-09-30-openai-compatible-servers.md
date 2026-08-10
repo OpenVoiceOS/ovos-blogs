@@ -12,17 +12,17 @@ ogImage:
 
 ## Point Your OpenAI Code at Your Own Voice Stack
 
-A lot of software already knows how to talk to one company's cloud. It calls `openai.audio.speech.create(...)` to synthesize a voice, `openai.audio.transcriptions.create(...)` to turn speech into text, and `openai.chat.completions.create(...)` to reason over it. That code works fine, right up until you remember that every word of audio and every private document is leaving your machine.
+A lot of software already knows how to talk to one company's cloud: `openai.audio.speech.create(...)` for text-to-speech, `openai.audio.transcriptions.create(...)` for speech-to-text, `openai.chat.completions.create(...)` for chat. That code works, until you remember that every word of audio and every document you send it leaves your machine.
 
-What if you kept all of that code, changed one line, and pointed it at **your own** self-hosted, offline voice stack instead?
+The OVOS speech servers now speak that same API. Point your existing OpenAI-SDK code at your own server instead of the cloud, and the audio, the transcripts, and the documents never leave your network. Change the `base_url`, keep the rest of your code.
 
-That is what these releases do. The OVOS speech servers now expose **drop-in OpenAI-compatible** HTTP endpoints — and, for TTS, **MaryTTS-compatible** ones too — as part of the **Third-Party Server Compatibility** work.
+This is part of the **Third-Party Server Compatibility** work: OVOS servers now expose drop-in **OpenAI-compatible** HTTP endpoints, and for TTS, **MaryTTS-compatible** ones too.
 
 ---
 
-## What's Compatible Now
+## What Shipped
 
-The idea is small: the OVOS servers act as a compatible *front-end* to local plugins. Your app thinks it is talking to a cloud API. It is really talking to a local Piper voice, a local Whisper model, or your own persona running on hardware you control.
+Each server acts as a compatible front-end to local OVOS plugins. Your app talks to what looks like a cloud API; underneath, it is a local Piper voice, a local Whisper model, or your own persona running on hardware you control.
 
 | OVOS Server | Compatible API Surface | PR |
 |-------------|------------------------|----|
@@ -32,15 +32,15 @@ The idea is small: the OVOS servers act as a compatible *front-end* to local plu
 | `ovos-persona-server` | OpenAI `chat.completions`, `embeddings`, `files`, vector stores | [#11](https://github.com/OpenVoiceOS/ovos-persona-server/pull/11) |
 | `ovos-openai-plugin` | RAG memory built on the persona-server vector-store API | [#54](https://github.com/OpenVoiceOS/ovos-openai-plugin/pull/54) |
 
-The `ovos-tts-server` OpenAI route mounts `/openai`, so its `audio.speech` endpoint lands at `/openai/v1/audio/speech`. The MaryTTS router is deliberately available both under `/marytts` and at the bare `/process` path, because real MaryTTS clients — including Home Assistant's `marytts` integration and `ovos-tts-plugin-marytts` — hardcode the root path and cannot be pointed at a sub-prefix.
+The `ovos-tts-server` OpenAI route mounts under `/openai`, so `audio.speech` lands at `/openai/v1/audio/speech`. The MaryTTS router is available both under `/marytts` and at the bare `/process` path, because real MaryTTS clients — including Home Assistant's `marytts` integration and `ovos-tts-plugin-marytts` — hardcode the root path and cannot be pointed at a sub-prefix.
 
-Alongside the compatible surfaces, the servers picked up a large set of vendor backends, so you can mix and match behind the same client-facing API. `ovos-stt-http-server` grew dedicated routers for **Deepgram, Google, AssemblyAI, Azure, AWS Transcribe, IBM Watson, Wit.ai, Speechmatics, Vosk, Kaldi, and Whisper.cpp**; `ovos-tts-server` added an **ElevenLabs**-compatible router next to the OpenAI and MaryTTS ones, while the audio itself is rendered by whatever OVOS TTS plugin you load (Piper and friends). Pick a cloud vendor when you want one, keep everything local when you don't. The client code never has to know which it is.
+The servers also picked up a set of vendor backends behind the same client-facing API. `ovos-stt-http-server` added routers for **Deepgram, Google, AssemblyAI, Azure, AWS Transcribe, IBM Watson, Wit.ai, Speechmatics, Vosk, Kaldi, and Whisper.cpp**. `ovos-tts-server` added an **ElevenLabs**-compatible router next to OpenAI and MaryTTS, while the audio itself is still rendered by whatever OVOS TTS plugin you load (Piper and others). Pick a cloud vendor when you want one, keep everything local when you don't — the client code does not need to know which.
 
 ---
 
-## Show Me the Code
+## How to Try It
 
-Here is the whole point in one snippet. This is ordinary `openai` SDK code. The only thing that changed is `base_url`.
+This is ordinary `openai` SDK code. The only thing that changed is `base_url`.
 
 ```python
 from openai import OpenAI
@@ -114,7 +114,7 @@ A private knowledge base, a local chat model, and OpenAI-shaped clients in front
 - **No lock-in.** The API surface is a shared shape, not a leash. Point the same client at OVOS today, a cloud vendor tomorrow, and back again — by changing a URL.
 - **Drop-in migration.** Existing OpenAI-SDK apps adopt your private stack with a one-line diff, not a rewrite.
 
-Open, user-controlled voice technology only works if it meets people where they already are. A great deal of software already speaks OpenAI. Now it can speak to OVOS instead — privately, and on your own terms.
+A lot of software already speaks OpenAI. Now it can speak to OVOS instead, on your own hardware.
 
 ---
 
