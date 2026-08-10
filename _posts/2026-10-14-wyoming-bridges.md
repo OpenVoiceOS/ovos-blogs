@@ -30,9 +30,9 @@ The bridges are adapters, not reimplementations. Each one wraps an existing OVOS
 - **[wyoming-ovos-tts](https://github.com/OpenVoiceOS/wyoming-ovos-tts)** exposes any OVOS text-to-speech plugin, such as a phoonnx or piper voice, as a Wyoming TTS service.
 - **[wyoming-ovos-wakeword](https://github.com/OpenVoiceOS/wyoming-ovos-wakeword)** exposes any OVOS wake-word plugin as a Wyoming wake service.
 
-Each bridge takes two required arguments: `--plugin-name`, the OVOS plugin to load (the same value you would put under `module` in `mycroft.conf`), and `--uri`, where it listens, either `unix://` or `tcp://host:port`. The plugin reads its own settings (language, model, voice) from `mycroft.conf`, the same file it would read inside a running OVOS instance.
+Each bridge takes two required arguments: `--plugin-name`, the OVOS plugin to load (the same value you would put under `module` in `mycroft.conf`), and `--uri`, where it listens, either `unix://` or `tcp://host:port`. The plugin reads its own settings (language, model, voice) from `mycroft.conf`, the same file it would read inside a running OVOS instance. If you don't already have one, start from the plugin's own README: OVOS plugins document the `stt`/`tts`/`hotwords` section and the plugin-specific keys they expect under it.
 
-Point Home Assistant at a bridge and the OVOS engine behind it appears as a provider in Assist. Whatever the plugin supports, such as streaming, language selection, or custom models, works through the bridge too, since the bridge does not touch that logic.
+Point Home Assistant at a bridge and the OVOS engine behind it appears as a provider in Assist. Whatever the plugin supports, such as language selection or custom models, works through the bridge too, since the bridge does not touch that logic. Most OVOS STT plugins are batch, not streaming, so streaming transcription is only available if the underlying plugin already supports it.
 
 ---
 
@@ -46,13 +46,16 @@ The **[ovos-wyoming-docker](https://github.com/OpenVoiceOS/ovos-wyoming-docker)*
 
 Inside every container the bridge listens on port 8080. The compose file maps that to the host port shown above, so the services land in the ~10500-10900 range. Each service also mounts your `mycroft.conf`, where you set the plugin's language, model, or voice.
 
-Clone the repository and start a service like any other compose service:
+Clone the repository, point it at your `mycroft.conf`, and start a service like any other compose service:
 
 ```bash
 git clone https://github.com/OpenVoiceOS/ovos-wyoming-docker
 cd ovos-wyoming-docker
+export CONFIG_BASE_DIR=/path/to/your/mycroft-conf-folder
 docker compose up -d wyoming-ovos-tts-sam
 ```
+
+`CONFIG_BASE_DIR` must point to the folder holding `mycroft.conf`; the compose file mounts it into every container.
 
 That publishes the SAM voice bridge on host port 10605. In Home Assistant, go to **Settings → Devices & Services → Add Integration → Wyoming Protocol**, and enter the IP address of the machine running the container, plus the port (for example `10605`). Home Assistant connects and offers it as a TTS, STT, or wake-word provider for your Assist pipelines.
 
@@ -64,7 +67,7 @@ To run without Docker, each bridge is a plain Python service. Give it a `--plugi
 
 ## Why this matters
 
-Your choice of STT, TTS, or wake word is no longer tied to which assistant you started with. You can run OVOS wake-word detection in front of a Home Assistant pipeline, or a phoonnx voice inside Assist. Every plugin in the OVOS catalog, the full family of STT and TTS engines with their voices and languages, becomes available to Home Assistant users through one integration.
+Your choice of STT, TTS, or wake word is no longer tied to which assistant you started with. You can run OVOS wake-word detection in front of a Home Assistant pipeline, or a phoonnx voice inside Assist. Every plugin in the OVOS catalog, the full family of STT and TTS engines with their voices and languages, becomes available to Home Assistant users through the same Wyoming Protocol integration, added once per bridge you run.
 
 Most of these engines run offline: the bridge and the plugin keep audio on your own hardware and network, and don't send your data anywhere else. The Google-Translate-backed TTS variant is the exception — it calls out to Google, same as any other Google Translate TTS use. Pick an offline voice, such as SAM, Mimic, NOS, or Matxa, if that matters to you.
 
