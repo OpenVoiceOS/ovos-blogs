@@ -12,62 +12,53 @@ ogImage:
 
 ## Teaching OVOS to Match Meaning: Embeddings-Based Intent Parsing
 
-Every time you speak to a voice assistant, something has to decide *which skill you meant*. Say "what's the weather," and the assistant has to route those words to the weather skill and nothing else. This is intent matching, and it is one of the oldest, most load-bearing problems in the whole pipeline.
+Ask a voice assistant "what's the forecast" when a skill only knows "what's the weather," and a keyword engine misses. Nobody wrote down that phrasing, so it doesn't match. That gap is why we built new intent-matching pipelines for OVOS that work on meaning instead of exact words — and why we're also publishing strong no-dependency baselines for devices too small to run them.
 
-Historically, OVOS has solved it with keyword and template engines like **Padatious** and **Adapt**. These are fast, transparent, and run comfortably on a Raspberry Pi. But they share a weakness: they only recognize what you told them to expect. If a skill was trained on "what's the weather" but a user asks "what's the forecast," a keyword engine can simply miss, because nobody enumerated that phrasing. You end up maintaining ever-growing lists of example sentences, one per way of saying the same thing.
+Intent matching decides which skill handles what you said. OVOS has long relied on keyword and template engines like **Padatious** and **Adapt**. They are fast, transparent, and run comfortably on a Raspberry Pi, but they only recognize phrasings someone anticipated. Every new way of asking the same question means another line added to a training list.
 
-This embeddings-based intent R&D set out to explore a different question: what if intent matching worked on *meaning* instead of *words*? This is research and exploration, not a single finished winner. We built and compared several pipelines, and the interesting result is the comparison itself. Crucially, all of them register under the same `opm.pipeline` entry point, so swapping one for another is a configuration change rather than a rewrite.
-
----
-
-## The Embedding Approach
-
-An embedding turns a sentence into a vector, a point in a high-dimensional space where sentences with similar meaning land near each other. "What's the forecast" and "what's the weather" end up as neighbours even though they share almost no words.
-
-For intent matching, this changes the game. Instead of asking "does this utterance match a template," you ask "which registered intent example is this utterance *closest* to in meaning." The payoff is generalization to phrasings never seen in training, and it often carries across languages too, because multilingual embedding spaces tend to place the same meaning near the same region regardless of the language it was spoken in.
-
-There is a second, subtler payoff. Similarity matching does not *require* a trained classifier on top of the embeddings. If you keep a stored example (a "prototype") for each intent and just find the nearest one, then **adding or removing an intent needs no retraining at all** — you add or drop its example vectors and you are done. That property matters enormously for a system where skills are installed and uninstalled at will.
+This R&D explored a different approach: match by meaning. It produced several pipelines, not one winner — the comparison itself is the result. All of them register under the same `opm.pipeline` entry point, so switching between them is a configuration change, not a rewrite.
 
 ---
 
-## Two Embedding Pipelines
+## What Shipped
 
-We built two distinct semantic pipelines, deliberately targeting different resource budgets.
+**Embeddings turn a sentence into a vector.** Sentences with similar meaning land near each other in that space, so "what's the forecast" and "what's the weather" end up as neighbors even though they share no words. Matching becomes a nearest-neighbor search instead of a template check, and the effect often carries across languages, since multilingual embedding spaces tend to place the same meaning in the same region regardless of which language it was spoken in.
 
-The first is **[ovos-m2v-pipeline](https://github.com/OpenVoiceOS/ovos-m2v-pipeline)**, built on model2vec. model2vec produces very small, fast *static* embeddings, distilled down from a full sentence-transformer so there is no transformer forward-pass at inference time. The pipeline supports two modes, and it is worth being precise about this: it can train and run a **classifier head** on top of those embeddings (a hierarchical domain-then-intent classifier), *and* it has a **prototype mode** that drops the head entirely ([PR #30](https://github.com/OpenVoiceOS/ovos-m2v-pipeline/pull/30)). In prototype mode, each intent is represented by stored example embeddings and matching is pure nearest-neighbour similarity — so intents can be added or removed with no retraining step. The classifier mode can squeeze out sharper decision boundaries when the intent set is fixed; the prototype mode buys flexibility. The whole thing stays tiny and CPU-friendly, a strong fit for embedded hardware.
+One consequence matters beyond accuracy: if each intent is represented by stored example vectors ("prototypes") and matching just finds the nearest one, adding or removing an intent needs no retraining. You add or drop example vectors and you're done — useful on a system where skills get installed and uninstalled at will.
 
-The second reaches for richer representations: **[ovos-hierarchical-knn-pipeline](https://github.com/OpenVoiceOS/ovos-hierarchical-knn-pipeline)**, whose `HierarchicalKNNIntentPipeline` pairs **IBM Granite embeddings** with a **FAISS** vector index. Granite runs as an ONNX model with CLS pooling at 768 dimensions, and the pipeline ships several quantized variants (an AVX2 `quint8` build, a `uint8` build, and full-precision F32) so the same code adapts to what a given CPU can do. FAISS provides the fast k-nearest-neighbour search over the stored intent examples, with L2-normalized vectors so nearest-neighbour becomes cosine similarity — and it stays fast even as the number of registered examples grows. This trades a larger footprint (`faiss-cpu` plus the Granite weights) for potentially better semantic discrimination.
+Two pipelines came out of this work, targeting different resource budgets:
 
-Both drop into the OVOS pipeline as OPM intent plugins, exactly like Padatious or Adapt.
+- **[ovos-m2v-pipeline](https://github.com/OpenVoiceOS/ovos-m2v-pipeline)** uses model2vec, which distills a full sentence-transformer into small, fast *static* embeddings — no transformer forward-pass at inference time. It supports two modes: a trained classifier head (a hierarchical domain-then-intent classifier) for sharper decision boundaries on a fixed intent set, and a **prototype mode** that drops the head entirely and matches by nearest neighbor, trading some accuracy for the ability to add or remove intents without retraining ([PR #30](https://github.com/OpenVoiceOS/ovos-m2v-pipeline/pull/30)). It stays tiny and CPU-friendly — a good fit for embedded hardware.
 
----
+- **[ovos-hierarchical-knn-pipeline](https://github.com/OpenVoiceOS/ovos-hierarchical-knn-pipeline)** pairs IBM Granite embeddings with a FAISS vector index. Granite runs as an ONNX model with CLS pooling at 768 dimensions, and the pipeline ships an AVX2 `quint8` build, a `uint8` build, and full-precision F32, so the same code adapts to what a given CPU can do. FAISS handles fast k-nearest-neighbor search over the stored examples, with L2-normalized vectors so nearest-neighbor becomes cosine similarity. It trades a larger footprint — `faiss-cpu` plus the Granite weights — for potentially better semantic discrimination.
 
-## Don't Forget the Baselines
+Both plug into the OVOS pipeline as OPM intent plugins, exactly like Padatious or Adapt.
 
-Not every device wants to load an embedding model. A voice satellite with tight memory, no GPU, and a preference for instant cold starts is a real and common target. So part of this work was building a strong *non-ML floor* — engines that download no weights and warm up instantly.
+Not every device wants to load an embedding model. A voice satellite with tight memory, no GPU, and a need for instant cold starts is a real target, so this work also produced two minimum-dependency baselines that download no weights and warm up instantly:
 
-Two minimum-dependency engines fill that role. **[nebulento](https://github.com/OpenVoiceOS/nebulento)** is a fuzzy matcher built on `rapidfuzz`; it offers a family of string-similarity strategies (ratio, Damerau-Levenshtein and others) so you can trade precision against recall per deployment. **[palavreado](https://github.com/OpenVoiceOS/palavreado)** is a keyword-and-entity engine in the Adapt tradition: each intent is a set of **required** and **optional** keyword slots, an intent fires only when every required slot is filled, and optional regex or simplematch autoregex patterns pull out entities. Both are tiny, fast, and carry near-zero footprint — nothing to fetch, nothing to warm up. They will never generalize the way an embedding model can, but they establish an honest baseline, and on constrained hardware they may simply be the right answer.
+- **[nebulento](https://github.com/OpenVoiceOS/nebulento)** is a fuzzy matcher built on `rapidfuzz`, offering several string-similarity strategies (ratio, Damerau-Levenshtein, and others) so you can trade precision against recall per deployment.
+- **[palavreado](https://github.com/OpenVoiceOS/palavreado)** is a keyword-and-entity engine in the Adapt tradition: each intent is a set of required and optional keyword slots, an intent fires only when every required slot is filled, and optional regex or simplematch patterns pull out entities.
+
+Both are tiny and fast, with near-zero footprint. They will never generalize the way an embedding model can, but they set an honest baseline, and on constrained hardware they may be the right answer outright.
 
 ---
 
 ## Measuring It Honestly
 
-It would be easy to declare a winner here. We are deliberately not doing that, because we do not yet have the numbers to back such a claim.
-
-nebulento's own README does publish per-strategy accuracy on OVOS evaluation datasets like `intents-for-eval` and `massive`, which is useful for tuning nebulento itself — but that is a single engine measured against a fixed set of strategies, not a cross-pipeline comparison. Systematic, apples-to-apples benchmarking *across* all of these pipelines is being carried out through the **OVOS Plugin Arena's intent prediction runner**, which runs each plugin against shared datasets under identical conditions. That benchmarking work is ongoing, there is no published cross-pipeline leaderboard yet, and this post makes no accuracy or ranking claims. When the Arena results are ready, they will speak for themselves.
+We are not declaring a winner, because we don't have the numbers to back one yet. nebulento's own README publishes per-strategy accuracy on OVOS evaluation datasets like `intents-for-eval` and `massive`, useful for tuning nebulento itself but not a cross-pipeline comparison. Systematic, apples-to-apples benchmarking across all of these pipelines is running through the **OVOS Plugin Arena's intent prediction runner**, which tests each plugin against shared datasets under identical conditions. That work is ongoing; there is no published cross-pipeline leaderboard yet, and this post makes no accuracy or ranking claims.
 
 ---
 
 ## Why This Matters
 
-The point of this exploration is not to crown one intent engine. It is to give OVOS a *spectrum* of options that all speak the same OPM plugin interface:
+The point isn't to crown one intent engine — it's to give OVOS a spectrum of options that all speak the same OPM plugin interface:
 
-- **Better generalization**, matching by meaning so unseen phrasings still route correctly.
-- **Multilingual reach**, since embedding spaces often align related meanings across languages.
-- **No retraining to edit intents**, because prototype-style similarity matching adds and removes examples freely.
-- **Swappable plugins**, so a device can pick the right tool for its budget, from a near-zero-footprint fuzzy matcher up to a Granite-plus-FAISS semantic index.
+- Better generalization: matching by meaning routes unseen phrasings correctly.
+- Multilingual reach: embedding spaces often align related meanings across languages.
+- No retraining to edit intents: prototype-style matching adds and removes examples freely.
+- Swappable plugins: a device picks the tool that fits its budget, from a near-zero-footprint fuzzy matcher up to a Granite-plus-FAISS semantic index.
 
-Voice assistants run everywhere from beefy servers to tiny satellites. The goal of this research is to make sure that whatever the hardware, there is an intent engine that fits, and that choosing between them is a config change, not a rewrite.
+Voice assistants run on everything from beefy servers to tiny satellites. This work aims to make sure an intent engine fits whatever the hardware is, and that choosing between them stays a config change, not a rewrite.
 
 ---
 
