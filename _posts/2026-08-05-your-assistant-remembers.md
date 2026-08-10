@@ -14,9 +14,33 @@ ogImage:
 
 A voice assistant is stateless by default. Ask about the weather, get an answer, move on — next time you speak, nothing you said before is remembered. Fine for one-off commands. For a persona you talk to every day, it means no continuity, no sense of who you are, no way to follow up on yesterday's conversation.
 
-[`ovos-memory-plugins`](https://github.com/OpenVoiceOS/ovos-memory-plugins) closes that gap: a bundle of memory backends that plug into [`ovos-persona`](https://github.com/OpenVoiceOS/ovos-persona) through one well-defined seam. A persona activates exactly one backend with a single line of JSON.
+In plain terms: right now, if you tell your assistant your dog's name on Monday, it has no idea by Tuesday. With [`ovos-memory-plugins`](https://github.com/OpenVoiceOS/ovos-memory-plugins), that changes. Depending on which memory a persona is set up with, it can recall the gist of a long conversation, look up something you said days ago, or just remember the last few things you said so "and what about tomorrow?" makes sense. Everything runs on the device — nothing about your conversations is sent to a cloud service.
 
-## The seam: one small contract
+Setting this up today means editing a persona's configuration file, so this post is aimed at people who build or configure OVOS personas, not at end users tapping a settings screen. If you just run OVOS and talk to it, the takeaway is: memory is coming to personas, and it stays local. The rest of this post is for the people wiring that up.
+
+## For persona builders: how it works
+
+[`ovos-memory-plugins`](https://github.com/OpenVoiceOS/ovos-memory-plugins) is a bundle of memory backends that plug into [`ovos-persona`](https://github.com/OpenVoiceOS/ovos-persona) through one well-defined seam. A persona activates exactly one backend with a single line of JSON.
+
+### How to try it
+
+Install the package, pick a backend, and add its `memory_module` key to a persona's JSON file:
+
+```bash
+pip install ovos-memory-plugins
+```
+
+```json
+{
+  "name": "MyAssistant",
+  "solvers": ["ovos-solver-openai-plugin"],
+  "memory_module": "ovos-memory-plugin-recency"
+}
+```
+
+Drop the file in your `ovos-persona` personas directory and the persona starts remembering the last few turns — no models, no extra setup. The sections below cover the other backends, and what to configure for each.
+
+### The seam: one small contract
 
 A memory plugin does not answer questions. The persona still owns the chat engine and any tools; the memory plugin owns **conversation state and context assembly**. Each backend is an `AgentContextManager` from `ovos-plugin-manager`, registered under the `opm.agents.memory` entry-point group, and the whole contract is three methods (`ovos_plugin_manager.templates.agents`):
 
@@ -28,7 +52,7 @@ build_conversation_context(utterance, session_id) -> List[AgentMessage]
 
 Before every turn, the persona calls `build_conversation_context`, sends the returned message list to the chat engine, then calls `update_history` with the new exchange. Two invariants hold for every backend: the first message may be a `system` message carrying the persona's base prompt, and the last message is always the current user utterance. Because the interface is this narrow, backends are interchangeable — swap recall strategies without touching the persona.
 
-## Long-term summarization
+### Long-term summarization
 
 `ovos-memory-plugin-longterm` keeps a compact running summary of a long conversation. Every `summarize_every` exchanges (default 6), it sends the oldest turns to an OpenAI-compatible **chat** endpoint, replaces those turns with the returned summary, and keeps only the last `recent_window` exchanges verbatim. The next turn's context is: system prompt, then rolling summary, then the recent verbatim turns, then the utterance.
 
@@ -54,11 +78,11 @@ This trades exact recall for a bounded, cheap-to-carry context — the gist of a
 }
 ```
 
-## Local-first RAG
+### Local-first RAG
 
 When the assistant needs to recall a specific fact rather than a gist, use `ovos-memory-plugin-local-rag`. It stores every exchange as an embedding in a vector store and, at query time, retrieves the top-k most semantically similar past turns and injects them as context — so relevant history surfaces without the entire transcript overflowing the context window.
 
-"Local" is the point: retrieval runs entirely in-process. The plugin loads an OVOS text-embeddings plugin and an `EmbeddingsDB` plugin directly — no HTTP, no API key. The `local-rag` extra pulls a default offline stack of `ovos-gguf-embeddings-plugin` (a LaBSE GGUF embedding model) and `ovos-chromadb-embeddings-plugin` (a persistent on-disk vector store), so nothing about your conversation history is embedded or searched anywhere but the device it lives on. An earlier server-coupled HTTP variant was removed outright (PR #9) in favor of this local-first design.
+"Local" is the point: retrieval runs entirely in-process. The plugin loads an OVOS text-embeddings plugin and an `EmbeddingsDB` plugin directly — no HTTP, no API key. The `local-rag` extra pulls a default offline stack of `ovos-gguf-embeddings-plugin` (a LaBSE GGUF embedding model) and `ovos-chromadb-embeddings-plugin` (a persistent on-disk vector store), so everything — the embedding and the search — stays on the device. An earlier server-coupled HTTP variant was removed outright (PR #9) in favor of this local-first design.
 
 ```json
 {
@@ -74,18 +98,18 @@ When the assistant needs to recall a specific fact rather than a gist, use `ovos
 
 Retrieved chunks can be woven into the conversation via `inject_mode`: a separate `system` message (the default, which keeps the base prompt stable and cacheable), folded into the system prompt, prepended to the user turn, or — for tool-calling models — presented as a synthetic `search_memory` tool result. The store, the embedding model, and the injection style are all swappable; point `embeddings_db_plugin` at `ovos-qdrant-embeddings-plugin` and the same retrieval logic runs against a shared Qdrant instead.
 
-## Lighter backends, and an ensemble
+### Lighter backends, and an ensemble
 
 Summarization and RAG are the heavyweights. The family also covers cheaper strategies:
 
-- **`ovos-memory-plugin-lexical`** — keyword recall using SQLite's built-in FTS5 index and `bm25()` ranking. No embeddings, no extra dependencies (`sqlite3` is stdlib), fully offline. Use it when the exact term matters more than the meaning.
+- **`ovos-memory-plugin-lexical`** — keyword recall using SQLite's built-in FTS5 index (a full-text search index) and `bm25()` ranking (a formula that scores how well a passage matches search terms). No embeddings, no extra dependencies (`sqlite3` is stdlib), fully offline. Use it when the exact term matters more than the meaning.
 - **`ovos-memory-plugin-recency`** — the lightest option: a sliding window of the most recent turns, bounded by count and optionally by age. No LLM, no embeddings.
 - **`ovos-memory-plugin-entity`** — durable facts about the user (name, preferences, relationships, goals). After each exchange it asks a local OpenAI-compatible endpoint to extract short fact lines and merges them, deduplicated, into a per-session store, then re-injects them every turn. If the endpoint is unreachable, extraction simply no-ops.
-- **`ovos-memory-plugin-composite`** — a pure orchestrator that stores nothing itself. It loads several of the above as members, fuses the retriever hits (RAG + lexical) into one deduplicated ranked list via reciprocal-rank fusion, folds in the summary and facts from the others, and writes every new exchange through to all of them. A member that fails to load or raises is simply skipped. This is how a persona's single `memory_module` slot combines hybrid recall — semantic, keyword, and durable facts at once.
+- **`ovos-memory-plugin-composite`** — a pure orchestrator that stores nothing itself. It loads several of the above as members, fuses the retriever hits (RAG + lexical) into one deduplicated ranked list via reciprocal-rank fusion (a method for merging several ranked lists by each item's position, not its raw score), folds in the summary and facts from the others, and writes every new exchange through to all of them. A member that fails to load or raises is simply skipped. This is how a persona's single `memory_module` slot combines hybrid recall — semantic, keyword, and durable facts at once.
 
 The overview table in the repo lays out the trade-offs: which backends run fully offline, which need a chat endpoint, and how each persists state.
 
-## One config key
+### One config key
 
 Every backend keys its state by `session_id`, so memory is naturally per-session. In a shared household each person's conversation stays separate, and a guest session carries its own — or an empty — window. The persona resolves the backend and its per-plugin config block by name at load time, the same mechanism used for solver configs. Enabling memory is one key:
 
