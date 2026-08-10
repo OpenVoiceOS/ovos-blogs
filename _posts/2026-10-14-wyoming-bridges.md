@@ -32,7 +32,7 @@ The bridges are adapters, not reimplementations. Each one wraps an existing OVOS
 
 Each bridge takes two required arguments: `--plugin-name`, the OVOS plugin to load (the same value you would put under `module` in `mycroft.conf`), and `--uri`, where it listens, either `unix://` or `tcp://host:port`. The plugin reads its own settings (language, model, voice) from `mycroft.conf`, the same file it would read inside a running OVOS instance. If you don't already have one, start from the plugin's own README: OVOS plugins document the `stt`/`tts`/`hotwords` section and the plugin-specific keys they expect under it.
 
-Point Home Assistant at a bridge and the OVOS engine behind it appears as a provider in Assist. Whatever the plugin supports, such as language selection or custom models, works through the bridge too, since the bridge does not touch that logic. Most OVOS STT plugins are batch, not streaming, so streaming transcription is only available if the underlying plugin already supports it.
+Point Home Assistant at a bridge and the OVOS engine behind it appears as a provider in Assist. Whatever the plugin supports, such as language selection or custom models, works through the bridge too, since the bridge does not touch that logic. The STT bridge buffers all incoming audio and runs the plugin once the client signals end of speech, so transcription is batch, not streaming, regardless of what the underlying plugin can do.
 
 ---
 
@@ -73,7 +73,7 @@ Most of these engines run offline: the bridge and the plugin keep audio on your 
 
 ---
 
-This work is part of the OpenVoiceOS **From Beta to Breakthrough** milestone, funded through the [NGI0 Commons Fund](https://nlnet.nl/commonsfund), a fund established by [NLnet](https://nlnet.nl) with financial support from the European Commission's [Next Generation Internet](https://ngi.eu) programme, under the aegis of [DG Communications Networks, Content and Technology](https://commission.europa.eu/about-european-commission/departments-and-executive-agencies/communications-networks-content-and-technology_en) under grant agreement No [101135429](https://cordis.europa.eu/project/id/101135429). Additional funding is made available by the [Swiss State Secretariat for Education, Research and Innovation](https://www.sbfi.admin.ch/sbfi/en/home.html) (SERI).
+This work is part of the OpenVoiceOS **From Beta to Breakthrough** milestone, funded through the [NGI0 Commons Fund](https://nlnet.nl/commonsfund), a fund established by [NLnet](https://nlnet.nl) with financial support from the European Commission's [Next Generation Internet](https://ngi.eu) programme, managed by [DG Communications Networks, Content and Technology](https://commission.europa.eu/about-european-commission/departments-and-executive-agencies/communications-networks-content-and-technology_en) under grant agreement No [101135429](https://cordis.europa.eu/project/id/101135429). Additional funding is made available by the [Swiss State Secretariat for Education, Research and Innovation](https://www.sbfi.admin.ch/sbfi/en/home.html) (SERI).
 
 ---
 
