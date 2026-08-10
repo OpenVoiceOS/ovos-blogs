@@ -36,7 +36,7 @@ on the bus, and a text input that stands in for your voice.
 
 ## What it actually does
 
-Four panes, updating in real time as OVOS processes what you type:
+Three panes and a command palette, updating in real time as OVOS processes what you type:
 
 - **Logs** - tails every OVOS service log it can find, filterable by
   source, level, free text, or a specific skill, live, without
