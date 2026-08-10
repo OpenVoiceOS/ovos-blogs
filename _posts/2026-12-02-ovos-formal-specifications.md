@@ -12,15 +12,13 @@ ogImage:
 
 ## OVOS Is a Voice Operating System — and Now It Has a Written ABI
 
-Most "voice assistants" are products. You ask a question, they answer, and how they do it is a black box you're not meant to open. OpenVoiceOS is a different kind of thing, and the [**OVOS architecture repository**](https://github.com/OpenVoiceOS/architecture) is where we finally wrote down exactly *what* kind of thing.
+Most voice assistants are products: you ask a question, they answer, and how they do it stays a black box. OpenVoiceOS calls itself a **voice operating system**, not a voice assistant, and the [**OVOS architecture repository**](https://github.com/OpenVoiceOS/architecture) now writes down exactly what that means. It is the ABI of the platform: the documented contract that lets independent components — skills, satellites, orchestrators — talk to each other without knowing anything about each other's internals.
 
-Its own framing is the clearest: OVOS is a **voice operating system** — not a voice assistant. A voice assistant is a product that answers questions. A voice OS is a *platform*. It defines the boundary between what a user says and the computation that runs; it arbitrates which application handles each utterance; it manages conversation state across turns; and it provides a stable interface that third-party applications run against without knowing anything about each other. The architecture repo is the source of truth for that interface — the ABI of the voice OS.
+A voice OS defines the boundary between what a user says and the computation that runs. It arbitrates which application handles each utterance, manages conversation state across turns, and gives third-party applications a stable interface to run against. Until now, that interface lived only in code. The architecture repo makes it a document.
 
 ---
 
-## The operating-system analogy is not a metaphor
-
-The repository draws the comparison directly, and it holds up point for point:
+## Why it matters: the OS analogy holds point for point
 
 | Operating system | Voice OS equivalent |
 |---|---|
@@ -31,13 +29,13 @@ The repository draws the comparison directly, and it holds up point for point:
 | Loadable kernel modules | Pipeline and transformer plugins |
 | System-call ABI | The `match(utterances, lang, session) → Match` contract |
 
-The consequence is worth sitting with. Because there's a stable ABI, OVOS is a **runtime**, not a monolith: you can swap the scheduler (pipeline ordering), the NLU engines (pipeline plugins), the dialogue policy (converse and context), or the output layer (TTS, display) — in any combination — and everything else keeps working. A skill written against the intent stack runs on any conformant orchestrator, under any pipeline configuration, in any supported language. That is precisely the property an operating system gives you, and precisely the property most voice products don't.
+Because there is a stable ABI, OVOS is a runtime, not a monolith. You can swap the scheduler (pipeline ordering), the NLU engines (pipeline plugins), the dialogue policy (converse and context), or the output layer (TTS, display), in any combination, and everything else keeps working. A skill written against the intent stack runs on any conformant orchestrator, under any pipeline configuration, in any supported language.
 
 ---
 
-## What's actually specified
+## What shipped: 20 specifications
 
-The repository is **20 specifications**, grouped by the subsystem they govern. Each has a stable ID, a version, and normative text:
+The repository holds 20 specifications, grouped by the subsystem they govern. Each has a stable ID, a version, and normative text:
 
 - **The intent stack** — `INTENT-1` (sentence template grammar), `INTENT-2` (locale resource formats), `INTENT-3` (intent definition), `INTENT-4` (intent and entity registration). This is how a skill declares what it understands.
 - **Bus and session** — `MSG-1` (the bus message envelope), `SESSION-1` (the session carrier wire shape), `SESSION-2` (session lifecycle and state ownership), `BRIDGE-1` (bus bridging and opaque relay). This is how components talk and how state travels with a conversation.
@@ -45,27 +43,25 @@ The repository is **20 specifications**, grouped by the subsystem they govern. E
 - **Audio and display** — `AUDIO-IN-1` (audio input), `AUDIO-1` (audio output), `GUI-1` (the display subsystem).
 - **Media** — `OCP-1`, the OVOS Common Playback virtual media player.
 
-The point of splitting it this way is that a spec is a contract with a scope. You can implement `STOP-1` correctly without re-reading the whole platform, and someone auditing your stop behaviour knows exactly which document is the referee.
+Splitting the spec this way keeps each contract scoped. You can implement `STOP-1` correctly without reading the whole platform, and someone auditing your stop behaviour knows exactly which document is the referee.
 
----
+The specs are written in **RFC-2119 language** — the MUST / SHOULD / MAY vocabulary standards bodies use so "correct" is not a matter of opinion. When a spec says a component MUST emit an event, an implementation that skips it is not making a reasonable alternative choice. It is wrong, and the spec is the evidence.
 
-## RFC-2119, and what "Draft" means here
-
-The specs are written in **RFC-2119 language** — the MUST / SHOULD / MAY vocabulary that standards bodies use so that "correct" is not a matter of opinion. When a spec says a component MUST emit an event, an implementation that doesn't isn't making a reasonable alternative choice; it's wrong, and the spec is the evidence.
-
-Every spec in the repository is currently at **Draft** status, and the repo is careful about what that word means. A Draft spec here is still **prescriptive**: where an implementation diverges from it, the divergence is treated as an implementation bug, not a defect in the specification. Draft signals "we may still revise the text," not "this is optional." It's an honest label — the specs are young, they'll change — but they are already the authority, not a wish list.
+Every spec in the repository is currently at **Draft** status. Draft here still means **prescriptive**: where an implementation diverges from the text, that is treated as an implementation bug, not a defect in the spec. Draft signals "we may still revise the wording," not "this is optional."
 
 ---
 
 ## Not the same as the message models
 
-It's worth heading off a natural confusion. There is a separate OVOS effort, [ovos-pydantic-models](https://github.com/OpenVoiceOS/ovos-pydantic-models), that specifies what each bus *message looks like* — the exact fields of a `speak` or a `recognizer_loop:utterance` payload. These architecture specs are the other half: they specify how components *behave* — how the pipeline orders work, how a session propagates, how a stop cascades. Payload shape versus runtime behaviour. Two complementary bodies of work, deliberately kept apart, and together they're what let a second, independent implementation of OVOS be more than a hopeful guess.
+There is a separate OVOS effort, [ovos-pydantic-models](https://github.com/OpenVoiceOS/ovos-pydantic-models), that specifies what each bus message looks like — the exact fields of a `speak` or a `recognizer_loop:utterance` payload. The architecture specs cover the other half: how components behave — how the pipeline orders work, how a session propagates, how a stop cascades. Payload shape versus runtime behaviour, deliberately kept as two separate bodies of work.
 
-## Why write it down at all
+---
 
-An unwritten platform can't be reimplemented, can't be conformance-tested, and can't be trusted to stay stable as the code churns beneath it. Writing the ABI down changes all three. A satellite, a bridge, a from-scratch client, or a competing orchestrator now has a target to build against and a document to be judged by. Skill authors get guarantees they can rely on across releases. And OVOS itself gets the thing every mature platform eventually needs: a definition of "correct" that lives outside any one codebase, so the platform can outlast the particular lines of Python that implement it today.
+## How to use it
 
-That's the difference between a product and an operating system. One does what its vendor allows. The other publishes its contracts and invites you to build.
+Read the specs at [github.com/OpenVoiceOS/architecture](https://github.com/OpenVoiceOS/architecture). If you maintain a skill, check it against `INTENT-1` through `INTENT-4`. If you are building a satellite, a bridge, or a competing orchestrator, `MSG-1`, `SESSION-1`, and `PIPELINE-1` are the contracts to implement against. Where your implementation and the spec disagree, that is a bug report against your code, not a request to change the document.
+
+An unwritten platform cannot be reimplemented, cannot be conformance-tested, and cannot be trusted to stay stable as the code underneath it changes. Writing the ABI down fixes all three: skill authors get guarantees that hold across releases, and OVOS gets a definition of "correct" that lives outside any one codebase.
 
 ---
 
