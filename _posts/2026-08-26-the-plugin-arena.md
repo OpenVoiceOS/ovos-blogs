@@ -12,17 +12,17 @@ ogImage:
 
 ## The Plugin Arena
 
-"Which STT plugin should I use?" is one of the most common questions in the OVOS community, and for a long time the honest answer was "try a few and see." A real comparison needs hardware, audio corpora, labelled datasets, and hours of computation that most users do not have on hand. So people guessed, or copied whatever the last person recommended.
+"Which STT plugin should I use?" is one of the most common questions in the OVOS community. For a long time the honest answer was "try a few and see." A real comparison needs hardware, audio corpora, labelled datasets, and hours of computation most users do not have on hand. So people guessed, or copied whatever the last person recommended.
 
-[`ovos-plugin-arena`](https://github.com/OpenVoiceOS/ovos-plugin-arena) replaces the guessing with data. It is a blind A/B evaluation platform for OVOS plugins — STT, TTS, wake word, and intent — built entirely on GitHub and HuggingFace, with no server infrastructure behind the canonical instance. The repository *is* the arena: fighters, datasets, benchmarks, votes, and leaderboards are all files and issues in the repo.
+[`ovos-plugin-arena`](https://github.com/OpenVoiceOS/ovos-plugin-arena) replaces the guessing with data. It is a blind A/B evaluation platform for OVOS plugins — STT, TTS, wake word, and intent — built entirely on GitHub and HuggingFace, with no server behind the canonical instance. The repository *is* the arena: fighters, datasets, benchmarks, votes, and leaderboards are all files and issues in the repo.
 
-The leaderboard is live right now: **[openvoiceos.github.io/ovos-plugin-arena](https://openvoiceos.github.io/ovos-plugin-arena/)**.
+The leaderboard is live now: **[openvoiceos.github.io/ovos-plugin-arena](https://openvoiceos.github.io/ovos-plugin-arena/)**.
 
 ---
 
 ## Fighters are shippable configs
 
-Every competitor — a "fighter" — is a JSON file in `registry/competitors/`, and its `config` field is a valid `mycroft.conf` fragment: an `intents` section with a real `pipeline` plus per-plugin config blocks. That is the important part. You are not benchmarking an abstract "plugin"; you are benchmarking a concrete, copy-pasteable configuration. When a fighter wins, its config is something you can drop straight into your own deployment.
+Every competitor — a "fighter" — is a JSON file in `registry/competitors/`. Its `config` field is a valid `mycroft.conf` fragment: an `intents` section with a real `pipeline` plus per-plugin config blocks. That is the important part: you are not benchmarking an abstract "plugin", you are benchmarking a concrete, copy-pasteable configuration. When a fighter wins, its config is something you can drop straight into your own deployment.
 
 The arena is organised into leagues, one per capability:
 
@@ -33,17 +33,17 @@ The arena is organised into leagues, one per capability:
 | `wake_word` | `benchmarks/ww_hey_mycroft.py` over ww-bench | detection error / false-accept / false-reject |
 | `tts` | `benchmarks/tts_intents_prompts.py` | human votes only |
 
-Each benchmark is a single reproducible Python script that trains or configures each fighter, runs it over a test split, and writes prediction rows. Crucially, the numbers are not AI-generated: every prediction row comes from actually running the real OVOS plugins over the published datasets, and every row records the pinned dataset revision it came from, so any run can be reproduced from scratch.
+Each benchmark is a single reproducible Python script. It trains or configures each fighter, runs it over a test split, and writes prediction rows. The numbers are not AI-generated: every prediction row comes from running the real OVOS plugins over the published datasets, and every row records the pinned dataset revision it came from, so any run can be reproduced from scratch.
 
-## Predictions on HuggingFace
+## Predictions live on HuggingFace
 
-The benchmark scripts publish their outputs to HuggingFace datasets, one repo per modality. The arena reads those pre-computed predictions rather than running plugins live. That single design choice is what makes the whole thing serverless: assembling battles and rebuilding boards never needs a GPU, never needs the plugins installed, and works on a static host. It also keeps everything reproducible — the predictions are public artifacts anyone can inspect or replay.
+The benchmark scripts publish their outputs to HuggingFace datasets, one repo per modality. The arena reads those pre-computed predictions rather than running plugins live. That single choice is what makes the whole thing serverless: assembling battles and rebuilding boards never needs a GPU, never needs the plugins installed, and works on a static host. It also keeps everything reproducible — the predictions are public artifacts anyone can inspect or replay.
 
 ## Battles
 
-A daily `assemble.yml` Action reads the HuggingFace prediction datasets and builds the battle pools. Each battle pairs two fighters' outputs on the *same* input and will be shown to a voter anonymously — a true blind comparison, where you judge the result without knowing which plugin produced it.
+A daily `assemble.yml` Action reads the HuggingFace prediction datasets and builds the battle pools. Each battle pairs two fighters' outputs on the *same* input and is shown to a voter anonymously — a true blind comparison, where you judge the result without knowing which plugin produced it.
 
-Battle ids are content hashes of the pairing, which has a nice property: re-running `assemble` produces the same ids for the same pairings, so a daily refresh never invalidates votes that are already open. The pools grow without throwing away accumulated signal.
+Battle ids are content hashes of the pairing. That has a useful property: re-running `assemble` produces the same ids for the same pairings, so a daily refresh never invalidates votes that are already open. The pools grow without throwing away accumulated signal.
 
 ## Votes as GitHub Issues
 
@@ -54,21 +54,21 @@ https://github.com/OpenVoiceOS/ovos-plugin-arena/issues/new
   ?template=vote.yml&labels=vote&title=vote|<battle_id>|<choice>
 ```
 
-Submitting the issue **is** the vote. The title is machine-parsed in the format `vote|<battle_id>|<choice>`, and the issue template tells voters plainly: submit as-is, do not edit the title. An optional comment field lets a voter explain *why* — for instance, why both candidates were wrong.
+Submitting the issue **is** the vote. The title is machine-parsed in the format `vote|<battle_id>|<choice>`, and the issue template tells voters plainly: submit as-is, do not edit the title. An optional comment field lets a voter explain why — for instance, why both candidates were wrong.
 
-A scheduled Action, `tally.yml`, runs hourly. It reads every `vote`-labelled issue, deduplicates so it is one vote per user per battle, replays ELO deterministically from the ordered issue history, commits the updated `leaderboard-*.json` files, and closes the processed vote issues. Because the tally commit lands with `[skip ci]`, GitHub Pages redeploys on the Action's completion rather than on the push, and the refreshed leaderboard is live shortly after.
+A scheduled Action, `tally.yml`, runs hourly. It reads every `vote`-labelled issue, deduplicates so it is one vote per user per battle, replays ELO deterministically from the ordered issue history, commits the updated `leaderboard-*.json` files, and closes the processed vote issues. The tally commit lands with `[skip ci]`, so GitHub Pages redeploys on the Action's completion rather than on the push, and the refreshed leaderboard is live shortly after.
 
-The vote log, then, is simply the GitHub issue history: public, auditable, and replayable from scratch at any time. There is no hidden database of votes to trust — there is only the issue tracker.
+The vote log is the GitHub issue history: public, auditable, and replayable from scratch at any time. There is no hidden database of votes to trust — there is only the issue tracker.
 
-## ELO Rankings
+## ELO rankings
 
 Every fighter enters at a baseline ELO of **1200**. From there, results move both participants' ratings using standard ELO math (K-factor 32, dropping to 16 once a fighter has fought enough battles to stabilise).
 
-A brand-new arena would otherwise start cold, so the board can be *seeded* from the objective benchmark scores. Before any human vote exists, the arena derives deterministic auto-battles from the benchmark metrics — one auto-battle per sample where exactly one fighter got it right — and applies them at a reduced (quarter) K-factor. Human votes then move ratings at full weight on top of that seed. The result is a board that already reflects measured quality on day one, which human blind votes refine over time. The `tts` league is the exception: with no objective metric, it runs on human votes alone.
+A brand-new arena would otherwise start cold, so the board is seeded from the objective benchmark scores. Before any human vote exists, the arena derives deterministic auto-battles from the benchmark metrics — one auto-battle per sample where exactly one fighter got it right — and applies them at a reduced (quarter) K-factor. Human votes then move ratings at full weight on top of that seed. The result is a board that already reflects measured quality on day one, and that human blind votes refine over time. The `tts` league is the exception: with no objective metric, it runs on human votes alone.
 
 Because battles are blind and always between exactly two options, the vote dynamics are not skewed by which plugin is more famous or more familiar — only by which output a listener actually preferred.
 
-## Fork Your Own Arena
+## Fork your own arena
 
 The entire system is designed to be forked. A language community, a hardware vendor, or an organisation with its own plugin roster can stand up a private leaderboard without provisioning anything:
 
@@ -80,9 +80,9 @@ The entire system is designed to be forked. A language community, a hardware ven
 
 No servers, no databases, no accounts. Pages activates once the repo is public — GitHub Pages on free plans requires it — and from then on the arena maintains itself.
 
-## Zero Infra, Real Signal
+## Zero infra, real signal
 
-The pattern here is the point. Where a conventional approach would reach for a web server, a database, and an authentication layer, the arena leans on platform-native primitives instead: static prediction files on HuggingFace, JSON leaderboards in git, votes as issues, tallying and deployment as scheduled Actions. The same job gets done, auditably and reproducibly, at zero marginal cost — and anyone can fork the whole thing.
+The pattern here is the point. Where a conventional approach would reach for a web server, a database, and an authentication layer, the arena uses platform-native primitives instead: static prediction files on HuggingFace, JSON leaderboards in git, votes as issues, tallying and deployment as scheduled Actions. The same job gets done, auditably and reproducibly, at zero marginal cost — and anyone can fork the whole thing.
 
 That turns plugin comparison from a one-off benchmark that goes stale into a community-owned resource that keeps improving every time someone casts a vote.
 
