@@ -20,13 +20,13 @@ Two NGI0-funded deliverables close that gap: **WakeForge**, a wake-word trainer 
 
 A wake-word detector answers one question thousands of times a second: did someone just say the phrase, or not? Training it needs two kinds of audio. **Positive samples** are recordings of the wake phrase itself. **Negative audio** is everything else — speech, background noise, music — so the model learns what to ignore.
 
-Negatives are easy to collect; the world is full of audio that isn't your wake word. Positives are the bottleneck. A robust detector traditionally wants hundreds or thousands of recordings of the exact phrase, spoken by many voices in many conditions, to fire reliably (better than ~90% recall) without false-triggering (under one false alarm per hour). No individual user records that much. That data problem is why "just train your own" was never a real option before.
+Negatives are easy to collect; the world is full of audio that isn't your wake word. Positives are the bottleneck. A robust detector traditionally wants hundreds or thousands of recordings of the exact phrase, spoken by many voices in many conditions. ww-trainer states the design target for a useful detector as better than ~90% recall, without false-triggering more than once per hour. No individual user records that much data. That data problem is why "just train your own" was never a real option before.
 
 ---
 
 ## What WakeForge Is
 
-[WakeForge](https://github.com/TigreGotico/ww-trainer) is a research-grade training suite for wake-word detection. It isn't one fixed model — it's an experimentation surface: **11 built-in featurizers × 15 classifier heads × 15 loss functions**, driven by genetic and Bayesian hyperparameter search, plus 12 notebooks covering the pipeline from data prep to export. A researcher can sweep architectures and losses; a user can skip all of that and run one notebook.
+[WakeForge](https://github.com/TigreGotico/wakeforge) is a research-grade training suite for wake-word detection. The repo's own README and CLI still call it **ww-trainer** / "Wake Word Trainer" throughout — WakeForge is the newer name used by the runtime plugin and the docs, so don't be surprised to see both in the wild. It isn't one fixed model — it's an experimentation surface: **11 built-in featurizers × 15 classifier heads × 15 loss functions**, driven by genetic and Bayesian hyperparameter search, plus 12 notebooks covering the pipeline from data prep to export. A researcher can sweep architectures and losses; a user can skip all of that and run one notebook.
 
 Every component exports to ONNX, so the trained models run anywhere: inference needs only `onnxruntime` and `numpy`, no PyTorch on the device. Detectors span hardware tiers from `esp32_nano` (sub-1 KB, int8) up to `hubert_medium`, so the same suite targets a microcontroller or a GPU server.
 
@@ -39,7 +39,7 @@ Because the speech understanding is already done, that head needs far less of yo
 Better features lower the bar, but you still need some positives and plenty of negatives. WakeForge ships both:
 
 - **[Synthetic dataset generator](https://github.com/TigreGotico/synthetic_dataset_generator)** — no recordings of your phrase? Generate them with TTS plus pure-ONNX voice conversion ([voiceclonnx](https://github.com/TigreGotico/voiceclonnx)), synthesizing positives across many voices and styles. Ready-made [synthetic wake-word datasets](https://huggingface.co/collections/TigreGotico/synthetic-wakeword-datasets) are published as examples.
-- **[notwakeword datasets](https://huggingface.co/collections/TigreGotico/notwakeword-datasets)** — curated negative/background collections, so you don't assemble hours of "everything except the wake word" yourself. Larger runs add hard-negative mining on top.
+- **[notwakeword datasets](https://huggingface.co/collections/TigreGotico/notwakeword-datasets)** — curated negative/background collections, so you don't assemble hours of "everything except the wake word" yourself. Larger runs add hard-negative mining on top (training on extra negatives that sound close to the wake word, so the model learns the fine distinctions).
 - **[ONNX feature extractors](https://huggingface.co/collections/TigreGotico/onnx-feature-extractors)** — the frozen self-supervised front-ends, exported so training and runtime use the same features.
 
 The project's own caveat: synthetic data is good for getting a model working and smoke-testing it, but a wake word you rely on every day still benefits from some real, far-field recordings in the mix.
@@ -50,11 +50,14 @@ The project's own caveat: synthetic data is good for getting a model working and
 
 The [public quickstart notebook](https://github.com/TigreGotico/wakeforge/blob/dev/notebooks/kaggle_quickstart.ipynb) — `kaggle_quickstart` — is the user-facing entry point. It runs on a free Colab or Kaggle GPU (a T4, a common free-tier cloud graphics card), so you need only a browser; a full run takes roughly 25–40 minutes.
 
-If you'd rather skip the notebook and use a terminal, the same flow is one CLI call:
+If you'd rather skip the notebook, the same flow is a CLI script, though it's not a single install-and-run command yet: clone the repo, install it with the `datagen` and `torchcodec` extras, then call the quickstart script.
 
 ```bash
+git clone https://github.com/TigreGotico/wakeforge
+cd wakeforge
+uv pip install -e ".[dev,datagen,torchcodec]"
 ww_trainer-quickstart --wake-word "hey jarvis" --output-dir ./hey_jarvis
-# -> ./hey_jarvis/best_f1_featurizer.onnx  +  ./hey_jarvis/best_f1.onnx
+# -> ./hey_jarvis/model/best_f1.onnx  (featurizer alongside it under model/)
 ```
 
 The flow underneath:
@@ -68,12 +71,12 @@ The flow underneath:
 3. Train
    - Frozen SSL featurizer -> small classifier head
 4. Export to ONNX
-   - Produces a featurizer .onnx + a head .onnx (best_f1_featurizer.onnx + best_f1.onnx)
+   - Produces a featurizer .onnx + a head .onnx
 5. Load it in OVOS
    - via the ovos-ww-plugin-wakeforge runtime plugin
 ```
 
-Step 5 is where it's easy to trip up. A WakeForge model is a **featurizer + head ONNX pair**, and the plugin that loads exactly that pair is **[ovos-ww-plugin-wakeforge](https://github.com/OpenVoiceOS/ovos-ww-plugin-wakeforge)**. In `mycroft.conf`, point one hotword at the two files (local paths or URLs) and set a detection `threshold`. The plugin handles the rest: score smoothing, a `patience` count of consecutive frames before firing, a debounce interval, an optional VAD (voice activity detection — a separate check for "is anyone speaking at all") channel, and a stateful streaming GRU (a small recurrent neural-network layer that keeps a memory of recent audio) head. WakeForge exports use their own format — they don't drop into the Precise, microWakeWord, or wakewordlab plugins, which each load different model types.
+Step 5 is the step users most often get wrong. A WakeForge model is a **featurizer + head ONNX pair**, and the plugin that loads exactly that pair is **[ovos-ww-plugin-wakeforge](https://github.com/OpenVoiceOS/ovos-ww-plugin-wakeforge)**. In `mycroft.conf`, point one hotword at the two files (local paths or URLs) and set a detection `threshold`. The plugin handles the rest: score smoothing, a `patience` count of consecutive frames before firing, a debounce interval (a minimum gap enforced between repeat firings), an optional VAD (voice activity detection — a separate check for "is anyone speaking at all") channel, and a stateful streaming GRU (a small recurrent neural-network layer that keeps a memory of recent audio) head. WakeForge exports use their own format — they don't drop into the Precise, microWakeWord, or wakewordlab plugins, which each load different model types.
 
 ## Why This Matters
 
