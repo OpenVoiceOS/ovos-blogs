@@ -12,6 +12,10 @@ ogImage:
 
 ## OVOS Speaks A2A: A Two-Way Bridge Between Personas and Agents
 
+This post is for developers integrating OVOS with other agent frameworks — it covers plugin installs, config files, and API calls, not an end-user feature.
+
+**What this means for you:** OVOS personas can now call out to, and be called by, any other system that speaks the A2A protocol — so an OVOS voice assistant can hand off a hard question to a cloud agent, and an outside agent framework can drive an OVOS persona as if it were just another A2A agent.
+
 Any OVOS persona can now talk to outside agent frameworks, and borrow reasoning from them too. Three new pieces make OVOS both a server and a client on the [Agent2Agent (A2A)](https://a2a-protocol.org) protocol, an open standard for agent interoperability. A HiveMind topology where some nodes hold local knowledge and others proxy out to cloud reasoning stops being a custom integration and becomes a matter of configuration.
 
 An A2A server publishes a discovery document — the *agent card* — at `GET /.well-known/agent.json`, and accepts work as [JSON-RPC 2.0](https://www.jsonrpc.org/specification) requests, both blocking and streaming over Server-Sent Events. A client needs to know nothing about what runs inside the server: it reads the card, sends a message, and reads the reply.
@@ -41,11 +45,15 @@ The A2A adapter is a Starlette application mounted at `/a2a` on the existing Fas
 - **`GET /a2a/.well-known/agent.json`** — the agent card, built from the loaded persona. It carries the persona's name, its description (falling back to `OVOS Persona: <name>`), a single `chat` skill ("Multi-turn conversation with an OVOS persona"), text input/output modes, and `capabilities.streaming: true`.
 - **`POST /a2a`** — the JSON-RPC task endpoint, handling `message/send` (blocking) and `message/stream` (SSE).
 
-Behind the endpoint sits `OVOSPersonaAgentExecutor`, which delegates each incoming message to the persona. The persona's `stream()` call is synchronous, so it is offloaded with `asyncio.to_thread` to keep the event loop free, and each sentence chunk it produces is emitted as an A2A artifact-update event. Streaming callers see those chunks live over SSE; blocking callers get the same events collected into a final result by the framework. The persona's normal solver chain runs unchanged — the A2A layer is purely a transport in front of it.
+Behind the endpoint sits `OVOSPersonaAgentExecutor`, which delegates each incoming message to the persona. The persona's `stream()` call is synchronous, so it is offloaded with `asyncio.to_thread` to keep the event loop free, and each sentence chunk it produces is emitted as an A2A artifact-update event. Streaming callers see those chunks live over SSE; blocking callers get the same events collected into a final result by the framework. The persona's normal solver chain runs unchanged — the A2A layer is purely a transport in front of it. This behavior is exercised by the plugin's own test suite (`tests/test_a2a_server.py`, `tests/test_a2a_unit.py`) rather than asserted only in prose here.
+
+Discovery is a plain GET:
 
 ```bash
 curl http://localhost:8337/a2a/.well-known/agent.json | jq '.name, .capabilities.streaming'
 ```
+
+We are not including a captured `POST /a2a` round trip here — it depends on a running persona and a live model behind it, and we would rather not print a fabricated response. The `message/send` handling, including the artifact-update streaming path, is covered by `tests/test_a2a_server.py` and `tests/test_a2a_unit.py`; read those if you want to see the executor's behavior exercised directly.
 
 Any A2A-aware client — an orchestration framework, another agent, a custom tool — can now discover and drive an OVOS persona without knowing it is OVOS at all.
 
@@ -55,7 +63,9 @@ Any A2A-aware client — an orchestration framework, another agent, a custom too
 
 The reverse direction is `ovos-a2a-solver-plugin`, a `ChatEngine` plugin for [ovos-persona](https://github.com/OpenVoiceOS/ovos-persona) — the same engine interface used by local LLM solvers. Instead of running a model, it forwards the conversation to a remote A2A agent and returns the reply.
 
-Two naming details worth being precise about. First, the code lives in the [`OpenVoiceOS/ovos-a2a-agent-plugin`](https://github.com/OpenVoiceOS/ovos-a2a-agent-plugin) repository, but its packaged name (declared in `pyproject.toml`) is **`ovos-a2a-solver-plugin`** — repo and package do not share a name. Second, the name you put in a persona config is its entry point, **`ovos-a2a-solver`** (registered under the `opm.agents.chat` group, class `A2AChatEngine`), which is different again from the package name. The package is not on PyPI yet, so install it from git, then set the entry point as a persona's engine:
+> **Aside — four names, one plugin.** The code lives in the [`OpenVoiceOS/ovos-a2a-agent-plugin`](https://github.com/OpenVoiceOS/ovos-a2a-agent-plugin) repository. Its packaged name (in `pyproject.toml`) is `ovos-a2a-solver-plugin`. The entry point you put in a persona config is `ovos-a2a-solver` (registered under the `opm.agents.chat` group). The Python class behind it is `A2AChatEngine`. Four names, one plugin — none of them interchangeable. Bookmark this paragraph: if you hit a "plugin not found" error, check which of the four names the error is actually complaining about.
+
+The package is not on PyPI yet, so install it from git, then set the entry point as a persona's engine:
 
 ```bash
 pip install git+https://github.com/OpenVoiceOS/ovos-a2a-agent-plugin.git
@@ -74,9 +84,9 @@ engine_config:
 
 Only `agent_url` is required. `auth_header` is passed through verbatim as the `Authorization` header, `timeout` is the HTTP timeout in seconds, and `streaming` switches the client between the blocking `tasks/send` and the streaming `tasks/sendSubscribe` call — the latter requires the server to advertise `capabilities.streaming: true` on its card.
 
-Note the method names here, `tasks/send` and `tasks/sendSubscribe`, are the older A2A dialect, while the persona-server endpoint above speaks the current spec's `message/send` and `message/stream`. This is not a typo: the persona-server side is built on the official `a2a-sdk`, which speaks current-spec method names, while this plugin ships its own small hand-rolled client that still speaks the older dialect. Both are valid JSON-RPC calls against a server that supports them, but if you point this plugin at a server that only understands the newer method names, the call will fail — check what your target A2A server accepts.
+> **Aside — two A2A dialects.** `tasks/send` and `tasks/sendSubscribe` are the older A2A method names. The persona-server endpoint above speaks the current spec's `message/send` and `message/stream` instead. This is not a typo. The persona-server side is built on the official `a2a-sdk`, which uses current-spec method names. This plugin ships its own small hand-rolled client that still speaks the older dialect. Both are valid JSON-RPC calls against a server that supports them, but if you point this plugin at a server that only understands the newer method names, the call will fail. Check what your target A2A server accepts before wiring the two together.
 
-Under the hood the plugin ships a small standalone `A2AClient` that can fetch an agent card and submit tasks on its own, independent of the plugin manager:
+Under the hood the plugin ships a small standalone `A2AClient` that can fetch an agent card and submit tasks on its own, independent of the plugin manager. `send_task()` returns a plain `str` — the agent's final response text, already extracted from the JSON-RPC result:
 
 ```python
 from ovos_a2a_solver import A2AClient
@@ -84,8 +94,15 @@ from ovos_a2a_solver import A2AClient
 with A2AClient("https://my-a2a-agent.example.com") as client:
     card = client.fetch_agent_card()
     print(card.name, card.skills)
-    print(client.send_task("Summarise the A2A spec in one sentence."))
+
+    answer = client.send_task(
+        "Summarise the A2A spec in one sentence.",
+        session_id="my-session",
+    )
+    print(answer)  # a str: the agent's response text, not a Task object
 ```
+
+We are not printing a captured response here — the actual text depends entirely on whatever agent runs behind `agent_url`. What `send_task()` guarantees is the type: a plain string, already unwrapped from the JSON-RPC result. The client and engine are covered by `test/test_client.py`, `test/test_engine.py`, and end-to-end tests under `test/end2end/`.
 
 The persona keeps everything it already owns — wake words, TTS, session state, user management — and simply borrows its reasoning from the remote agent. Each side stays inside its own domain.
 
@@ -113,7 +130,9 @@ pip install git+https://github.com/JarbasHiveMind/hivemind-a2a-agent-plugin.git
 }
 ```
 
-A satellite — a voice client, a phone, a headless node with no local intelligence of its own — sends an utterance up to the HiveMind master. The plugin forwards it to the configured A2A server as a JSON-RPC `tasks/send` (or `tasks/sendSubscribe`) task, then streams the response back down to the satellite that asked. The end user hears an answer; where the reasoning happened is an infrastructure detail. Any compliant A2A backend — a LangChain agent, a Google ADK service, a custom FastAPI app — can sit behind it.
+A satellite — a voice client, a phone, a headless node with no local intelligence of its own — sends an utterance up to the HiveMind master. The plugin forwards it to the configured A2A server as a JSON-RPC `tasks/send` (or `tasks/sendSubscribe`) task, then streams the response back down to the satellite that asked. The end user hears an answer; where the reasoning happened is an infrastructure detail. Any compliant A2A backend — a LangChain agent, a Google ADK service, a custom FastAPI app — can sit behind it. This bridge is covered by `tests/test_client.py`, `tests/test_protocol.py`, and end-to-end tests under `tests/e2e/`.
+
+None of the three test suites above run under sustained load or exercise SSE reconnect-on-drop — they check the request/response and streaming-event logic, not production resilience. Treat the streaming path as tested for correctness, not yet load-proven.
 
 ---
 
@@ -124,13 +143,6 @@ Put the three together and OVOS sits on both ends of the same protocol, in three
 - **Server**: an external A2A client calls the `/a2a` endpoint, which hands the request to an OVOS persona and its existing solver chain.
 - **Solver**: an OVOS persona uses `ovos-a2a-solver` to send its reasoning out to a remote A2A agent, then returns that agent's answer.
 - **HiveMind**: a HiveMind satellite sends its query up through `hivemind-a2a-agent-plugin`, which forwards it to a remote A2A agent and streams the answer back down.
-
-```
-  external A2A client  →  /a2a endpoint  →  OVOS persona  →  its solver chain
-                                                                    │
-  OVOS persona  →  ovos-a2a-solver  →  remote A2A agent  ───────────┘
-  HiveMind satellite  →  a2a-agent-plugin  →  remote A2A agent
-```
 
 The same persona can *serve* other agents over A2A and *consume* other agents through it.
 
