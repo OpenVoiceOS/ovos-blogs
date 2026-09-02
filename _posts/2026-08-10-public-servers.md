@@ -125,3 +125,21 @@ Every service here is a package you can install:
 
 The same client configuration above works against your own host: change the URLs.
 That is the point of the public trio — try the stack cheaply, then own it.
+
+---
+
+This work is part of the OpenVoiceOS **From Beta to Breakthrough** milestone, funded through the [NGI0 Commons Fund](https://nlnet.nl/commonsfund), a fund established by [NLnet](https://nlnet.nl) with financial support from the European Commission's [Next Generation Internet](https://ngi.eu) programme, under the aegis of [DG Communications Networks, Content and Technology](https://commission.europa.eu/about-european-commission/departments-and-executive-agencies/communications-networks-content-and-technology_en) under grant agreement No [101135429](https://cordis.europa.eu/project/id/101135429). Additional funding is made available by the [Swiss State Secretariat for Education, Research and Innovation](https://www.sbfi.admin.ch/sbfi/en/home.html) (SERI).
+
+---
+
+## Help Us Build Voice for Everyone
+
+OpenVoiceOS is more than software, it's a mission. If you believe voice assistants should be open, inclusive, and user-controlled, here's how you can help:
+
+- **💸 Donate**: Help us fund development, infrastructure, and legal protection.
+- **📣 Contribute Open Data**: Share voice samples and transcriptions under open licenses.
+- **🌍 Translate**: Help make OVOS accessible in every language.
+
+We're not building this for profit. We're building it for people. With your support, we can keep voice tech transparent, private, and community-owned.
+
+👉 [Support the project here](https://www.openvoiceos.org/contribution)
