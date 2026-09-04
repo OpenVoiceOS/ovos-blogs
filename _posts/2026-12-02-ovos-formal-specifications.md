@@ -1,6 +1,6 @@
 ---
 title: "OVOS Is a Voice Operating System — and Now It Has a Written Protocol Spec"
-excerpt: "The OVOS architecture repository is a set of formal, implementation-agnostic specifications for how a voice OS's components talk to each other: 20 specs covering the intent stack, the bus and sessions, the pipeline, audio, GUI, and media. Written in RFC-2119 language, so what counts as correct is written down instead of argued over."
+excerpt: "The OVOS architecture repository is a set of formal, implementation-agnostic specifications for how a voice OS's components talk to each other: specs covering the intent stack, the bus and sessions, the pipeline, audio, GUI, and media. Written in RFC-2119 language, so what counts as correct is written down instead of argued over."
 coverImage: "/assets/blog/ngi/thumb.png"
 date: "2026-12-02T00:00:00.000Z"
 author:
@@ -37,9 +37,9 @@ Because there is a stable contract, OVOS is a runtime, not a monolith. You can s
 
 ---
 
-## What shipped: 20 specifications
+## What shipped: the specifications
 
-The repository holds 20 specifications, grouped by the subsystem they govern. Each has a stable ID, a version, and normative text:
+The repository holds two dozen or so specifications, grouped by the subsystem they govern. Each has a stable ID, a version, and normative text:
 
 - **The intent stack** — `INTENT-1` (sentence template grammar), `INTENT-2` (locale resource formats), `INTENT-3` (intent definition), `INTENT-4` (intent and entity registration). This is how a skill declares what it understands.
 - **Bus and session** — `MSG-1` (the bus message envelope), `SESSION-1` (the session carrier wire shape), `SESSION-2` (session lifecycle and state ownership), `BRIDGE-1` (bus bridging and opaque relay). This is how components talk and how state travels with a conversation.
