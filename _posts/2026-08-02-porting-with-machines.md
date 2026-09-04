@@ -4,8 +4,8 @@ excerpt: "We rewrote several C, C++ and Java programs (espeak-ng's G2P, Cotovia,
 coverImage: "/assets/blog/porting-with-machines/cover.png"
 date: "2026-08-02T00:00:00.000Z"
 author:
-  name: Casimiro Ferreira
-  picture: "https://avatars.githubusercontent.com/u/155266030?v=4"
+  name: JarbasAI
+  picture: "https://avatars.githubusercontent.com/u/33701864"
 ogImage:
   url: "/assets/blog/porting-with-machines/cover.png"
 ---
@@ -21,8 +21,7 @@ original it came from. The G2P front-end of
 transcription rules of [Cotovia](https://gtm.uvigo.es/en/transfer/software/cotovia/)
 became [pycotovia](https://github.com/TigreGotico/pycotovia). The Basque linguistic
 processing of [AhoTTS](https://github.com/aholab/AhoTTS) became
-[ahotts-g2p](https://github.com/TigreGotico/ahotts-g2p) and
-[pyAhoTTS-Iparrahotsa](https://github.com/TigreGotico/pyAhoTTS-Iparrahotsa). The
+[ahotts-g2p](https://github.com/TigreGotico/ahotts-g2p). The
 [EYE](https://github.com/eyereasoner/eye) N3 reasoner became
 [pyeye](https://github.com/TigreGotico/pyeye), and the OWL 2 DL reasoner
 [HermiT](http://www.hermit-reasoner.com/) became
@@ -46,6 +45,8 @@ who owns it?**
 We are engineers. Nothing here is legal advice, and we are not qualified to give
 any: this is a description of a decision we made and the reasoning behind it.
 
+---
+
 ## Two questions that keep getting conflated
 
 Reimplementing a program by reading its source is not new. What is new is the
@@ -65,6 +66,8 @@ or a port. **Copyleft** licences (the GPL family) let you use and modify code on
 the condition that what you distribute stays under the same terms. **Permissive**
 licences (MIT, Apache-2.0, BSD) let you ship the result inside proprietary software.
 The **LGPL** sits between the two.
+
+---
 
 ## Question one: is there an author?
 
@@ -89,6 +92,8 @@ repository is decoration, and the argument eats its own tail. Anyone arguing tha
 machine-generated code is unowned is arguing that their own release terms are
 unenforceable, before they get anywhere near upstream's.
 
+---
+
 ## Question two: is it derived?
 
 This one does not care who the author is. Infringement turns on access to the
@@ -104,6 +109,8 @@ transformations, the decomposition into functions, the shape of the rule tables.
 A tool does not launder anything, either: if you direct a copy and ship the
 result, you made it, and "the model wrote it" is no more a defence than "the
 compiler emitted it".
+
+---
 
 ## The strongest argument on the other side
 
@@ -128,6 +135,8 @@ rewrite across languages sits much further from infringement than a copy-paste.
 
 The gap between that argument and our situation is the source: *SAS* is about
 studying behaviour, and our model read the code.
+
+---
 
 ## The precedent that already exists, and how far it reaches
 
@@ -164,6 +173,8 @@ So it collapses back onto the question nobody has answered. If a cross-language,
 machine-written reimplementation is not a derivative work, the GPL was never engaged.
 If it is one, it applied from the first line. There is no third state.
 
+---
+
 ## Clean rooms, and whether two models make one
 
 The classic answer to this problem is the clean-room protocol: one team reads the
@@ -196,6 +207,8 @@ the pycotovia README says, in public:
 
 We would rather have that written down than have to answer it later.
 
+---
+
 ## What we did
 
 We kept the upstream licences: copyleft in, copyleft out; permissive in,
@@ -220,6 +233,8 @@ You check, you fix what needs fixing, and the interesting question stays open.
 
 You do not need to resolve the law to make this decision; you take the branch
 where being wrong is survivable.
+
+---
 
 ## The same question, pointing the other way
 
@@ -268,6 +283,8 @@ unmaintained single-use projects, and the review burden low-effort patches put o
 maintainers. That is separate from whether the code can be licensed. Debian is
 voting on the first and has not concluded; Codeberg acted on the second.
 
+---
+
 ## The part we are not going to pretend is settled
 
 We may not have needed to do any of that.
@@ -288,3 +305,17 @@ ordinary, and there is a great deal of unmaintained C worth moving somewhere it 
 be maintained. Every one of those ports faces the same two questions, and most will
 answer by not asking. So will every project that merges a patch it did not write,
 which is to say all of them.
+
+---
+
+## Help Us Build Voice for Everyone
+
+OpenVoiceOS is more than software, it’s a mission. If you believe voice assistants should be open, inclusive, and user-controlled, here’s how you can help:
+
+- **💸 Donate**: Help us fund development, infrastructure, and legal protection.
+- **📣 Contribute Open Data**: Share voice samples and transcriptions under open licenses.
+- **🌍 Translate**: Help make OVOS accessible in every language.
+
+We're not building this for profit. We're building it for people. With your support, we can keep voice tech transparent, private, and community-owned.
+
+👉 [Support the project here](https://www.openvoiceos.org/contribution)
