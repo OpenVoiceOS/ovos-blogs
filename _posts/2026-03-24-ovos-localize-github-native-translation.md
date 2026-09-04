@@ -122,7 +122,7 @@ This work is part of the OpenVoiceOS **From Beta to Breakthrough** milestone, fu
 
 ## Help us build voice for everyone
 
-OpenVoiceOS is a mission, not just software. If you believe voice assistants should be open, inclusive, and user-controlled:
+OpenVoiceOS is a mission as much as it is software. If you believe voice assistants should be open, inclusive, and user-controlled:
 
 - **💸 Donate**: help fund development, infrastructure, and legal protection.
 - **📣 Contribute open data**: share voice samples and transcriptions under open licenses.
