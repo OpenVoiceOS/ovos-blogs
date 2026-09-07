@@ -1,13 +1,13 @@
 ---
 title: "Owning What the Machine Writes"
 excerpt: "Six months of coding agents at OpenVoiceOS: what they are good at, where they made a mess, why we kept them, and what we expect from contributors who use them. We have no policy for or against AI-written code. We have a rule: a human directs it, and a human owns it."
-coverImage: "/assets/blog/common/cover.png"
+coverImage: "/assets/blog/owning-what-the-machine-writes/cover.jpg"
 date: "2026-09-05T00:00:00.000Z"
 author:
   name: JarbasAI
   picture: "https://avatars.githubusercontent.com/u/33701864"
 ogImage:
-  url: "/assets/blog/common/cover.png"
+  url: "/assets/blog/owning-what-the-machine-writes/cover.jpg"
 ---
 
 ## Owning What the Machine Writes
