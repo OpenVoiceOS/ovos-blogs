@@ -1,8 +1,8 @@
 ---
-title: "From One Fairy-Tale Skill to a Whole Reading Pipeline"
+title: "From one fairytale skill to a full reading pipeline plug-in"
 excerpt: "How a 2018 Mycroft fairytale skill, two false starts, and one offhand comment from Jarbas turned into an 8-provider common-reading pipeline for OVOS."
 coverImage: "/assets/blog/from-one-fairytale-skill-to-a-whole-reading-pipeline/cover.png"
-date: "2026-07-22T00:00:00.000Z"
+date: "2026-09-12T00:00:00.000Z"
 author:
   name: "andlo"
   picture: "https://github.com/andlo.png"
@@ -48,7 +48,7 @@ passing, that it sounded like it wanted to be a pipeline rather than a
 skill - a dedicated stage in the intent pipeline, the same way
 Padatious or `ocp_high` are stages, rather than a skill competing for
 matches inside `converse()`. That's honestly one of my favorite things
-about this community: people who are genuinely excellent at this will
+about this community: people who are genuinely excellent at this will,
 still just show up in a thread to say "that sounds cool" and casually
 hand you the right idea.
 
@@ -87,7 +87,7 @@ ovos.common_reading.search
 
 Any installed **provider** skill that thinks it can help replies with a
 title, a confidence score, and an opaque `content_id`. Highest
-confidence wins (and if nobody's very sure, the plugin double-checks
+confidence wins (and if no skill is very sure, the plugin double-checks
 with the user before committing). Once something's chosen, the plugin
 asks that one provider for the actual text:
 
@@ -151,7 +151,7 @@ title matching guesses right - or you say "surprise me" and take
 whatever the provider hands you.
 
 That's a real, structural limitation of voice as an interface, not
-something specific to this plugin - the same problem OCP has for media,
+something specific to this plugin. It's the same problem OCP has for media,
 the same problem any "read/play me something" system has. More
 providers and a bigger library make it *worse* in one sense, not
 better: more good stories to miss because you didn't know to ask for
