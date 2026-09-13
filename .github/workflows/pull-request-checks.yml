@@ -1,0 +1,91 @@
+name: Pull request checks
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  prose:
+    name: Post prose
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Fetch the STE lint
+        run: |
+          git clone -q --depth 1 https://github.com/OpenVoiceOS/gh-automations.git _gh
+          test -f _gh/scripts/ste_lint.py || { echo "ste_lint.py is not in gh-automations/scripts; add it before this job can run"; exit 1; }
+      - name: Lint added or changed posts (SLOP must be 0)
+        run: |
+          mapfile -t posts < <(git diff --name-only --diff-filter=AM "origin/${{ github.base_ref }}"...HEAD -- '_posts/*.md')
+          echo "${#posts[@]} posts added or changed"
+          bad=0
+          for p in "${posts[@]}"; do
+            out="$(python3 _gh/scripts/ste_lint.py --mode flavored "$p" 2>&1)" || true
+            slop="$(grep -oE 'SLOP[=: ]+[0-9]+' <<<"$out" | grep -oE '[0-9]+' | tail -1)"
+            echo "$p: SLOP=${slop:-?}"
+            [ "${slop:-1}" = "0" ] || { echo "$out" | tail -20; bad=$((bad+1)); }
+          done
+          echo "${#posts[@]} in, $bad with SLOP above 0"
+          test "$bad" -eq 0
+      - name: One runnable example (warning only)
+        # runs even when the STE lint step fails (gh-automations#111 ships the lint)
+        if: ${{ !cancelled() }}
+        # The blog lane's rule: a post that installs something shows one
+        # runnable example and its real output. Several merged how-to posts
+        # show commands without output, so this is a warning on the post,
+        # not a failure, until posts carry a field that marks an announcement.
+        run: |
+          git diff --name-only --diff-filter=AM "origin/${{ github.base_ref }}"...HEAD -- '_posts/*.md' > "$RUNNER_TEMP/posts.txt"
+          python3 - "$RUNNER_TEMP/posts.txt" <<'EOF'
+          import re, sys
+          INSTALL = re.compile(r"(^|\s)(uv\s+)?pip3?\s+install\b|^#{2,3}\s+install\b", re.I | re.M)
+          RUNNABLE = {"bash", "sh", "shell", "console", "python", "py", "python3", "zsh"}
+          OUTPUT = {"", "text", "txt", "console", "output", "plaintext"}
+          posts = [l.strip() for l in open(sys.argv[1]) if l.strip()]
+          warned = 0
+          for path in posts:
+              text = open(path, encoding="utf-8").read()
+              blocks, lang = [], None
+              for line in text.splitlines():
+                  m = re.match(r"^\s*```\s*([A-Za-z0-9_+-]*)\s*$", line)
+                  if lang is None and m:
+                      lang = m.group(1).lower()
+                  elif lang is not None and re.match(r"^\s*```\s*$", line):
+                      blocks.append(lang)
+                      lang = None
+              if not INSTALL.search(text):
+                  print(f"{path}: no install command, no example required")
+                  continue
+              runnable = [i for i, b in enumerate(blocks) if b in RUNNABLE]
+              shown = any(b in OUTPUT for i in runnable for b in blocks[i + 1:])
+              if runnable and shown:
+                  print(f"{path}: install command, a runnable block and an output block after it")
+              else:
+                  warned += 1
+                  print(f"::warning file={path}::this post installs something but shows no runnable block with its output after it (blog lane: one runnable example and its real output)")
+          print(f"{len(posts)} posts checked, {warned} warning(s)")
+          EOF
+      - name: Timeless words on added lines
+        # runs even when the STE lint step fails (gh-automations#111 ships the lint)
+        if: ${{ !cancelled() }}
+        run: |
+          hits="$(git diff "origin/${{ github.base_ref }}"...HEAD -- '_posts/*.md' | grep -E '^\+[^+]' \
+            | grep -nE '\bas of\b|\bcurrently\b|\bnow\b|\brecently\b|this (round|session|pass)|previous version|updated to|NEW:' || true)"
+          if [ -n "$hits" ]; then echo "$hits"; echo "added lines carry time-bound words; state what is, not when"; exit 1; fi
+          echo "no time-bound words on added lines"
+
+  build:
+    name: Next.js build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci
+      - run: npx next build
