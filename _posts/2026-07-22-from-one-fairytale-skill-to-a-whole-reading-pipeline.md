@@ -48,7 +48,7 @@ passing, that it sounded like it wanted to be a pipeline rather than a
 skill - a dedicated stage in the intent pipeline, the same way
 Padatious or `ocp_high` are stages, rather than a skill competing for
 matches inside `converse()`. That's honestly one of my favorite things
-about this community: people who are genuinely excellent at this will,
+about this community: people who are genuinely excellent at this, will
 still just show up in a thread to say "that sounds cool" and casually
 hand you the right idea.
 
