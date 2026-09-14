@@ -63,11 +63,12 @@ class Broken(HotWordVerifier):
     def verify(self, chunk): raise RuntimeError("boom")
 
 hc = HotwordContainer.__new__(HotwordContainer)
+chunk = b"\x00" * 32000
 for label, chain in (("no verifiers", []), ("accept", [Accept()]),
                      ("accept + reject", [Accept(), Reject()]),
                      ("broken only", [Broken()]), ("broken + reject", [Broken(), Reject()])):
     hc.verifiers = chain
-    print(f"{label:16} -> {hc.verify(b'\x00' * 32000)}")
+    print(f"{label:16} -> {hc.verify(chunk)}")
 ```
 
 ```
@@ -78,7 +79,7 @@ broken only      -> True
 broken + reject  -> False
 ```
 
-The first verifier built on the hook is [`ovos-ww-verifier-plugin-speaker`](https://github.com/OpenVoiceOS/ovos-ww-verifier-plugin-speaker), which compares the voice against enrolled household profiles (PyPI 0.0.2a4, prerelease). The listener's README also names `ovos-ww-verifier-silero`, a VAD check after the fact; no package or repository of that name exists under OpenVoiceOS, so treat that example as the shape of the configuration rather than a plugin to install. Running a Silero verifier and pre-wake VAD together would apply the same model twice, which is why the README says to pick one.
+The first verifier built on the hook is [`ovos-ww-verifier-plugin-speaker`](https://github.com/OpenVoiceOS/ovos-ww-verifier-plugin-speaker), which compares the voice against enrolled household profiles (PyPI 0.0.3a1, prerelease). The listener's README also names `ovos-ww-verifier-silero`, a VAD check after the fact; no package or repository of that name exists under OpenVoiceOS, so treat that example as the shape of the configuration rather than a plugin to install. Running a Silero verifier and pre-wake VAD together would apply the same model twice, which is why the README says to pick one.
 
 ## What this replaces
 
