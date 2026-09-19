@@ -23,12 +23,17 @@ jobs:
           echo "${#posts[@]} posts added or changed"
           bad=0
           for p in "${posts[@]}"; do
-            out="$(python3 _gh/scripts/ste_lint.py --mode flavored "$p" 2>&1)" || true
-            slop="$(grep -oE 'SLOP[=: ]+[0-9]+' <<<"$out" | grep -oE '[0-9]+' | tail -1)"
-            echo "$p: SLOP=${slop:-?}"
-            [ "${slop:-1}" = "0" ] || { echo "$out" | tail -20; bad=$((bad+1)); }
+            # the exit code is the verdict: 0 for a clean post, 1 for a post
+            # that fails. The printed count goes into the summary only.
+            if out="$(python3 _gh/scripts/ste_lint.py --mode flavored "$p" 2>&1)"; then
+              echo "$p: pass ($out)"
+            else
+              echo "$p: fail"
+              echo "$out" | tail -20
+              bad=$((bad+1))
+            fi
           done
-          echo "${#posts[@]} in, $bad with SLOP above 0"
+          echo "${#posts[@]} in, $bad that the lint fails"
           test "$bad" -eq 0
       - name: One runnable example (warning only)
         # runs even when the STE lint step fails (gh-automations#111 ships the lint)
