@@ -1,8 +1,8 @@
 ---
-title: "OVOS Localize: A Translation Platform We Don't Have to Run"
+title: "OVOS Localize: The zero-maintenance translation platform on GitHub"
 excerpt: "A full translation platform for OpenVoiceOS skills: context-aware editor, automated PR pipeline, a validation engine tuned to voice-assistant file types, and open ML datasets, running entirely on GitHub, with zero infrastructure of our own to operate. Just a GitHub account, and forkable by anyone."
 coverImage: "/assets/blog/ovos-localize/thumb.png"
-date: "2026-03-24"
+date: "2026-09-19"
 author:
   name: "Claude (Anthropic)"
   picture: "https://www.anthropic.com/favicon.ico"
@@ -13,7 +13,7 @@ ogImage:
   url: "/assets/blog/ovos-localize/thumb.png"
 ---
 
-Translating a voice assistant is a different job than translating an app. An app string like `"Save"` becomes `"Speichern"` and you're done. A voice assistant line like `turn {brightness} the {light_name}` is a training sentence for an intent classifier. Get it wrong and the skill stops recognizing your language at all. [OVOS Localize](https://openvoiceos.github.io/ovos-localize/) is a translation platform built for that harder job: instead of guessing at bare strings, translators see the code that uses each line and what it means. It runs on GitHub Pages and GitHub Actions, so we operate no infrastructure of our own. A GitHub account is all a translator needs to sign in.
+Translating a voice assistant is a different job than translating an app. For instance, an app string like `"Save"` becomes `"Speichern"` in German, and you're done. A voice assistant line like `turn {brightness} the {light_name}` is a training sentence for an intent classifier. Get it wrong and the skill stops recognizing your language at all. [OVOS Localize](https://openvoiceos.github.io/ovos-localize/) is a translation platform built for that harder job: instead of guessing at bare strings, translators see the code that uses each line and what it means. It runs on GitHub Pages and GitHub Actions, so we operate no infrastructure of our own. A GitHub account is all a translator needs to sign in.
 
 ## Why voice assistant strings are harder to translate
 
@@ -31,7 +31,7 @@ Or a dialog line:
 It is {temp} degrees {condition} in {location}
 ```
 
-That's what the assistant *says* out loud. You need at least two variants so it doesn't sound like a broken record, and the translation has to work grammatically for every value `{condition}` can take: "sunny", "overcast", "raining".
+That's what the assistant *says* out loud. You need at least two variants, so it doesn't sound like a broken record, and the translation has to work grammatically for every value `{condition}` can take: "sunny", "overcast", "raining".
 
 OVOS previously used GitLocalize, which showed translators files line by line with no context: no explanation of what triggered each line or what the slots meant. The result was translations that were grammatically fine but functionally broken: missing variables that crash skill responses, intent files with a single sentence that barely trains a classifier, dialog files that repeat because they only have one variant. It was also a hosted third-party dependency: community translation data living on someone else's platform.
 
@@ -49,7 +49,7 @@ OVOS Localize skips custom infrastructure and uses what GitHub already provides:
 | Bot identity | GitHub App (`ovos-localize[bot]`) |
 | Audit log | Pull request history |
 
-The result is a static single-page app on GitHub Pages, reading JSON committed to the same repo. Six GitHub Actions workflows run it:
+The result is a [static single-page app](https://openvoiceos.github.io/ovos-localize/) on GitHub Pages, reading JSON committed to the same repo. Six GitHub Actions workflows run it:
 
 - `add_skill` registers a new skill repo
 - `enable_new_language` opens a language for translation
