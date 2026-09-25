@@ -14,9 +14,18 @@ jobs:
         with:
           fetch-depth: 0
       - name: Fetch the STE lint
+        # Pinned to a commit, not the default branch. The lint's interface
+        # (--mode flavored, exit-code semantics) is a dependency of every job
+        # here, so an unpinned clone lets a change in another repository turn
+        # every blog pull request red with no change in this one. Move the pin
+        # deliberately when the lint gains something this workflow needs.
+        env:
+          GH_AUTOMATIONS_REF: 52db5d86cae485afe1c7cb73e99e80f337a6135d
         run: |
-          git clone -q --depth 1 https://github.com/OpenVoiceOS/gh-automations.git _gh
-          test -f _gh/scripts/ste_lint.py || { echo "ste_lint.py is not in gh-automations/scripts; add it before this job can run"; exit 1; }
+          git clone -q --filter=blob:none --no-checkout https://github.com/OpenVoiceOS/gh-automations.git _gh
+          git -C _gh fetch -q --depth 1 origin "$GH_AUTOMATIONS_REF"
+          git -C _gh checkout -q "$GH_AUTOMATIONS_REF"
+          test -f _gh/scripts/ste_lint.py || { echo "ste_lint.py is not in gh-automations/scripts at $GH_AUTOMATIONS_REF; move the pin or add the file before this job can run"; exit 1; }
       - name: Lint added or changed posts (SLOP must be 0)
         run: |
           mapfile -t posts < <(git diff --name-only --diff-filter=AM "origin/${{ github.base_ref }}"...HEAD -- '_posts/*.md')
