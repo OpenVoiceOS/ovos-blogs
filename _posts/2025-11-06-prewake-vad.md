@@ -1,6 +1,6 @@
 ---
 title: "OVOS Just Got a Noise Filter: Better Listening, Less Interruption"
-excerpt: "We're thrilled to announce a new feature in OpenVoiceOS that aims to improve how your device listens. This new logic improves performance, reduces false activations, and makes OVOS an even more delightful and reliable voice assistant"
+excerpt: "OpenVoiceOS has a new stage in the listening path. It sends audio to the wake word engine only when voice activity detection finds speech, which reduces false activations and the work the engine does"
 coverImage: "/assets/blog/prewake-vad/thumb.png"
 date: "2025-11-06T00:00:00.000Z"
 author:
@@ -12,7 +12,7 @@ ogImage:
 
 ## OVOS Just Got a Noise Filter: Better Listening, Less Interruption
 
-We're thrilled to announce a new feature in OpenVoiceOS (OVOS) that aims to improve how your device listens: **Pre-Wake-VAD** (Voice Activity Detection). This new logic improves performance, reduces false activations, and makes OVOS an even more delightful and reliable voice assistant.
+OpenVoiceOS (OVOS) has a new stage in the listening path: **Pre-Wake-VAD** (Voice Activity Detection). The listener sends audio to the wake word engine only when voice activity detection finds speech. This reduces false activations and the work the engine does.
 
 ---
 
@@ -48,7 +48,7 @@ VAD is inherently less expensive to run than a complex wake word engine. By spen
 
 This is the real game-changer. The wake word engine no longer has to focus on distinguishing **wake-word speech** from **non-speech** sounds like music, background noise, or random audio spikes.
 
-* The **VAD** acts as a powerful **noise filter**, ensuring only *actual human speech* reaches the wake word engine.
+* The **VAD** acts as a **noise filter**, so only *actual human speech* reaches the wake word engine.
 * The **wake word engine** can now concentrate solely on its core task: distinguishing **wake-word speech** from **non-wake-word speech**.
 
 This collaborative approach has been shown to massively reduce the false activation rate of OVOS, making your interaction with the assistant smoother and less interrupted!
@@ -90,6 +90,10 @@ Add the following parameter inside the `"listener"` section of your `mycroft.con
 Once both steps are complete, restart your OVOS service, and you'll be using the new, smarter listening loop!
 
 ---
+This work is part of the OpenVoiceOS **From Beta to Breakthrough** milestone, funded through the [NGI0 Commons Fund](https://nlnet.nl/commonsfund), a fund established by [NLnet](https://nlnet.nl) with financial support from the European Commission's [Next Generation Internet](https://ngi.eu) programme, under the aegis of [DG Communications Networks, Content and Technology](https://commission.europa.eu/about-european-commission/departments-and-executive-agencies/communications-networks-content-and-technology_en) under grant agreement No [101135429](https://cordis.europa.eu/project/id/101135429). Additional funding is made available by the [Swiss State Secretariat for Education, Research and Innovation](https://www.sbfi.admin.ch/sbfi/en/home.html) (SERI).
+
+---
+
 
 ## Help Us Build Voice for Everyone
 
