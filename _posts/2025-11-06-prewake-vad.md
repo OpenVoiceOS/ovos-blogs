@@ -1,6 +1,6 @@
 ---
 title: "OVOS Just Got a Noise Filter: Better Listening, Less Interruption"
-excerpt: "We're thrilled to announce a new feature in OpenVoiceOS that aims to improve how your device listens. This new logic improves performance, reduces false activations, and makes OVOS an even more delightful and reliable voice assistant"
+excerpt: "OpenVoiceOS has a new stage in the listening path. It sends audio to the wake word engine only when voice activity detection finds speech, which reduces false activations and the work the engine does"
 coverImage: "/assets/blog/prewake-vad/thumb.png"
 date: "2025-11-06T00:00:00.000Z"
 author:
@@ -12,7 +12,7 @@ ogImage:
 
 ## OVOS Just Got a Noise Filter: Better Listening, Less Interruption
 
-We're thrilled to announce a new feature in OpenVoiceOS (OVOS) that aims to improve how your device listens: **Pre-Wake-VAD** (Voice Activity Detection). This new logic improves performance, reduces false activations, and makes OVOS an even more delightful and reliable voice assistant.
+OpenVoiceOS (OVOS) has a new stage in the listening path: **Pre-Wake-VAD** (Voice Activity Detection). The listener sends audio to the wake word engine only when voice activity detection finds speech. This reduces false activations and the work the engine does.
 
 ---
 
@@ -48,7 +48,7 @@ VAD is inherently less expensive to run than a complex wake word engine. By spen
 
 This is the real game-changer. The wake word engine no longer has to focus on distinguishing **wake-word speech** from **non-speech** sounds like music, background noise, or random audio spikes.
 
-* The **VAD** acts as a powerful **noise filter**, ensuring only *actual human speech* reaches the wake word engine.
+* The **VAD** acts as a **noise filter**, so only *actual human speech* reaches the wake word engine.
 * The **wake word engine** can now concentrate solely on its core task: distinguishing **wake-word speech** from **non-wake-word speech**.
 
 This collaborative approach has been shown to massively reduce the false activation rate of OVOS, making your interaction with the assistant smoother and less interrupted!
