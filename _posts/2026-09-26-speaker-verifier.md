@@ -6,6 +6,9 @@ date: "2026-09-26T00:00:00.000Z"
 author:
   name: JarbasAI
   picture: "https://avatars.githubusercontent.com/u/33701864"
+coauthors:
+  - name: "Claude (Anthropic)"
+    picture: "https://www.anthropic.com/favicon.ico"
 ogImage:
   url: "/assets/blog/common/cover.png"
 ---
@@ -22,7 +25,7 @@ pip install --pre ovos-ww-verifier-plugin-speaker
 
 The enrolment command, from version 0.0.2a4:
 
-```
+```text
 $ ovos-speaker-enroll --help
 usage: ovos-speaker-enroll [-h] [--model MODEL] [--profiles-path PROFILES_PATH] name wavs [wavs ...]
 
@@ -36,10 +39,13 @@ options:
   --model MODEL         speakeronnx model alias (default: wespeaker-resnet34)
   --profiles-path PROFILES_PATH
 ```
+
 So for example, if you are Alice and have recorded your voice as wavs called clip1 - clip3, the next command would be:
-```
+
+```bash
 ovos-speaker-enroll Alice clip1.wav clip2.wav clip3.wav
 ```
+
 You can add multiple accounts. More clips (5 to 30 seconds total per person) give a more robust profile.
 
 Enable it in `~/.config/mycroft/mycroft.conf`:
@@ -61,14 +67,14 @@ Enable it in `~/.config/mycroft/mycroft.conf`:
 Restart your OVOS service. Enroll first, then tighten `threshold`. With no profiles enrolled the plugin accepts everyone by design, so installing it never locks you out. That is what the plugin does in a fresh environment before anyone is enrolled:
 
 ```python
-from ovos_ww_verifier_plugin_speaker import SpeakerVerifier
 import numpy as np
+from ovos_ww_verifier_plugin_speaker import SpeakerVerifier
 
 v = SpeakerVerifier(config={"fail_open": True})
 print(v.verify(np.zeros(16000, dtype=np.int16).tobytes()))
 ```
 
-```
+```text
 True
 ```
 
