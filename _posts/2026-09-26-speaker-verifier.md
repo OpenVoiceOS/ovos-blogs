@@ -40,6 +40,7 @@ So for example, if you are Alice and have recorded your voice as wavs called cli
 ```
 ovos-speaker-enroll Alice clip1.wav clip2.wav clip3.wav
 ```
+You can add multiple accounts. More clips (5 to 30 seconds total per person) give a more robust profile.
 
 Enable it in `~/.config/mycroft/mycroft.conf`:
 
