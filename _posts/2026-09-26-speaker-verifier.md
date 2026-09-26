@@ -1,7 +1,7 @@
 ---
 title: "Only you can order the cheeseburgers: Speaker verification comes to OVOS"
 excerpt: "A new wake word verifier plugin teaches OpenVoiceOS to recognise *who* is speaking, not just *what* was said. Enrolled household voices get through the wake gate; the TV advert and the guest who thinks he's funny don't."
-coverImage: "/assets/blog/common/cover.png"
+coverImage: "assets/blog/speaker-verification/cover.jpg"
 date: "2026-09-26T00:00:00.000Z"
 author:
   name: JarbasAI
