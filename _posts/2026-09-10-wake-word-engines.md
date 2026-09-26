@@ -1,16 +1,16 @@
 ---
-title: "Three Wake-Word Engines You Already Had, as OVOS Plugins"
-excerpt: "Precise models run on onnxruntime, Vosk keyword spotting runs in any of its languages. wakewordlab's compact neural models run with a Silero pre-filter. Each is one plugin package and one hotwords entry in mycroft.conf."
+title: "Three wake-word engines you already had, as OVOS plugins"
+excerpt: "Precise models run on onnxruntime, Vosk keyword spotting runs in any of its languages, Wakewordlab's compact neural models run with a Silero pre-filter. Each is one plugin package and one hotwords entry in mycroft.conf."
 coverImage: "/assets/blog/ngi/thumb.png"
 date: "2026-09-10T00:00:00.000Z"
 author:
-  name: JarbasAl
+  name: JarbasAI
   picture: "https://avatars.githubusercontent.com/u/33701864"
 ogImage:
   url: "/assets/blog/ngi/thumb.png"
 ---
 
-## Three Wake-Word Engines You Already Had, as OVOS Plugins
+## Three wake-word engines you already had, as OVOS plugins
 
 A wake-word engine is the part of a voice assistant that listens all day for one phrase. Several free engines exist, each with its own model format and runtime, and each is only useful to an OVOS device once something loads it behind the listener's `hotwords` contract. This post covers three such plugins: `ovos-ww-plugin-precise-onnx`, `ovos-ww-plugin-vosk` and `ovos-ww-plugin-wakewordlab`. They are for people who configure a device. If you run a default image you use the first one without knowing it.
 
@@ -77,7 +77,7 @@ Four keys matter when a phrase is hard to catch. `samples` lists the transcripts
 
 Version 0.1.10 (stable on PyPI, `vosk` 0.3.45) builds a two-word grammar for "hey computer" and, on three seconds of silence, returns `False`. The model download on first run is the slow part.
 
-## wakewordlab's compact neural models
+## Wakewordlab's compact neural models
 
 [wakewordlab](https://github.com/ubermorgenland/wakewordlab) is a third-party library of compact neural wake-word models with a Silero voice-activity pre-filter. The detector only runs when someone is speaking. `ovos-ww-plugin-wakewordlab` wraps it. `model` is a wake-word slug or a path to a `.wkw` or `.onnx` file, `threshold` is the confidence cut-off, `vad` and `vad_threshold` control the pre-filter, and `license_key` unlocks the library's commercial models. `wakewordlab.list_models()` prints what is available. Models download on first use into `~/.cache/wakewordlab/models/`.
 
