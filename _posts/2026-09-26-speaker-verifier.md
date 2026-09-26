@@ -10,7 +10,7 @@ coauthors:
   - name: "Claude (Anthropic)"
     picture: "https://www.anthropic.com/favicon.ico"
 ogImage:
-  url: "/assets/blog/common/cover.png"
+  url: "/assets/blog/speaker-verification/cover.jpg"
 ---
 
 ## Only you can order the cheeseburgers: speaker verification comes to OVOS
