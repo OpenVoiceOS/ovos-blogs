@@ -12,7 +12,7 @@ ogImage:
 
 ## Three Wake-Word Engines You Already Had, as OVOS Plugins
 
-A wake-word engine is the part of a voice assistant that listens all day for one phrase. Several free engines exist, each with its own model format and runtime, and each is only useful to an OVOS device once something loads it behind the listener's `hotwords` contract. This post covers three such plugins: `ovos-ww-plugin-precise-onnx`, `ovos-ww-plugin-vosk` and `ovos-ww-plugin-wakewordlab`. They are for people who configure a device. If you run a default image you use the first one without knowing it.
+A wake-word engine is the part of a voice assistant that listens all day for one phrase. Several free engines exist, each with its own model format and runtime, and each is only useful to an OVOS device once something loads it behind the listener's `hotwords` contract. This post covers three such plugins: `ovos-ww-plugin-precise-onnx`, `ovos-ww-plugin-vosk` and `ovos-ww-plugin-wakewordlab`. They are for people who configure a device. If you run a default image you use the first one without knowing it. You can check your default config and find out the loaded wake word plugins, by running `ovos-config show` in a terminal, in the section hotwords.
 
 All three register under the `opm.wake_word` entry-point group of `ovos-plugin-manager`, so the listener discovers them by the `module` name in `mycroft.conf` and nothing else changes.
 
