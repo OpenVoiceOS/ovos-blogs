@@ -74,6 +74,7 @@ v = SpeakerVerifier(config={"fail_open": True})
 print(v.verify(np.zeros(16000, dtype=np.int16).tobytes()))
 ```
 
+Would give:
 ```text
 True
 ```
