@@ -18,7 +18,6 @@ A wake word engine only checks *what* was said. It doesn't check *who* said it. 
 
 ```bash
 pip install --pre ovos-ww-verifier-plugin-speaker
-ovos-speaker-enroll Alice clip1.wav clip2.wav clip3.wav
 ```
 
 The enrolment command, from version 0.0.2a4:
@@ -36,6 +35,10 @@ positional arguments:
 options:
   --model MODEL         speakeronnx model alias (default: wespeaker-resnet34)
   --profiles-path PROFILES_PATH
+```
+So for example, if you are Alice and have recorded your voice as wavs called clip1 - clip3, the next command would be:
+```
+ovos-speaker-enroll Alice clip1.wav clip2.wav clip3.wav
 ```
 
 Enable it in `~/.config/mycroft/mycroft.conf`:
