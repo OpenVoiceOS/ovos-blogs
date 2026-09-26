@@ -12,7 +12,7 @@ ogImage:
 
 ## Only you can order the cheeseburgers: speaker verification comes to OVOS
 
-A wake word engine only checks *what* was said. It doesn't check *who* said it. A guest who shouts "Hey Mycroft, order a thousand cheeseburgers" gets through. So does a TV advert that happens to say your hotword. The [**OVOS Wake Word Verifier Plugin, Speaker**](https://github.com/OpenVoiceOS/ovos-ww-verifier-plugin-speaker) closes that gap: it checks the voice against your household's enrolled profiles before anything else happens.
+A wake word engine only checks *what* was said. It doesn't check *who* said it. A guest who shouts "Hey Mycroft, order a thousand cheeseburgers" gets through. So does a TV advert that happens to say your hotword. The [**OVOS Wake Word Verifier Plugin Speaker**](https://github.com/OpenVoiceOS/ovos-ww-verifier-plugin-speaker) closes that gap: it checks the voice against your household's enrolled profiles before anything else happens.
 
 **Try it** (the package has prerelease versions only, so ask for them):
 
