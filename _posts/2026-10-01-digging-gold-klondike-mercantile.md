@@ -48,11 +48,10 @@ first, or that the skill never loaded at all.
 `Ctrl+P` → `Test: Weather - All`, and every sentence is played as if you
 typed it, each in its own session, with a verdict:
 
-```
-[1/4] ✓ "what's the weather"  ovos-skill-weather.openvoiceos:weather.intent
-[2/4] ✗ "will it rain"  expected ovos-skill-weather.openvoiceos, got ovos-skill-wolfie.openvoiceos
-Test: ovos-skill-weather.openvoiceos: 3/4 passed · 1 failed · 21s
-```
+![A finished test run in ovos-tui-client: three sentences reach the weather skill, one is taken by Wikipedia](/assets/blog/digging-gold-klondike-mercantile/tui-verdicts.png)
+
+*"can you tell me the weather" ends up in Wikipedia, not the weather
+skill. Exactly the kind of collision a skill's own CI can't see.*
 
 A failure isn't just a red cross. Because the activity pane is right
 there, you see *who* took the sentence and *why*: which pipeline stage
@@ -71,6 +70,8 @@ didn't make), the installed version of every skill tested, language,
 STT and TTS plugins, and each sentence with what handled it. No
 hostname, IP or user name, and OVOS's replies are left out unless you
 ask for them, since "14 degrees in *your town*" is personal data.
+
+![The shareable report: channel, how it was detected, the core stack and the version of every skill tested](/assets/blog/digging-gold-klondike-mercantile/tui-report.png)
 
 The same thing runs without the UI, for cron or CI:
 
@@ -142,8 +143,19 @@ next stable), alpha second, and say which. The "Recommended" sort and
 the "works on testing / alpha" filters use them, so the good stuff
 floats to the top instead of being buried under abandoned experiments.
 
+![A store card: Unit Converter passes on stable, testing and alpha, and wears the Klondike Gold label](/assets/blog/digging-gold-klondike-mercantile/klondike-card.png)
+
+*That's the converter skill from above - the one that broke on alpha
+because of two adjacent slots. Fixed, re-released, and now gold on all
+three channels.*
+
 For maintainers there's a shields.io badge per skill and channel for
-the README, and a **Request test** button on the detail page.
+the README, and a **Request test** button on the detail page. The detail
+page also shows exactly what was tested: which versions of ovos-core,
+workshop and padatious, which languages, which skills were loaded next
+to it, and which tag the golden utterances came from.
+
+![The "Tested on OVOS" section of a detail page: level 3 on testing, routing against the installer's default skills, and the Klondike profile run](/assets/blog/digging-gold-klondike-mercantile/klondike-tested.png)
 
 ### What the robots can't test, people can
 
