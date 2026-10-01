@@ -34,6 +34,16 @@ ogImage:
 ---
 ```
 
+## Checks on your pull request
+
+Every pull request into `master` runs two checks on each post it adds or changes under `_posts/`.
+
+The STE lint blocks the merge. It scores the post as Simplified Technical English and requires a SLOP score of 0.
+
+A warning-only check looks for a runnable example. A post that installs something should show a command and its real output.
+
+A pull request into `master` publishes the change. This repository has no `dev` branch.
+
 ## Contributing
 
 Pull requests are welcome. For larger changes, open an issue first to discuss what you'd like to change.
