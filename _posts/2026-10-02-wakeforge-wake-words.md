@@ -146,9 +146,6 @@ If your language is missing, tell us how you say it in [this issue](https://gith
 Every word's training set is a public dataset, `TigreGotico/synthetic-wakeword-<word>`, under CC BY 4.0. They are grouped in collections per language:
 
 - [Synthetic Wake Word Datasets — English](https://huggingface.co/collections/TigreGotico/synthetic-wake-word-datasets-english-68ee52b6976ed8a20c8cf98f)
-- [Synthetic Wake Word Datasets — Portuguese](https://huggingface.co/collections/TigreGotico/synthetic-wake-word-datasets-portuguese-6abfa4d3e2403afc19ecc153)
-- [Synthetic Wake Word Datasets — Spanish](https://huggingface.co/collections/TigreGotico/synthetic-wake-word-datasets-spanish-6abfa4d371befb841d5b8387)
-- [Synthetic Wake Word Datasets — Danish](https://huggingface.co/collections/TigreGotico/synthetic-wake-word-datasets-danish-6abfa4d334feaaa5b0f62629)
 - [Synthetic "Wake Up" Datasets](https://huggingface.co/collections/TigreGotico/synthetic-wake-up-datasets-6abfa4d36352ca4f97723790)
 
 The sound-alike negatives are published separately, as [not-wake-words-soundalikes-en](https://huggingface.co/datasets/TigreGotico/not-wake-words-soundalikes-en) and [not-wake-words-soundalikes-pt](https://huggingface.co/datasets/TigreGotico/not-wake-words-soundalikes-pt). Read the finding above before you use them: in our tests they cost a lot of recall on real speech.
