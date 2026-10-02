@@ -99,11 +99,11 @@ The checkpoint we keep is the one with the best recall at zero false accepts on 
 
 ### The data recipe: text-to-speech plus voice cloning
 
-This is the part we think is new. Every word starts as a grid of [edge-tts](https://github.com/rany2/edge-tts) voices that covers every variant of the language: every English accent, every Portuguese voice. Each voice says the word at 5 speaking rates and 3 pitches, with 3 spellings that change the delivery ("jarvis", "jarvis!", "jarvis?").
+This is the part we think is new. Every word starts as a grid of text-to-speech voices that covers every variant of the language: every English accent, every Portuguese voice. Any [OVOS TTS plugin](https://github.com/orgs/OpenVoiceOS/repositories?q=ovos-tts-plugin) can supply the voices, proprietary services such as Edge and Google included, and [phoonnx](https://github.com/TigreGotico/phoonnx) alone exposes thousands of models across languages. Each voice says the word at 5 speaking rates and 3 pitches, with 3 spellings that change the delivery ("jarvis", "jarvis!", "jarvis?").
 
 The clips are then voice-cloned onto real speakers with [Chatterbox](https://github.com/resemble-ai/chatterbox), through [voiceclonnx](https://github.com/TigreGotico/voiceclonnx), our pure-ONNX voice cloning library. Cloning works across languages, so one pool of reference speakers serves every language.
 
-For Catalan, Galician and Basque we add more voices through the [phoonnx](https://github.com/TigreGotico/phoonnx) engine: the ILENIA voices, BSC Matxa and Projecte AINA for Catalan and Proxecto Nós from the University of Vigo for Galician, and the HiTZ voices for Basque.
+For Catalan, Galician and Basque we add more voices through phoonnx: the ILENIA voices, BSC Matxa and Projecte AINA for Catalan and Proxecto Nós from the University of Vigo for Galician, and the HiTZ voices for Basque.
 
 ---
 
@@ -113,7 +113,7 @@ For Catalan, Galician and Basque we add more voices through the [phoonnx](https:
 
 **More of one voice is not more data.** Adding a single multi-speaker Piper voice as extra positives also made the models slightly worse.
 
-**Voice coverage is what matters.** The full edge-tts grid made the difference. On real "jarvis" recordings, recall at 1 false activation per hour went from 85.4% for our earlier model to 99.0–99.5% (two training seeds).
+**Voice coverage is what matters.** The full voice grid made the difference. On real "jarvis" recordings, recall at 1 false activation per hour went from 85.4% for our earlier model to 99.0–99.5% (two training seeds).
 
 The synthetic-only models never see real recordings during training. Real recordings are used only to test them.
 
