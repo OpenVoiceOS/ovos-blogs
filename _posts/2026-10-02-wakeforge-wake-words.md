@@ -1,6 +1,6 @@
 ---
-title: "How we distilled HuBERT into 1.46 MB for wake words"
-excerpt: "HuBERT-base has about 95 million parameters. WakeHuBERT tiny, its streaming student, has about 0.64 million and fits in a 1.46 MB int8 file. Here is how we distilled it, and the new OVOS wake word plugin whose models run on it."
+title: "How we distilled HuBERT into 1.22 MB for wake words"
+excerpt: "HuBERT-base has about 95 million parameters. WakeHuBERT tiny, its streaming student, has about 0.64 million, and its int8 file gzips to 1.22 MB. Here is how we distilled it, and the new OVOS wake word plugin whose models run on it."
 coverImage: "/assets/blog/wakeforge/thumb.jpg"
 date: "2026-10-02T00:00:00.000Z"
 author:
@@ -13,7 +13,7 @@ ogImage:
   url: "/assets/blog/wakeforge/thumb.jpg"
 ---
 
-## How we distilled HuBERT into 1.46 MB for wake words
+## How we distilled HuBERT into 1.22 MB for wake words
 
 [HuBERT](https://ai.meta.com/blog/hubert-self-supervised-representation-learning-for-speech-recognition-generation-and-compression/) is a self-supervised speech model from Meta AI ([paper](https://arxiv.org/abs/2106.07447)). It learned about speech from recordings with no labels, and its inner layers describe speech well enough that a small classifier on top can learn a lot from very little data. The base model, [facebook/hubert-base-ls960](https://huggingface.co/facebook/hubert-base-ls960), has about 95 million parameters and looks at whole utterances at once. A wake word engine listens all day, on small devices, to a live stream. HuBERT-base is far too large and slow for that.
 
@@ -31,6 +31,8 @@ To put the sizes in a form everyone remembers, here they are in 3.5-inch "1.44 M
 | WakeHuBERT tiny, int8, gzip -9 | about 0.64 million | 1.22 MB | **1** |
 
 The int8 student misses a single floppy by 5,181 bytes. Compressed with `gzip -9`, it fits, with 238 KB to spare.
+
+Yes, that is where the 1.22 MB in the title comes from. Nobody runs a gzipped model: `onnxruntime` loads the 1.46 MB file. We gzipped it only so it would fit on a floppy, and so the headline would have a smaller number in it. We admit the clickbait.
 
 We were not the first to shrink HuBERT. [DistilHuBERT](https://arxiv.org/abs/2110.01900) ([model](https://huggingface.co/ntu-spml/distilhubert)) cuts it to a quarter of the size, and our first wake word experiments ran on an [ONNX export of it](https://huggingface.co/TigreGotico/distillhubert-onnx). It works, and it is an option on a laptop with compute to spare, but it is still far too heavy for a single-board computer. That is why we distilled our own.
 
