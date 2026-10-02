@@ -19,17 +19,18 @@ ogImage:
 
 So we distilled it. [**WakeHuBERT tiny**](https://huggingface.co/TigreGotico/wakehubert-tiny) has about 0.64 million parameters. Its int8 build is about 1.5 MB, and the float32 build is 3.3 MB. It is strictly causal, so it streams. And it keeps enough of what HuBERT knows that a wake word classifier trained on its features, from synthetic speech only, detects the word in real recordings.
 
-To put the sizes in a form everyone remembers, here they are in 3.5-inch floppy disks (1,474,560 bytes each):
+To put the sizes in a form everyone remembers, here they are in 3.5-inch "1.44 MB" floppy disks. Formatted with FAT12, such a disk holds 1,457,664 bytes of files (2,847 sectors of 512 bytes). In the table, 1 MB is 1,000,000 bytes.
 
 | model | parameters | file | floppy disks |
 |---|---|---|---|
-| HuBERT-base | about 95 million | 377.6 MB | 257 |
-| DistilHuBERT, ONNX float32 | about 23.5 million | 94.0 MB | 64 |
+| HuBERT-base | about 95 million | 377.6 MB | 260 |
+| DistilHuBERT, ONNX float32 | about 23.5 million | 94.0 MB | 65 |
 | DistilHuBERT, ONNX int8 | about 23.5 million | 50.4 MB | 35 |
 | WakeHuBERT tiny, float32 | about 0.64 million | 3.3 MB | 3 |
-| WakeHuBERT tiny, int8 | about 0.64 million | 1.46 MB | **1** |
+| WakeHuBERT tiny, int8 | about 0.64 million | 1.46 MB | 2 |
+| WakeHuBERT tiny, int8, gzip -9 | about 0.64 million | 1.22 MB | **1** |
 
-The int8 student fits on a single floppy, with 11 KB to spare.
+The int8 student misses a single floppy by 5,181 bytes. Compressed with `gzip -9`, it fits, with 238 KB to spare.
 
 We were not the first to shrink HuBERT. [DistilHuBERT](https://arxiv.org/abs/2110.01900) ([model](https://huggingface.co/ntu-spml/distilhubert)) cuts it to a quarter of the size, and our first wake word experiments ran on an [ONNX export of it](https://huggingface.co/TigreGotico/distillhubert-onnx). It works, and it is an option on a laptop with compute to spare, but it is still far too heavy for a single-board computer. That is why we distilled our own.
 
