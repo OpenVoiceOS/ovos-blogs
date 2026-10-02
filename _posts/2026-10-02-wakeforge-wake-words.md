@@ -101,7 +101,7 @@ The checkpoint we keep is the one with the best recall at zero false accepts on 
 
 This is the part we think is new. Every word starts as a grid of text-to-speech voices that covers every variant of the language: every English accent, every Portuguese voice. Any [OVOS TTS plugin](https://github.com/orgs/OpenVoiceOS/repositories?q=ovos-tts-plugin) can supply the voices, proprietary services such as Edge and Google included, and [phoonnx](https://github.com/TigreGotico/phoonnx) alone exposes thousands of models across languages. Each voice says the word at 5 speaking rates and 3 pitches, with 3 spellings that change the delivery ("jarvis", "jarvis!", "jarvis?").
 
-The clips are then voice-cloned onto real speakers with [Chatterbox](https://github.com/resemble-ai/chatterbox), through [voiceclonnx](https://github.com/TigreGotico/voiceclonnx), our pure-ONNX voice cloning library. Cloning works across languages, so one pool of reference speakers serves every language.
+The clips are then voice-cloned onto real speakers with [Chatterbox](https://github.com/resemble-ai/chatterbox), through [voiceclonnx](https://github.com/TigreGotico/voiceclonnx), a pure-ONNX voice cloning library. Cloning works across languages, so one pool of reference speakers serves every language.
 
 For Catalan, Galician and Basque we add more voices through phoonnx: the ILENIA voices, BSC Matxa and Projecte AINA for Catalan and Proxecto Nós from the University of Vigo for Galician, and the HiTZ voices for Basque.
 
@@ -135,13 +135,13 @@ OVOS can put its listener to sleep. While it sleeps, it ignores the wake word on
 | Italian | sveglia |
 | Dutch | wakker worden |
 
-If your language is missing, tell us how you say it in [this issue](https://github.com/OpenVoiceOS/ovos-ww-plugin-wakeforge/issues/18). A Kabyle speaker already did: "aki-d".
+If your language is missing, tell us how you say it in [this issue](https://github.com/OpenVoiceOS/ovos-ww-plugin-wakeforge/issues/18).
 
 ---
 
 ### Open data
 
-Every word's training set is a public dataset, `TigreGotico/synthetic-wakeword-<word>`, under CC BY 4.0. For example, [synthetic-wakeword-jarvis](https://huggingface.co/datasets/TigreGotico/synthetic-wakeword-jarvis). <!-- TODO(verify): several of the words above (athena, hey_floyd, hey_chatterbox, stop, and the non-English "wake up" phrases) have no public dataset yet; publish them before merging or narrow this sentence --> They are grouped in collections per language:
+Every word's training set is a public dataset, `TigreGotico/synthetic-wakeword-<word>`, under CC BY 4.0. They are grouped in collections per language:
 
 - [Synthetic Wake Word Datasets — English](https://huggingface.co/collections/TigreGotico/synthetic-wake-word-datasets-english-68ee52b6976ed8a20c8cf98f)
 - [Synthetic Wake Word Datasets — Portuguese](https://huggingface.co/collections/TigreGotico/synthetic-wake-word-datasets-portuguese-6abfa4d3e2403afc19ecc153)
