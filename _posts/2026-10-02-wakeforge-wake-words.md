@@ -1,6 +1,6 @@
 ---
-title: "How we distilled HuBERT into 1.5 MB for wake words"
-excerpt: "HuBERT-base has about 95 million parameters. WakeHuBERT tiny, its streaming student, has about 0.64 million and fits in a 1.5 MB int8 file. Here is how we distilled it, and the new OVOS wake word plugin whose models run on it."
+title: "How we distilled HuBERT into 1.46 MB for wake words"
+excerpt: "HuBERT-base has about 95 million parameters. WakeHuBERT tiny, its streaming student, has about 0.64 million and fits in a 1.46 MB int8 file. Here is how we distilled it, and the new OVOS wake word plugin whose models run on it."
 coverImage: "/assets/blog/wakeforge/thumb.jpg"
 date: "2026-10-02T00:00:00.000Z"
 author:
@@ -13,11 +13,11 @@ ogImage:
   url: "/assets/blog/wakeforge/thumb.jpg"
 ---
 
-## How we distilled HuBERT into 1.5 MB for wake words
+## How we distilled HuBERT into 1.46 MB for wake words
 
 [HuBERT](https://ai.meta.com/blog/hubert-self-supervised-representation-learning-for-speech-recognition-generation-and-compression/) is a self-supervised speech model from Meta AI ([paper](https://arxiv.org/abs/2106.07447)). It learned about speech from recordings with no labels, and its inner layers describe speech well enough that a small classifier on top can learn a lot from very little data. The base model, [facebook/hubert-base-ls960](https://huggingface.co/facebook/hubert-base-ls960), has about 95 million parameters and looks at whole utterances at once. A wake word engine listens all day, on small devices, to a live stream. HuBERT-base is far too large and slow for that.
 
-So we distilled it. [**WakeHuBERT tiny**](https://huggingface.co/TigreGotico/wakehubert-tiny) has about 0.64 million parameters. Its int8 build is about 1.5 MB, and the float32 build is 3.3 MB. It is strictly causal, so it streams. And it keeps enough of what HuBERT knows that a wake word classifier trained on its features, from synthetic speech only, detects the word in real recordings.
+So we distilled it. [**WakeHuBERT tiny**](https://huggingface.co/TigreGotico/wakehubert-tiny) has about 0.64 million parameters. Its int8 build is 1.46 MB, and the float32 build is 3.3 MB. It is strictly causal, so it streams. And it keeps enough of what HuBERT knows that a wake word classifier trained on its features, from synthetic speech only, detects the word in real recordings.
 
 To put the sizes in a form everyone remembers, here they are in 3.5-inch "1.44 MB" floppy disks. Formatted with FAT12, such a disk holds 1,457,664 bytes of files (2,847 sectors of 512 bytes). In the table, 1 MB is 1,000,000 bytes.
 
@@ -56,7 +56,7 @@ The student learned to predict three of the teacher's layers: 4, 8 and 12. The t
 
 **Other teachers were no better.** We also distilled students from [WavLM](https://huggingface.co/microsoft/wavlm-base-plus) and [XEUS](https://huggingface.co/espnet/xeus). Neither beat the HuBERT student. All of these students are published in the [**Onnx feature extractors**](https://huggingface.co/collections/TigreGotico/onnx-feature-extractors) collection, the ONNX featurizers for wake word experiments: the WakeHuBERT, WakeWav and WakeXeus families. They can all be used with wakeforge.
 
-The last step was quantisation. The static int8 build, the 1.5 MB file, gives features that agree with float32 at a mean cosine similarity of 0.998.
+The last step was quantisation. The static int8 build, the 1.46 MB file, gives features that agree with float32 at a mean cosine similarity of 0.998.
 
 You can use WakeHuBERT on its own, outside OVOS:
 
