@@ -116,44 +116,6 @@ The synthetic-only models never see real recordings during training. Real record
 
 ---
 
-### Results on real speech
-
-These numbers were reproduced by a second reviewer. Recall is measured on the real recordings of the [Picovoice wake word benchmark](https://github.com/Picovoice/wake-word-benchmark). False activations are counted on 30.75 hours of [LibriSpeech](https://www.openslr.org/12), with the plugin reset for each file. Each model runs at its own default trigger.
-
-| model | trigger | recall | false activations/h |
-|---|---|---|---|
-| `jarvis` | 0.9918 | 99.2% (381/384) | 0.33 |
-| new `alexa` | 0.928741 | 94.9% (299/315) | 0.72 |
-| previous `alexa` | 0.99 | 96.8% (305/315) | 1.95 |
-
-The new `alexa` model trades a little recall for far fewer false activations than the previous one.
-
-<!-- TODO(results): fill after training -->
-
-| model | trigger | recall | false activations/h |
-|---|---|---|---|
-| `computer` | TBD | TBD | TBD |
-| `hey_jarvis` | TBD | TBD | TBD |
-| `hey_computer` | TBD | TBD | TBD |
-| `hello_nabu` | TBD | TBD | TBD |
-| `home_assistant` | TBD | TBD | TBD |
-| `voice_assistant` | TBD | TBD | TBD |
-| `athena` | TBD | TBD | TBD |
-| `hey_floyd` | TBD | TBD | TBD |
-| `hey_chatterbox` | TBD | TBD | TBD |
-| `marvin` | TBD | TBD | TBD |
-| `sheila` | TBD | TBD | TBD |
-| `stop` | TBD | TBD | TBD |
-| `wake_up` | TBD | TBD | TBD |
-
-Words that have real recordings get two models. `<word>_synthetic` is trained on synthetic speech only; it is the research result, and it shows what you can expect for a word nobody has recorded. `<word>` is the production model, trained on the synthetic data plus real recordings.
-
-<!-- TODO(results): fill after training -->
-
-Comparing the two shows what real recordings add on top of the synthetic recipe. For `<word>`, the synthetic-only model reaches TBD% recall at TBD false activations per hour, and the production model reaches TBD% at TBD. <!-- TODO(results): fill after training -->
-
----
-
 ### "Wake up" in every language
 
 OVOS can put its listener to sleep. While it sleeps, it ignores the wake word on its own: you say the wake word followed by "wake up". That second phrase should be in your language, so we are training a "wake up" model per language:
