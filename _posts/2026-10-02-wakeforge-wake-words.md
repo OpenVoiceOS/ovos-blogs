@@ -48,6 +48,8 @@ Each output frame depends only on audio that came before it, within a receptive 
 
 The student learned to predict three of the teacher's layers: 4, 8 and 12. The teacher heard clean speech. The student heard the same speech with noise, reverberation and background talkers, so it learned to describe the speech and ignore the rest.
 
+The speech came from three open corpora, cut into 600,000 two-second crops: [LibriSpeech](https://huggingface.co/datasets/openslr/librispeech_asr) (960 hours of English audiobooks), [Multilingual LibriSpeech](https://huggingface.co/datasets/facebook/multilingual_librispeech) (seven more languages) and a language-balanced sample of [Multilingual Spoken Words](https://huggingface.co/datasets/MLCommons/ml_spoken_words) (41 languages). The noise came from [MUSAN](https://www.openslr.org/17) and [AudioSet](https://research.google.com/audioset/), and a quarter of the training items were non-speech sounds that teacher and student heard the same way.
+
 ### What worked, and what did not
 
 **Masked distillation worked.** During training, spans of the student's input were hidden, each frame masked at probability 0.065, and the student still had to reproduce the teacher. The [model card](https://huggingface.co/TigreGotico/wakehubert-tiny) reports this as the largest single gain in robustness found in the experiments.
@@ -103,7 +105,7 @@ This is the part we think is new. Every word starts as a grid of text-to-speech 
 
 The clips are then voice-cloned onto real speakers with [Chatterbox](https://github.com/resemble-ai/chatterbox), through [voiceclonnx](https://github.com/TigreGotico/voiceclonnx), a pure-ONNX voice cloning library. Cloning works across languages, so one pool of reference speakers serves every language.
 
-For Catalan, Galician and Basque we add more voices through phoonnx: the ILENIA voices, BSC Matxa and Projecte AINA for Catalan and Proxecto Nós from the University of Vigo for Galician, and the HiTZ voices for Basque.
+For Catalan, Galician and Basque we are adding more voices through phoonnx: [Matxa](https://huggingface.co/projecte-aina/matxa-tts-cat-multiaccent) and the other [Projecte AINA](https://huggingface.co/projecte-aina) voices from BSC for Catalan, the [Proxecto Nós](https://huggingface.co/proxectonos) voices from the University of Vigo for Galician, and the [HiTZ](https://huggingface.co/HiTZ) voices for Basque.
 
 ---
 
