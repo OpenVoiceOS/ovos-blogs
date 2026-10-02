@@ -123,7 +123,7 @@ The synthetic-only models never see real recordings during training. Real record
 
 ### "Wake up" in every language
 
-OVOS respects your privacy. When you do not want it listening, tell it to go to sleep: the [naptime skill](https://github.com/OpenVoiceOS/ovos-skill-naptime) puts the listener into sleep mode. A sleeping assistant ignores its name on its own. To wake it, you say two wake words in a row: its name, such as "hey mycroft", and then the command "wake up".
+OVOS respects your privacy. When you do not want it listening, tell it to go to sleep: the [naptime skill](https://github.com/OpenVoiceOS/ovos-skill-naptime) puts the listener into sleep mode. Sleep mode is for the times when speech recognition must not run, whatever is said: a meeting, a party, a private conversation, or simply an evening when you do not want to be interrupted. A sleeping assistant ignores its name on its own, so a stray "hey mycroft" in conversation sends nothing to speech recognition. To wake it, you say two wake words in a row: its name, such as "hey mycroft", and then the command "wake up".
 
 The two have different jobs. The name is the user's choice and does not need to belong to any language: "hey mycroft" sounds the same to a Portuguese or a Danish speaker. "Wake up" is an order given to the assistant, in the imperative, and people give orders in their own language. That makes it a localisation problem, and we are addressing it directly with a "wake up" model per language:
 
