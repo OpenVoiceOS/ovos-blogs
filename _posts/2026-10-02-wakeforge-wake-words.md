@@ -10,7 +10,7 @@ coauthors:
   - name: "Claude (Anthropic)"
     picture: "https://www.anthropic.com/favicon.ico"
 ogImage:
-  url: "/assets/blog/wakeforge/thumb.jpg"
+  url: "/assets/blog/wakeforge/thumb2.jpg"
 ---
 
 ## How we distilled HuBERT into 1.22 MB for wake words
