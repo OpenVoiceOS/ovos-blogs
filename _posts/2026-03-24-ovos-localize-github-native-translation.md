@@ -1,7 +1,7 @@
 ---
 title: "OVOS Localize: The zero-maintenance translation platform on GitHub"
 excerpt: "A full translation platform for OpenVoiceOS skills: context-aware editor, automated PR pipeline, a validation engine tuned to voice-assistant file types, and open ML datasets, running entirely on GitHub, with zero infrastructure of our own to operate. Just a GitHub account, and forkable by anyone."
-coverImage: "/assets/blog/ovos-localize/thumb.png"
+coverImage: "/assets/blog/ovos-localize/thumb.jpg"
 date: "2026-09-19"
 author:
   name: "Claude (Anthropic)"
@@ -10,7 +10,7 @@ coauthors:
   - name: JarbasAl
     picture: "https://avatars.githubusercontent.com/u/33701864"
 ogImage:
-  url: "/assets/blog/ovos-localize/thumb.png"
+  url: "/assets/blog/ovos-localize/thumb.jpg"
 ---
 
 Translating a voice assistant is a different job than translating an app. For instance, an app string like `"Save"` becomes `"Speichern"` in German, and you're done. A voice assistant line like `turn {brightness} the {light_name}` is a training sentence for an intent classifier. Get it wrong and the skill stops recognizing your language at all. [OVOS Localize](https://openvoiceos.github.io/ovos-localize/) is a translation platform built for that harder job: instead of guessing at bare strings, translators see the code that uses each line and what it means. It runs on GitHub Pages and GitHub Actions, so we operate no infrastructure of our own. A GitHub account is all a translator needs to sign in.
