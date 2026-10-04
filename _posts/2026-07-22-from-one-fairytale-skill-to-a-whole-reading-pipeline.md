@@ -1,13 +1,13 @@
 ---
 title: "From one fairytale skill to a full reading pipeline plug-in"
 excerpt: "How a 2018 Mycroft fairytale skill, two false starts, and one offhand comment from Jarbas turned into an 8-provider common-reading pipeline for OVOS."
-coverImage: "/assets/blog/from-one-fairytale-skill-to-a-whole-reading-pipeline/cover.png"
+coverImage: "/assets/blog/from-one-fairytale-skill-to-a-whole-reading-pipeline/cover.jpg"
 date: "2026-09-12T00:00:00.000Z"
 author:
   name: "andlo"
   picture: "https://github.com/andlo.png"
 ogImage:
-  url: "/assets/blog/from-one-fairytale-skill-to-a-whole-reading-pipeline/cover.png"
+  url: "/assets/blog/from-one-fairytale-skill-to-a-whole-reading-pipeline/cover.jpg"
 ---
 
 I've been addicted to OVOS since the old days when it was still
