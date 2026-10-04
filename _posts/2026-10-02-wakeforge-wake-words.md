@@ -87,8 +87,7 @@ pip install --pre ovos-ww-plugin-wakeforge
 
 The ready models (see below) are trained from synthetic speech, so a word that nobody has ever recorded is not out of reach. The featurizer and the models were made with [wakeforge](https://github.com/TigreGotico/wakeforge), our research framework for wake word experiments. It is not a one-click model maker, but it is open, and anyone who wants to experiment with their own word can use the same toolkit we did. The rest of this post explains how the models are trained, what we learned on the way, and how they score on real speech.
 
-From 'Alexa' to OVOS' 'Hey Mycroft'; ready to use WakeHuBERT-wakewords
-Check out [the list on Hugging Face](https://huggingface.co/OpenVoiceOS/), growing as we speak.
+From 'Alexa' to OVOS' 'Hey Mycroft', check out [the list of WakeHuBERT-wakewords](https://huggingface.co/OpenVoiceOS/wakehubert-wakewords) on HuggingFace, growing as we speak.
 
 ---
 
