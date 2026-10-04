@@ -1,7 +1,7 @@
 ---
 title: "How we distilled HuBERT into 1.22 MB for wake words"
 excerpt: "HuBERT-base has about 95 million parameters. WakeHuBERT tiny, its streaming student, has about 0.64 million, and its int8 file gzips to 1.22 MB. Here is how we distilled it, and the new OVOS wake word plugin whose models run on it."
-coverImage: "/assets/blog/wakeforge/thumb.jpg"
+coverImage: "/assets/blog/wakeforge/thumb2.jpg"
 date: "2026-10-02T00:00:00.000Z"
 author:
   name: JarbasAI
