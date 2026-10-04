@@ -157,8 +157,8 @@ The sound-alike negatives are published separately, as [not-wake-words-soundalik
 ---
 
 ### Try it
-
-Install the plugin, then set it as your wake word engine in `~/.config/mycroft/mycroft.conf`:
+Try-out any of the new WakeHuBERT wakewords in [the online HuggingFace space](https://huggingface.co/spaces/OpenVoiceOS/wakehubert-wakewords-space), without installing anything.
+If you like one or more of them, install the OVOS plugin, then set it as your wake word engine in `~/.config/mycroft/mycroft.conf`:
 
 ```json
 {
