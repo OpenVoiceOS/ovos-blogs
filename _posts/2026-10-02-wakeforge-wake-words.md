@@ -79,7 +79,7 @@ The [model card](https://huggingface.co/TigreGotico/wakehubert-tiny) has the ful
 
 ### The wake word heads
 
-WakeHuBERT is just a feature extracto, to turn it into a wakeword detector we trained a small GRU classifier with a hidden size of 128 on top of it. One model per wake word.
+WakeHuBERT is just a feature extractor, to turn it into a wakeword detector we trained a small GRU classifier with a hidden size of 128 on top of it. One model per wake word.
 
 The wakeword heads are trained with [wakeforge](https://github.com/TigreGotico/wakeforge); the research framework we used to run these experiments, not a packaged training tool. Each positive clip becomes eight augmented copies. The augmentation includes a device-response stage that imitates cheap hardware: a limited microphone band, a coloured frequency response, level changes, clipping and self-noise. Babble and noise are mixed in on top.
 
