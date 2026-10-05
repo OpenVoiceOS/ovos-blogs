@@ -50,6 +50,8 @@ The student learned to predict three of the teacher's layers: 4, 8 and 12. The t
 
 The speech came from three open corpora, cut into 600,000 two-second crops: [LibriSpeech](https://huggingface.co/datasets/openslr/librispeech_asr) (960 hours of English audiobooks), [Multilingual LibriSpeech](https://huggingface.co/datasets/facebook/multilingual_librispeech) (seven more languages) and a language-balanced sample of [Multilingual Spoken Words](https://huggingface.co/datasets/MLCommons/ml_spoken_words) (41 languages). The noise came from [MUSAN](https://www.openslr.org/17) and [AudioSet](https://research.google.com/audioset/), and a quarter of the training items were non-speech sounds that teacher and student heard the same way.
 
+---
+
 ### What worked, and what did not
 
 **Masked distillation worked.** During training, spans of the student's input were hidden, each frame masked at probability 0.065, and the student still had to reproduce the teacher. The [model card](https://huggingface.co/TigreGotico/wakehubert-tiny) reports this as the largest single gain in robustness found in the experiments.
@@ -58,7 +60,7 @@ The speech came from three open corpora, cut into 600,000 two-second crops: [Lib
 
 **Lookahead did not help.** Giving the student a little future audio, at the cost of latency, did not make it better.
 
-**Other teachers were no better.** We also distilled students from [WavLM](https://huggingface.co/microsoft/wavlm-base-plus) and [XEUS](https://huggingface.co/espnet/xeus). Neither beat the HuBERT student. All of these students are published in the [**Onnx feature extractors**](https://huggingface.co/collections/TigreGotico/onnx-feature-extractors) collection, the ONNX featurizers for wake word experiments: the WakeHuBERT, WakeWav and WakeXeus families. They can all be used with wakeforge.
+**Other teachers were no better.** We also distilled students from [WavLM](https://huggingface.co/microsoft/wavlm-base-plus) and [XEUS](https://huggingface.co/espnet/xeus). Neither beat the HuBERT student. All of these students are published in the [**Onnx feature extractors**](https://huggingface.co/collections/TigreGotico/onnx-feature-extractors) collection, the ONNX featurizers for wake word experiments: the WakeHuBERT, WakeWav and WakeXeus families.
 
 The last step was quantisation. The static int8 build, the 1.46 MB file, gives features that agree with float32 at a mean cosine similarity of 0.998.
 
@@ -81,8 +83,9 @@ The [model card](https://huggingface.co/TigreGotico/wakehubert-tiny) has the ful
 
 WakeHuBERT is just a feature extracto, to turn it into a wakeword detector we trained a small GRU classifier with a hidden size of 128 on top of it. One model per wake word.
 
-The wakeword heads are trained with [wakeforge](https://github.com/TigreGotico/wakeforge); the research framework we used to run these experiments, not a packaged training tool. Each positive clip becomes eight augmented copies. The augmentation includes a device-response stage that imitates cheap hardware: a limited microphone band, a coloured frequency response, level changes, clipping and self-noise. Babble and noise are mixed in on top.
+The wakeword heads are trained with [wakeforge](https://github.com/TigreGotico/wakeforge); the research framework we used to run these experiments. Each positive clip becomes eight augmented copies. The augmentation includes a device-response stage that imitates cheap hardware: a limited microphone band, a coloured frequency response, level changes, clipping and self-noise. Babble and noise are mixed in on top.
 
+---
 
 ### Try it
 
@@ -106,7 +109,7 @@ For Catalan, Galician and Basque we are adding more voices through phoonnx: [Mat
 
 **More of one voice is not more data.** Adding a single multi-speaker Piper voice as extra positives also made the models slightly worse.
 
-**Voice coverage is what matters.** The full voice grid made the difference. On real "jarvis" recordings, recall at 1 false activation per hour went from 85.4% for our earlier model to 99.0–99.5% (two training seeds).
+**Voice coverage is what matters.** The full voice grid made the difference. On real "jarvis" recordings, recall at 1 false activation per hour went from 85.4% for our earlier model to 99.0–99.5%.
 
 The synthetic-only models never see real recordings during training. Real recordings are used only to test them.
 
