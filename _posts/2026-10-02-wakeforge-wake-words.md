@@ -77,27 +77,16 @@ The [model card](https://huggingface.co/TigreGotico/wakehubert-tiny) has the ful
 
 ---
 
-### What it lets you do: the wakeforge plugin
-
-The new [**OVOS wakeforge wake word plugin**](https://github.com/OpenVoiceOS/ovos-ww-plugin-wakeforge) runs wake word models built on [WakeHuBERT](https://huggingface.co/TigreGotico/wakehubert-tiny). This is the ready-to-use part: it ships the featurizer in both builds and ready models, and the runtime needs only `onnxruntime` and `numpy`.
-
-```bash
-pip install --pre ovos-ww-plugin-wakeforge
-```
-
-The ready models (see below) are trained from synthetic speech, so a word that nobody has ever recorded is not out of reach. The featurizer and the models were made with [wakeforge](https://github.com/TigreGotico/wakeforge), our research framework for wake word experiments. It is not a one-click model maker, but it is open, and anyone who wants to experiment with their own word can use the same toolkit we did. The rest of this post explains how the models are trained, what we learned on the way, and how they score on real speech.
-
-From 'Alexa' to OVOS' 'Hey Mycroft', check out [the list of WakeHuBERT-wakewords](https://huggingface.co/OpenVoiceOS/wakehubert-wakewords) on HuggingFace, growing as we speak.
-
----
-
 ### The wake word heads
 
-On top of [WakeHuBERT](https://huggingface.co/TigreGotico/wakehubert-tiny) sits a small GRU classifier with a hidden size of 128. One model per word is enough. We tried an ensemble of six models, and once the training data was right it barely helped.
+WakeHuBERT is just a feature extracto, to turn it into a wakeword detector we trained a small GRU classifier with a hidden size of 128 on top of it. One model per wake word.
 
-The heads are trained with the research bench in [wakeforge](https://github.com/TigreGotico/wakeforge) (`scripts/research/head_bench.py`). The bench is a research script, the one we used to run these experiments, not a packaged training tool. Each positive clip becomes eight augmented copies. The augmentation includes a device-response stage that imitates cheap hardware: a limited microphone band, a coloured frequency response, level changes, clipping and self-noise. Babble and noise are mixed in on top.
+The wakeword heads are trained with [wakeforge](https://github.com/TigreGotico/wakeforge); the research framework we used to run these experiments, not a packaged training tool. Each positive clip becomes eight augmented copies. The augmentation includes a device-response stage that imitates cheap hardware: a limited microphone band, a coloured frequency response, level changes, clipping and self-noise. Babble and noise are mixed in on top.
 
-The checkpoint we keep is the one with the best recall at zero false accepts on held-out calibration speech. The result is exported to the plugin's format with `ww_trainer-export-plugin`.
+
+### Try it
+
+Try-out any of the WakeHuBERT wakeword models in [the online HuggingFace space](https://huggingface.co/spaces/OpenVoiceOS/wakehubert-wakewords-space), without installing anything.
 
 ---
 
@@ -105,7 +94,7 @@ The checkpoint we keep is the one with the best recall at zero false accepts on 
 
 This is the part we think is new. Every word starts as a grid of text-to-speech voices that covers every variant of the language: every English accent, every Portuguese voice. Any [OVOS TTS plugin](https://github.com/orgs/OpenVoiceOS/repositories?q=ovos-tts-plugin) can supply the voices, proprietary services such as Edge and Google included, and [phoonnx](https://github.com/TigreGotico/phoonnx) alone exposes thousands of models across languages. Each voice says the word at 5 speaking rates and 3 pitches, with 3 spellings that change the delivery ("jarvis", "jarvis!", "jarvis?").
 
-The clips are then voice-cloned onto real speakers with [Chatterbox](https://github.com/resemble-ai/chatterbox), through [voiceclonnx](https://github.com/TigreGotico/voiceclonnx), a pure-ONNX voice cloning library. Cloning works across languages, so one pool of reference speakers serves every language.
+The clips are then voice-cloned onto real speakers through [voiceclonnx](https://github.com/TigreGotico/voiceclonnx), a pure-ONNX voice cloning library. Cloning works across languages, so one pool of reference speakers serves every language.
 
 For Catalan, Galician and Basque we are adding more voices through phoonnx: [Matxa](https://huggingface.co/projecte-aina/matxa-tts-cat-multiaccent) and the other [Projecte AINA](https://huggingface.co/projecte-aina) voices from BSC for Catalan, the [Proxecto Nós](https://huggingface.co/proxectonos) voices from the University of Vigo for Galician, and the [HiTZ](https://huggingface.co/HiTZ) voices for Basque.
 
@@ -129,31 +118,6 @@ Every word's training set is a public dataset, `TigreGotico/synthetic-wakeword-<
 
 - [Synthetic Wake Word Datasets — English](https://huggingface.co/collections/TigreGotico/synthetic-wake-word-datasets-english-68ee52b6976ed8a20c8cf98f)
 - [Synthetic "Wake Up" Datasets](https://huggingface.co/collections/TigreGotico/synthetic-wake-up-datasets-6abfa4d36352ca4f97723790)
-
-The sound-alike negatives are published separately, as [not-wake-words-soundalikes-en](https://huggingface.co/datasets/TigreGotico/not-wake-words-soundalikes-en) and [not-wake-words-soundalikes-pt](https://huggingface.co/datasets/TigreGotico/not-wake-words-soundalikes-pt). Read the finding above before you use them: in our tests they cost a lot of recall on real speech.
-
----
-
-### Try it
-Try-out any of the new WakeHuBERT wakewords in [the online HuggingFace space](https://huggingface.co/spaces/OpenVoiceOS/wakehubert-wakewords-space), without installing anything.
-If you like one or more of them, install the OVOS plugin, then set it as your wake word engine in `~/.config/mycroft/mycroft.conf`:
-
-```json
-{
-  "listener": {
-    "wake_word": "jarvis"
-  },
-  "hotwords": {
-    "jarvis": {
-      "module": "ovos-ww-plugin-wakeforge",
-      "model": "jarvis",
-      "listen": true
-    }
-  }
-}
-```
-
-Restart OVOS and say "jarvis". If you experiment with [wakeforge](https://github.com/TigreGotico/wakeforge) and export a model of your own, point `model` at its ONNX file instead; the [plugin README](https://github.com/OpenVoiceOS/ovos-ww-plugin-wakeforge) lists every option. Bugs and questions go to the [issue tracker](https://github.com/OpenVoiceOS/ovos-ww-plugin-wakeforge/issues).
 
 ---
 
