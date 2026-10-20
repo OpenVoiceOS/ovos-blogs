@@ -12,6 +12,18 @@ ogImage:
 
 ## Call OVOS Speech Servers From Any AI Agent
 
+> **Correction, 2026-10-19.** Some details in this post do not match the servers. What works:
+>
+> - Claude Desktop does not read a `url` entry from `claude_desktop_config.json`. It starts local commands, so use the `mcp-remote` bridge: `"ovos-stt": {"command": "npx", "args": ["-y", "mcp-remote", "http://localhost:8080/mcp"]}`. Claude Code takes the URL directly: `claude mcp add --transport http ovos-stt http://localhost:8080/mcp`.
+> - Every server mounts `/mcp` only when you start it with `--mcp`. The `mcp` extra installs `fastmcp`, not the `mcp` package.
+> - The STT server command is `ovos-stt-server`. The translate server takes a translation plugin with `--tx-engine`, for example `ovos-translate-server --tx-engine ovos-google-translate-plugin --mcp`.
+> - The translate MCP tool `translate` needs `target_lang`, and `source_lang` is the optional one. `detect_language` takes only `text`.
+> - With the `mcp` SDK 2.x, the Python example imports `streamable_http_client` and unpacks two values: `async with streamable_http_client(url) as (r, w):`.
+> - `UTCPToolBox` in `ovos-tool-adapters` loads no tools with UTCP 1.x until its fix is released.
+>
+> The [technical manual](https://openvoiceos.github.io/beta-technical-manual/agent-interop/) has the current setup steps.
+
+
 If you want an AI agent to transcribe, speak, or translate through OVOS, you no longer write a client for it. The server describes its own tools; the agent reads that description and calls them.
 
 In plain terms: if you use Claude Desktop, or another AI assistant that supports MCP or UTCP, and you want it to talk to your OVOS speech server directly, this is what makes that possible. Point the assistant at the server and it can transcribe audio, read text aloud, or translate it, without you writing any integration code.
