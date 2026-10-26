@@ -12,9 +12,21 @@ ogImage:
 
 ## Call OVOS Speech Servers From Any AI Agent
 
-If you want an AI agent to transcribe, speak, or translate through OVOS, you no longer write a client for it. The server describes its own tools; the agent reads that description and calls them.
+> **Correction, 2026-10-19.** Some details in this post do not match the servers. What works:
+>
+> - Claude Desktop does not read a `url` entry from `claude_desktop_config.json`. It starts local commands, so use the `mcp-remote` bridge: `"ovos-stt": {"command": "npx", "args": ["-y", "mcp-remote", "http://localhost:8080/mcp"]}`. Claude Code takes the URL directly: `claude mcp add --transport http ovos-stt http://localhost:8080/mcp`.
+> - Every server mounts `/mcp` only when you start it with `--mcp`. The `mcp` extra installs `fastmcp`, not the `mcp` package.
+> - The STT server command is `ovos-stt-server`. The translate server takes a translation plugin with `--tx-engine`, for example `ovos-translate-server --tx-engine ovos-google-translate-plugin --mcp`.
+> - The translate MCP tool `translate` needs `target_lang`, and `source_lang` is the optional one. `detect_language` takes only `text`.
+> - With the `mcp` SDK 2.x, the Python example imports `streamable_http_client` and unpacks two values: `async with streamable_http_client(url) as (r, w):`.
+> - `UTCPToolBox` in `ovos-tool-adapters` loads no tools with UTCP 1.x until its fix is released.
+>
+> The [technical manual](https://openvoiceos.github.io/beta-technical-manual/agent-interop/) has the current setup steps.
 
-In plain terms: if you use Claude Desktop, or another AI assistant that supports MCP or UTCP, and you want it to talk to your OVOS speech server directly, this is what makes that possible. Point the assistant at the server and it can transcribe audio, read text aloud, or translate it, without you writing any integration code.
+
+If you want an AI agent to transcribe, speak, or translate through OVOS, you no longer write a client for it. The server describes its own tools. The agent reads that description and calls them.
+
+In plain terms: this lets Claude Desktop, or another AI assistant that supports MCP or UTCP, talk directly to your OVOS speech server. Point the assistant at the server and it can transcribe audio, read text aloud, or translate it, without you writing any integration code.
 
 For Claude Desktop, add this to `claude_desktop_config.json` (swap in the TTS or translate server's address and port if that is the one you are pointing at):
 
@@ -31,9 +43,9 @@ For Claude Desktop, add this to `claude_desktop_config.json` (swap in the TTS or
 
 Restart Claude Desktop and the assistant can call the server directly.
 
-The rest of this post is developer- and integrator-facing: it covers how the servers describe themselves, what each one exposes, and how to call them by hand. If you just want the assistant hookup, the config above is the whole story.
+The rest of this post is for developers and integrators. It covers how the servers describe themselves, what each one exposes, and how to call them by hand. If you just want the assistant hookup, the config above is the whole story.
 
-OpenVoiceOS runs three small HTTP servers for speech: one for transcription, one for synthesis, one for translation. Each already exposed plain REST endpoints, but pointing an agent at them meant hand-writing a client — reading the docs, hard-coding routes, mapping parameters by hand for every agent runtime. Three pull requests remove that step by teaching the servers to describe themselves in two agent-native protocols, **MCP** (Model Context Protocol) and **UTCP** (Universal Tool Calling Protocol):
+OpenVoiceOS runs three small HTTP servers for speech: one for transcription, one for synthesis, one for translation. Each already exposed plain REST endpoints. To point an agent at them, you had to hand-write a client. That meant reading the docs, hard-coding routes, and mapping parameters by hand for every agent runtime. Three pull requests remove that step. They teach the servers to describe themselves in two agent-native protocols, **MCP** (Model Context Protocol) and **UTCP** (Universal Tool Calling Protocol):
 
 - [ovos-stt-server #75](https://github.com/OpenVoiceOS/ovos-stt-server/pull/75)
 - [ovos-tts-server #100](https://github.com/OpenVoiceOS/ovos-tts-server/pull/100)
@@ -43,9 +55,9 @@ OpenVoiceOS runs three small HTTP servers for speech: one for transcription, one
 
 The two protocols make different trade-offs, so each server ships both.
 
-### UTCP — always on, zero deps
+### UTCP: always on, zero deps
 
-Every updated server gains a `GET /utcp` endpoint that returns a UTCP 1.0 JSON document describing every HTTP tool the server already exposes. It pulls in no extra package, so it is always available. The document's `base_url` — the address the manual tells callers to use — is worked out from the incoming request instead of being hard-coded. That means the URLs it advertises stay correct even if the server sits behind a reverse proxy (a middle server that forwards requests to it under a different address).
+Every updated server gains a `GET /utcp` endpoint that returns a UTCP 1.0 JSON document describing every HTTP tool the server already exposes. It pulls in no extra package, so it is always available. The document's `base_url` is the address the manual tells callers to use. The server works it out from the incoming request instead of hard-coding it. So the advertised URLs stay correct even behind a reverse proxy (a middle server that forwards requests to it under a different address).
 
 ```bash
 # STT server (default port 8080)
@@ -57,11 +69,11 @@ curl -s http://localhost:9666/utcp | jq '.tools[].name'
 # "tts_status"  "tts_synthesize_v2"  "tts_synthesize_legacy"
 ```
 
-UTCP describes the existing REST surface. An agent that reads the manual calls the same routes a `curl` user would — the protocol is a description layer, not a new server.
+UTCP describes the existing REST surface. An agent that reads the manual calls the same routes a `curl` user would. The protocol is a description layer, not a new server.
 
-### MCP — opt-in, one install
+### MCP: opt-in, one install
 
-Each server also grows an optional `/mcp` mount, built on FastMCP and served over streamable HTTP with SSE (Server-Sent Events, a one-way stream from server to client) transport, alongside the existing FastAPI app. It carries a single dependency (`mcp>=1.0.0`) gated behind the `[mcp]` extra. Install the extra and the mount appears; leave it out and `create_app()` still builds the normal server — the MCP code degrades gracefully instead of crashing on a missing import.
+Each server also grows an optional `/mcp` mount alongside the existing FastAPI app. The mount is built on FastMCP and served over streamable HTTP with SSE (Server-Sent Events, a one-way stream from server to client) transport. It carries a single dependency (`mcp>=1.0.0`) gated behind the `[mcp]` extra. Install the extra and the mount appears. Leave it out and `create_app()` still builds the normal server. The MCP code degrades gracefully instead of crashing on a missing import.
 
 For STT and translate, `/mcp` mounts automatically once the extra is installed. The TTS server keeps it behind an explicit `--mcp` flag:
 
@@ -86,13 +98,13 @@ The MCP tool set is smaller than the full HTTP API on purpose: the tools an LLM 
 | ovos-tts-server | `tts_synthesize_v2`, `tts_synthesize_legacy`, `tts_status` | `synthesize` |
 | ovos-translate-server | `ovos_translate.translate`, `ovos_translate.translate_with_source`, `ovos_translate.detect_language`, `ovos_translate.classify_language`, `ovos_translate.supported_languages` | `translate`, `detect_language` |
 
-The STT `transcribe` tool takes **one** of `audio_b64` (base64 raw PCM) or `audio_path` (a file the server can read), plus a BCP-47 `lang` (default `"auto"`) and a `sample_rate` (default `16000`). When `lang="auto"` hits an engine with no audio language detection, the call falls back to the engine's default language instead of erroring — a partial result beats a failed request.
+The STT `transcribe` tool takes **one** of `audio_b64` (base64 raw PCM) or `audio_path` (a file the server can read), plus a BCP-47 `lang` (default `"auto"`) and a `sample_rate` (default `16000`). When `lang="auto"` hits an engine with no audio language detection, the call falls back to the engine's default language instead of erroring. A partial result beats a failed request.
 
-The translate server's MCP tools follow the same pattern: `translate` takes the text and an optional target-language parameter, and `detect_language` takes the text with an optional source-language hint. Both fall back to sensible defaults when the optional parameter is left out, the same way the STT tools do.
+The translate server's MCP tools follow the same pattern. Its `translate` tool takes the text and an optional target-language parameter. Its `detect_language` tool takes the text with an optional source-language hint. Both fall back to sensible defaults when the optional parameter is left out, the same way the STT tools do.
 
 ## Trying It End-to-End (For Developers)
 
-The rest of this section is for developers wiring up a client. It uses raw HTTP and Python and assumes you're comfortable with both — skip it if you just want the assistant hookup described above.
+The rest of this section is for developers wiring up a client. It uses raw HTTP and Python and assumes you're comfortable with both. Skip it if you just want the assistant hookup described above.
 
 The STT round-trip from an MCP client:
 
@@ -114,13 +126,13 @@ asyncio.run(main())
 
 For TTS, the `synthesize` tool returns a base64-encoded WAV artifact (the TTS server defaults to port 9666, translate to 9686).
 
-This path is exercised in CI, not just documented. Each PR adds live-HTTP end-to-end tests that boot the real app with a stub engine, fetch `GET /utcp` and check the advertised URLs, then drive the MCP `initialize → list_tools → call_tool` sequence over streamable HTTP. The STT branch carries a `fix(mcp)` commit for exactly this reason: a live run caught two problems a mocked test would have missed — the mounted sub-app's lifespan was not propagated, and `lang=auto` failed on engines without audio language detection.
+This path is exercised in CI, not just documented. Each PR adds live-HTTP end-to-end tests that boot the real app with a stub engine. The tests fetch `GET /utcp` and check the advertised URLs, then drive the MCP `initialize → list_tools → call_tool` sequence over streamable HTTP. The STT branch carries a `fix(mcp)` commit for exactly this reason. A live run caught two problems that a mocked test would have missed. The mounted sub-app's lifespan was not propagated, and `lang=auto` failed on engines without audio language detection.
 
 ## Consuming It From OVOS Itself
 
 The same protocols work in the other direction. [`ovos-tool-adapters`](https://github.com/OpenVoiceOS/ovos-tool-adapters) ships `MCPToolBox` and `UTCPToolBox`, registered as `opm.agents.toolbox` plugins (`ovos-mcp-toolbox`, `ovos-utcp-toolbox`). Name one in a persona's `toolboxes` list and the [OVOS agentic loop](https://github.com/OpenVoiceOS/ovos-agentic-loop) consumes every tool the remote server advertises, with no protocol-specific code in the persona.
 
-Each toolbox keeps one session open per server in a background thread, instead of reconnecting for every single tool call. Each tool's JSON Schema is translated into a Pydantic model at discovery time, so the LLM sees the server's real input schema rather than a generic blob. `MCPToolBox` speaks stdio (subprocess), SSE, and streamable HTTP; `UTCPToolBox` supports whatever transports the installed UTCP version provides. If the `mcp` or `utcp` package is absent, the toolbox returns an empty tool list and logs a warning instead of taking down the loop.
+Each toolbox keeps one session open per server in a background thread, instead of reconnecting for every single tool call. Each tool's JSON Schema is translated into a Pydantic model at discovery time. The LLM then sees the server's real input schema rather than a generic blob. The `MCPToolBox` class speaks stdio (subprocess), SSE, and streamable HTTP. The `UTCPToolBox` class supports whatever transports the installed UTCP version provides. If the `mcp` or `utcp` package is absent, the toolbox returns an empty tool list and logs a warning instead of taking down the loop.
 
 ## Why This Matters
 
