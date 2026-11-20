@@ -20,11 +20,11 @@ Fast forward a handful of years. In 2026, generative AI exploded. Frontier model
 
 The first question that came to my mind was "is it possible to emulate the Mark 1 in a browser, so that everyone can have one?" Using a mix of Claude Opus 5.5 and Fable 5.1, I came up with a plan.
 
-First, in order to minimize how much code duplication would be required, I wanted to create a virtual version of the Arduino board that powers the Mark 1. OpenVoiceOS had already invested the time in making that code accessible and understandable. Pointing Claude at it led to a virtual Arduino that responded the same way in short order.
+First, to minimize how much code duplication would be required, I wanted to create a virtual version of the Arduino board that powers the Mark 1. OpenVoiceOS had already invested the time in making that code accessible and understandable. Pointing Claude at it led to a virtual Arduino that responded the same way in short order.
 
 OpenVoiceOS has supported the Mark 1 for a number of years. Its skills and core logic emit the code required to drive the Mark 1 (assuming you're running the correct plugin). This made it trivial to point it at the virtual Arduino.
 
-Finally, there was the virtual Mark 1 itself. I've always been more backend-oriented, so for me AI has been a joy - UIs are now accessible to me! Claude got to work creating not just a very basic representation of the Mark 1 LED arrays, but even emulating the acrylic over the front of the mouth that muted the LEDs. Later, community member Timon van Hasselt (timonvanhasselt) pointed me to work Gaëtan Trellu (goldyfruit) had done to make a basic version of the Mark 1 in the browser. I adopted that design, which was now enhanced with the full featureset of the emulator.
+Finally, there was the virtual Mark 1 itself. I've always been more backend-oriented, so for me AI has been a joy - UIs are within my reach! Claude got to work creating more than a basic representation of the Mark 1 LED arrays; it even emulated the acrylic over the front of the mouth that muted the LEDs. Later, community member Timon van Hasselt (timonvanhasselt) pointed me to work Gaëtan Trellu (goldyfruit) had done to make a basic version of the Mark 1 in the browser. I adopted that design and enhanced it with the full featureset of the emulator.
 
 ![The virtual Mark 1 faceplate: two rings of blue LED eyes and a dot-matrix mouth in an open, mid-word shape](/assets/blog/visage-gui/virtual-mark1.png)
 *The virtual Mark 1, with the mouth on its "wide open" viseme.*
@@ -59,17 +59,17 @@ I released the Flutter version of [Visage on GitHub](https://github.com/Oscillat
 
 The most important change came after all of this. At the request of OVOS' lead developer JarbasAI, I spent several days making Visage fully compliant with the upcoming OVOS GUI spec, while retaining backwards compatibility with the existing GUI protocol.
 
-Visage is ready to visualize your OVOS instance for both now and the foreseeable future of the platform.
+Visage is ready to visualize your OVOS instance today and for the foreseeable future of the platform.
 
 ## Installation
 
-Full installation instructions are available at the [Visage GitHub page](https://github.com/OscillateLabsLLC/ovos-gui-visage). Visage currently only supports macOS and Linux, but if there is interest, other operating systems could become an option.
+Full installation instructions are available at the [Visage GitHub page](https://github.com/OscillateLabsLLC/ovos-gui-visage). Visage supports macOS and Linux, but if there is interest, other operating systems could become an option.
 
 Visage has not been tested on a Mycroft Mark 2 at the time of this writing. It should theoretically work in landscape orientation, but has been designed for portrait.
 
 ## The future
 
-The future of personal, private, open-source voice assistants is bright - and now it's also visual. Visage is the first of what I expect to be many GUIs that support OVOS. Feature requests, pull requests, and bug reports are very welcome!
+The future of personal, private, open-source voice assistants is bright - and it's visual too. Visage is the first of what I expect to be many GUIs that support OVOS. Feature requests, pull requests, and bug reports are very welcome!
 
 ## About the author
 
